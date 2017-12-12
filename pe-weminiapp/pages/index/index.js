@@ -62,17 +62,17 @@ Page({
 
                 //venuesList Order List 此处要改成POST
                 console.log('hahas='+userInfo.gender);
-                var serverUrl = 'http://www.lyndonspace.com:3400/wechatminiprogram/control/queryOrderListFromWeChat';
-                var testUrl   = 'http://localhost/s/orderList/';
+                var serverUrl = 'https://www.yo-pe.com/'+userInfo.gender + '/orderList/';
+             //   var testUrl   = 'http://localhost/s/orderList/';
                 wx.request({
-                    url: testUrl,
+                    url: serverUrl,
                     method: 'GET',
-                    data: {openId:userInfo.gender},
+                    //data: {openId:userInfo.gender},
                     header: {
                         'Accept': 'application/json'
                     },
                     success: function(res) {
-
+                        console.log("!!!!!!!!!!!!!!!!!!!resultMap=" + JSON.stringify(res));
                         var str = res.data;
 
                         str = String(str).replace("//", "");
@@ -87,7 +87,7 @@ Page({
                             orderList: resultMap.orderList
                         })
 
-                       // console.log("!!!!!!!!!!!!!!!!!!!resultMap=" + JSON.stringify(res));
+
                         setTimeout(function () {
                             that.setData({
                                 loadingHidden: true

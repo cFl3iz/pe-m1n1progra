@@ -52,11 +52,11 @@ App({
 
 
            // var getopenidurl='https://api.weixin.qq.com/sns/jscode2session?appid='+appid+'&secret='+secret+'&js_code='+code+'&grant_type=authorization_code';
-            var getopenidurl = "http://www.lyndonspace.com:3400/wechatminiprogram/control/jscode2session";
+          //  var getopenidurl = "http://www.lyndonspace.com:3400/wechatminiprogram/control/jscode2session";
+            var getopenidurl = "https://www.yo-pe.com/"+ code +"/jscode2session/";
             //"https://www.yo-pe.com/wechatminiprogram/control/jscode2session";
             wx.request({
               url: getopenidurl,
-              data: {code:code},
               method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
               // header: {}, // 设置请求的 header
               success: function(response){
@@ -65,10 +65,10 @@ App({
                 //TODO FIX BUG
                 console.log('response=' + JSON.stringify(response));
                 var str = response.data;
-                str = str.replace("//", "");
+                //str = str.replace("//", "");
                 console.log("in str:=" + str);
-                var resultMap = JSON.parse(str);
-                unionid = resultMap.unionid;
+                //var resultMap = JSON.parse(str);
+                unionid = str;
                 console.log('!!!!!!!!!!!!!!response unionid=' +unionid);
                 that.globalData.gender = unionid;
 
