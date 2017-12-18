@@ -1,0 +1,12 @@
+<scroll-view scroll-y="true">
+  <view class="tips" wx:if="{{!list.length}}">
+    正在载入聊天列表，请稍候...
+  </view>
+  <view class="list" wx:for="{{list}}" wx:key="i.id" wx:for-item="i" wx:for-index="index" bindtap="goPage" data-id='{{i.id}}' data-name='{{i.name}}' hover="{{true}}" hover-class="view-hover" hover-start-time="{{10}}" hover-stay-time="{{50}}">
+    <image src="{{i.avatar}}"></image>
+    <view class="text-item">
+      <text class="title">{{i.name}}</text>
+      <text class="message">{{i.text}}</text>
+    </view>
+  </view>
+</scroll-view>

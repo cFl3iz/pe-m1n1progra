@@ -1,0 +1,34 @@
+/*loading*/
+
+.tips {
+  margin-top: 50px;
+  color: gray;
+  text-align: center;
+}
+
+/*list*/
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list image {
+  width: 100%;
+}
+
+.text-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.message {
+  color: gray;
+  padding: 20rpx;
+}
+/*点击效果*/
+.view-hover{
+  opacity: 0.5
+}

@@ -1,10 +1,12 @@
 {
-  "pages":[
-    "pages/index/index",
-    "pages/my/index"
+  "pages": [
+    "pages/chat/chat",
+    "pages/order/order",
+    "pages/my/my",
+    "pages/message/message"
   ],
-  "window":{
-    "backgroundTextStyle":"white",
+  "window": {
+    "backgroundTextStyle": "white",
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "友评交易",
     "navigationBarBackgroundColor": "#292929",
@@ -12,21 +14,30 @@
     "enablePullDownRefresh": true
   },
   "tabBar": {
-    "color": "#6e6d6b",
-    "selectedColor": "#f9f027",
+    "color": "#969696",
+    "selectedColor": "#6495ED",
     "borderStyle": "white",
-    "backgroundColor": "#292929",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "iconPath": "images/footer-icon-01.png",
-      "selectedIconPath": "images/footer-icon-01-active.png",
-      "text": "订单"
-    },{
-      "pagePath": "pages/my/index",
-      "iconPath": "images/footer-icon-04.png",
-      "selectedIconPath": "images/footer-icon-04-active.png",
-      "text": "我"
-    }]
+    "fontSize": "16",
+    "list": [
+      {
+        "pagePath": "pages/chat/chat",
+        "iconPath": "images/tabs/home.png",
+        "selectedIconPath": "images/tabs/home_active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "iconPath": "images/tabs/order.png",
+        "selectedIconPath": "images/tabs/order_active.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "images/tabs/my.png",
+        "selectedIconPath": "images/tabs/my_active.png",
+        "text": "关于"
+      }
+    ]
   },
   "debug": true
 }
