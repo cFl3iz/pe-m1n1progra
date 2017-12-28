@@ -1,0 +1,52 @@
+/*整体列表  */
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 20rpx;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  overflow: hidden;
+}
+/*物流信息  */
+.product-info{
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.19)
+}
+.product-info image{
+  width: 120rpx;
+  height: 120rpx;
+  margin: 10rpx;
+}
+.product-info text{
+  font-size: 18px;
+  flex:1;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+/*物流信息文本列表  */
+.text-item {
+  display: flex;
+  flex-direction: row;
+  padding: 10rpx;
+}
+
+.text-item .left {
+  flex: 1.5;
+}
+
+.text-item .center {
+  flex: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-item .center image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.text-item .right {
+  flex: 5;
+}

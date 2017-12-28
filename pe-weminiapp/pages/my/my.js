@@ -1,33 +1,27 @@
+//mime.js
 var app = getApp()
-Page( {
+Page({
   data: {
-    userInfo: {},
-    projectSource: 'https://github.com/liuxuanqiang/wechat-weapp-mall',
-    userListInfo: [ {
-      icon: '../../images/iconfont-dingdan.png',
-      text: '我的订单',
-      isunread: true,
-      unreadNum: 2
-    }, {
-        icon: '../../images/iconfont-shouhuodizhi.png',
-        text: '收货地址管理'
-      }, {
-        icon: '../../images/iconfont-kefu.png',
-        text: '联系'
-      }, {
-        icon: '../../images/iconfont-help.png',
-        text: '常见问题'
-      }]
+    userInfo: {}
   },
-
-  onLoad: function() {
-    var that = this
-    //调用应用实例的方法获取全局数据
-    app.getUserInfo( function( userInfo ) {
-      //更新数据
-      that.setData( {
-        userInfo: userInfo
+  onLoad: function () {
+    const that = this
+    app.getUserInfo(function(data){
+      that.setData({
+        userInfo:data
       })
+    })
+  },
+  //点击管理地址
+  addressAdd(e) {
+    wx.navigateTo({
+      url: '../addressAdd/addressAdd'
+    })
+  },
+  //点击查询物流信息
+  deliveryInfo(e){
+    wx.navigateTo({
+      url: '../deliveryInfo/deliveryInfo'
     })
   }
 })

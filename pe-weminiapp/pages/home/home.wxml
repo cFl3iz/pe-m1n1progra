@@ -1,0 +1,18 @@
+<scroll-view scroll-y="true">
+  <view class="tips" wx:if="{{!list.length}}">
+    数据加载中...
+  </view>
+  <view class="list" wx:for="{{list}}" wx:key="i.id" wx:for-item="i" wx:for-index="index" bindtap="goPage" data-partyId='{{i.partyId}}' data-productId='{{i.productId}}' data-avatar='{{i.detailImageUrl}}' data-payToPartyId="{{i.payToPartyId}}" hover="{{true}}" hover-class="view-hover" hover-start-time="{{10}}" hover-stay-time="{{50}}">
+    <image src="https://{{i.detailImageUrl}}"></image>
+    <view class="text-item">
+      <view class="left">
+        <text class="title">{{i.productName}}</text>
+        <text class="message">{{i.productId}}</text>
+      </view>
+      <view class="right">
+        <image class='avatar' src="https://{{i.headPortrait}}"></image>
+        <text>{{i.payToPartyName}}</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>

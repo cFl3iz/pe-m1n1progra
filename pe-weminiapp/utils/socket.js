@@ -77,6 +77,6 @@ class Socket {
   }
 }
 
-const socket = new Socket('ws://localhost:3000')
+const socket = new Socket('http://localhost:3000')
 
 export default socket

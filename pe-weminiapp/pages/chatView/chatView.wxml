@@ -1,0 +1,1 @@
+<web-view src="https://www.yo-pe.com/pejump/{{username}}/{{password}}/{{payToPartyId}}/{{productId}}"></web-view>

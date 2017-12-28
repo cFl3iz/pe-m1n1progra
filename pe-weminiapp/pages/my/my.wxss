@@ -1,69 +1,81 @@
-/**index.wxss**/
 .container {
-  background-color: #F2f2f2;
-}
-.userinfo {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 50rpx 0;
   align-items: center;
-  background: #292929;
+  /*padding: 200rpx 0;*/
+  box-sizing: border-box;
+  background: #f0f4f3;
 }
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.user {
+  width: 725rpx;
+  background: #ffffff;
+  padding: 30rpx 25rpx 30rpx 0;
+  margin: 15rpx 0 0 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #dcdcdc;
+  box-shadow: 0 2px 5px #eeeeee;
 }
-.userinfo-nickname {
-  color: #FFFFFF;
-}
-.weui_cell{
-    position: relative;
-    display: flex;
-    padding: 15px;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    border-bottom: 1px solid #dadada;
-}
-.weui_cell_hd{
+.user .userinfo-avatar{
+  flex: 1;
   display: inline-block;
-  width: 20px;
-  margin-right: 5px;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 80rpx;
 }
-.weui_cell_hd image{
-  width: 100%;
-  height: 20px;
-  vertical-align: -2px;
+.user .user-info{
+  flex: 5;
+  text-align: left;
 }
-.weui_cell_bd{
-  display: inline-block;
+.user .user-info text{
+  display: block;
 }
-.weui_cell_bd_p{
-  font-size: 14px;
-  color: #939393;
+.user .user-info .userinfo-nickname{
+  padding: 8rpx 0 10rpx 0;
+  font-size: 30rpx;
+  color: #818A8F;
 }
-.badge{
-  position: absolute;
-  top: 18px;
-  right: 40px;
-  width: 15px;
-  height: 15px;
-  line-height: 15px;
-  background: #ff0000;
-  color: #fff;
-  border-radius: 50%;
+.user .user-info .edit{
+  font-size: 30rpx;
+  color: #bababa;
+  line-height: 34rpx;
+}
+
+.my{
+  margin: 15rpx 0 0 0;
+  border-top: solid 1px #ebebeb;
+  border-bottom: solid 2px #ebebeb;
+}
+.my .my-item{
+  width: 750rpx;
+  background: #ffffff;
+  padding: 0
+}
+.my .my-item .myitem-icon{
+  flex: 1;
+}
+.my .my-item .myitem-icon image{
+  width: 45rpx;
+  height: 45rpx;
+  padding: 37.5rpx 0;
+}
+.my .my-item .myitem-name{
+  flex: 5;
+  text-align: left;
+  font-size: 34rpx;
+  color: #6d6d6d;
+  line-height: 60rpx;
+  padding: 30rpx 0;
+  border-bottom: solid 1px #ebebeb;
+}
+.my .my-item:last-child .myitem-name{
+  border-bottom: none;
+}
+.flex-wrp {
+  display: flex;
+}
+
+.flex-item {
+  flex-grow: 1;
   text-align: center;
-  font-size: 8px;
-}
-.with_arrow{
-  position: absolute;
-  top: 18px;
-  right: 15px;
-  width: 15px;
-  height: 15px;
-  background-image: url('http://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/icon-arrowdown.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }

@@ -1,15 +1,17 @@
 {
   "pages": [
-    "pages/chat/chat",
+    "pages/home/home",
     "pages/order/order",
     "pages/my/my",
-    "pages/message/message"
+    "pages/chatView/chatView",
+    "pages/addressAdd/addressAdd",
+    "pages/deliveryInfo/deliveryInfo"
   ],
   "window": {
     "backgroundTextStyle": "white",
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "友评交易",
-    "navigationBarBackgroundColor": "#292929",
+    "navigationBarBackgroundColor": "#4A708B",
     "backgroundColor": "#F2f2f2",
     "enablePullDownRefresh": true
   },
@@ -20,7 +22,7 @@
     "fontSize": "16",
     "list": [
       {
-        "pagePath": "pages/chat/chat",
+        "pagePath": "pages/home/home",
         "iconPath": "images/tabs/home.png",
         "selectedIconPath": "images/tabs/home_active.png",
         "text": "首页"
@@ -35,7 +37,7 @@
         "pagePath": "pages/my/my",
         "iconPath": "images/tabs/my.png",
         "selectedIconPath": "images/tabs/my_active.png",
-        "text": "关于"
+        "text": "我的"
       }
     ]
   },

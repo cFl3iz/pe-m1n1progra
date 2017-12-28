@@ -1,28 +1,29 @@
-<!--index.wxml-->
-<view class="container">
-
-
-    <view class="text">
-        <view class="line_flag"></view>
-        <text>我的订单</text>
-    </view>
-
-    <view class="choice_box">
-        <view class="choice_list">
-            <block wx:for="{{orderList}}">
-                <navigator url="../details/index?id={{item.id}}">
-                    <view class="choice_item">
-                        <image src="{{item.detailImageUrl}}"/>
-                        <view class="title">{{item.productName}} - {{item.unitPrice}} 元 </view>
-                         <view class="title">订单状态:老沈还没查</view>
-                    </view>
-                </navigator>
-            </block>
+<!-- 整体 -->
+<view class="containsView">
+  <!-- 顶部导航栏 -->
+  <view class="headerView">
+    <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
+      <view catchtap="onTapTag" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
+        {{item.title}}
+      </view>
+    </block>
+  </view>
+  <!--scrollview-->
+  <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
+    <block wx:for-items="{{list}}" wx:key='item.orderId'  wx:for-item="item">
+      <!-- item-->
+      <view data-specId="{{item.specId}}" catchtap="clickitem" class="topContainsView">
+        <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
+        <view class="topRightView">
+          <text class="topRightName">{{item.productName}} </text>
+          <text class="topRightTime">￥500</text>
+          <!--销量和评价-->
+          <view class="saleAndcom">
+            <text class="saletext">{{item.storeName}}</text>
+            <text class="saleRightText">50条评价 销量100</text>
+          </view>
         </view>
-    </view>
-
-    <loading hidden="{{loadingHidden}}">
-        加载中...
-    </loading>
-
+      </view>
+    </block>
+  </scroll-view>
 </view>

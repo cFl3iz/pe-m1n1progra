@@ -1,79 +1,128 @@
-.container {
-    background-color: #F2f2f2;
+/*头部整体样式*/
+
+.topContainsView {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10rpx;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
-.swiper_box {
-    width: 100%;
+/**
+ * 商品样式
+*/
+
+.goodsImage {
+  width: 200rpx;
+  height: 200rpx;
 }
 
-swiper-item image {
-    width: 100%;
-    display: inline-block;
-    overflow: hidden;
+/*右侧文本整体样式*/
+
+.topRightView {
+  width: 250px;
+  margin-left: 15rpx;
+  display: flex;
+  flex-direction: column;
 }
 
-view.text {
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 10px 10px 10px 12px;
-    font-size: 15px;
-    color: #656565;
+/*用户名称样式*/
+
+.topRightName {
+  font-size: 25rpx;
 }
 
-view.text:before {
-    position: absolute;
-    display: block;
-    content: ' ';
-    left: -5px;
-    width: 2px;
-    height: 100%;
-    background-color: #09bb07;
+/*时间样式*/
+
+.topRightTime {
+  font-size: 25rpx;
+  color: red;
+  margin-top: 10rpx;
 }
 
-.line_flag {
-    width: 3px;
-    height: 100%;
-    height: 15px;
-    display: inline-block;
-    background-color: #f9f027;
+/*Item样式中的图标样式 */
+
+.headerNavImage {
+  width: 30rpx;
+  height: 30rpx;
 }
 
-view.text text {
-    margin-left: 10px;
-    line-height: 18px;
-    font-weight: bold;
+/*Item中的文字样式*/
+
+.headerItemText {
+  font-size: 30rpx;
+  color: #b8b2b2;
+  margin-left: 10rpx;
+  margin-top: 8rpx;
 }
 
-.venues_box {
-    padding: 0 10rpx;
+/*销量和评价那一条*/
+
+.saleAndcom {
+  margin-top: 8rpx;
+  flex-direction: row;
 }
 
-.venues_item {
-    display: inline-block;
-    width: 49%;
-    margin: 0 0.5%;
+.saletext {
+  font-size: 25rpx;
 }
 
-.venues_item image{
-    width: 100%;
-    height: 90px;
+.saleRightText {
+  position: absolute;
+  right: 0;
+  margin-right: 10rpx;
+  font-size: 25rpx;
 }
 
-.choice_box {
-    padding: 0 10rpx;
-}
-.choice_box .choice_list .choice_item{
-    margin-bottom: 15px;
-}
-.choice_box .choice_list image {
-    width: 100%;
-    height: 200px;
+/*整体view样式*/
+
+.containsView {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  flex-direction: column;
 }
 
-.choice_box .choice_list .title {
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
+/*顶部view整体样式*/
+
+.headerView {
+  z-index: 1;
+  top: 0;
+  position: fixed;
+  background: #fff;
+  width: 100%;
+  height: 72rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.top-bar-item {
+  display: inline-block;
+  width: 25%;
+  color: gray;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.top-bar-active {
+  color: red;
+  font-size: 32rpx;
+}
+
+/*每个Item样式*/
+
+.headerNavView {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18rpx;
+}
+
+/*内容会被修剪，并且其余内容是不可见的。*/
+
+.scrollview-list {
+  margin-top: 72rpx;
 }
