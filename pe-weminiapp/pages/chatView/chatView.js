@@ -9,7 +9,7 @@ Page({
     username:null,
     password:null,
     payToPartyId:null,
-    productId:null
+    productId:null,
   },
 
   /**

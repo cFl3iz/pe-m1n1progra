@@ -46,6 +46,7 @@ Page({
       tab: tab,
       pageNo: 1
     })
+    console.log(index, tab)
     // if (tab == 'shaixuan') {    //筛选跳转到specValue
     //   wx.navigateTo({
     //     url: '../specValue/specValue',    //加参数
