@@ -88,9 +88,11 @@ Page({
     }
     Request.postRequest(url, data).then(function (data) {
       console.log(data.collectList)
-      that.setData({
-        list: data.collectList
-      })
+      if (data.collectList.length>0){
+        that.setData({
+          list: data.collectList
+        })
+      }
     })
   },
   onLoad() {
