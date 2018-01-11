@@ -1,5 +1,6 @@
 const App = getApp()
-
+import ServiceUrl from '../../utils/serviceUrl.js'
+import Request from '../../utils/request.js'
 Page({
     data: {
         order: {
@@ -10,13 +11,14 @@ Page({
         // this.order = App.HttpResource('/order/:id', {id: '@id'})
         this.order = []
         this.setData({
-            id: option.id
+          orderId: option.orderId
         })
     },
     onShow() {
-        this.getOrderDetail(this.data.id)
+        this.getOrderDetail(this.data.orderId)
     },
-    getOrderDetail(id) {
+    getOrderDetail(orderId) {
+        // 先不做那么复杂。直接扒老金代码
         // App.HttpService.getOrderDetail(id)
        
         // this.order.getAsync({id: id})
@@ -28,5 +30,23 @@ Page({
         //         })
         //     }
         // })
+
+      console.log('获取我的订单详情:')
+      const url = ServiceUrl.platformManager + 'queryMyOrderDetail'
+      const data = {
+        orderId: orderId
+      }
+      Request.postRequest(url, data).then(function (data) {
+
+        const { code: code, orderDetail: orderDetail } = data
+        if (code === '200') {
+          console.log("我的订单详情:" + JSON.stringify(data))
+          that.setData({
+            orderDetail: orderDetail
+          })
+        }
+      })
+
+
     },
 })

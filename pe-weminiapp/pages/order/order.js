@@ -38,7 +38,7 @@ Page({
   },
   viewOrderItem:function(e){
     wx.navigateTo({
-      url: '../orderDetail/orderDetail'
+      url: '../orderDetail/orderDetail?orderId=' + e.currentTarget.orderId
     })
      
   },
