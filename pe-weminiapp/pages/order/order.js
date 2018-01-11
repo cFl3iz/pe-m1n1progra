@@ -56,12 +56,16 @@ Page({
     // }
   },
   //获取订单数据
-  getCollectProduct: function () {
+  getCollectProduct: function (reqScopeOpenId) {
     const that = this
     console.log('获取我的订单:' + app.globalData.unicodeId)
     const url = ServiceUrl.platformManager + 'queryMyOrder'
+    let openId = app.globalData.unicodeId
+    if (!openId){
+      openId = reqScopeOpenId
+    }
     const data = {
-      unioId: app.globalData.unicodeId
+      unioId: openId
     }
     Request.postRequest(url, data).then(function (data) {
       
@@ -75,6 +79,7 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.getCollectProduct()
+
+    this.getCollectProduct(options.unioId)
   },
 })
