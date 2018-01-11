@@ -12,7 +12,7 @@
   <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
     <block wx:for-items="{{list}}" wx:key='item.orderId'  wx:for-item="item">
       <!-- item-->
-      <view data-specId="{{item.specId}}" catchtap="clickitem" class="topContainsView">
+      <view data-specId="{{item.specId}}" catchtap="viewOrderItem" class="topContainsView">
         <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
         <view class="topRightView">
           <text class="topRightName">{{item.productName}} </text>

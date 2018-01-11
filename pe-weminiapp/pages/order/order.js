@@ -36,6 +36,12 @@ Page({
     limt: 20,
     tab: ''
   },
+  viewOrderItem:function(e){
+    wx.navigateTo({
+      url: '../orderDetail/orderDetail'
+    })
+     
+  },
   //切换TAB
   onTapTag: function (e) {
     var that = this;
@@ -81,5 +87,10 @@ Page({
   onLoad: function (options) {
 
     this.getCollectProduct(options.unioId)
+  },
+  viewOrderItem(e) {
+    wx.navigateTo({
+      url: '../orderDetail/orderDetail'
+    })
   },
 })

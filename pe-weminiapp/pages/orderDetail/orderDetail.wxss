@@ -1,0 +1,57 @@
+.address .weui-media-box {
+	padding-left: 35px;
+	padding-right: 35px;
+}
+
+.address .addr {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	width: 20px; 
+    height: 20px;
+    -webkit-transform: translate3d(0, -50%, 0);
+    transform: translate3d(0, -50%, 0);
+}
+
+.address .addr .icon {
+    width: 20px; 
+    height: 20px;
+}
+
+.address .weui-cell__ft {
+	position: absolute;
+	top: 50%;
+	right: 13px;
+	width: 20px; 
+    height: 20px;
+    -webkit-transform: translate3d(0, -50%, 0);
+    transform: translate3d(0, -50%, 0);
+}
+.scroll-list {
+    overflow: hidden;
+}
+
+.topbar {
+    margin-top: 0;
+    background: #fff;
+}
+
+.topbar-item {
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.topbar-item.active {
+    color: #479de6;
+}
+
+.swiper_box {
+    width: 100%;
+}
+
+swiper-item image {
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+}
