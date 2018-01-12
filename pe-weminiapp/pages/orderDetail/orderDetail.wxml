@@ -44,5 +44,15 @@
         <view class="weui-media-box weui-media-box_text">
             <view class="weui-media-box__desc">下单时间：{{ orderDetail.orderDate.month }}月{{ orderDetail.orderDate.day }}日</view>
         </view>
-    </view>
+           
+  
+    <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__hd">产品信息</view>
+            <view class="weui-media-box weui-media-box_text">
+            <view class="weui-media-box__desc">产品名称：{{orderDetail.productName}}</view>
+            <view class="weui-media-box__desc"></view>
+            <view class="weui-media-box__desc"> <image bindtap="clickImage" style="width: 100px; height: 100px;" src="https://{{orderDetail.detailImageUrl}}" mode="aspectFill" /></view>
+        </view>
+      </view>
+     </view>
 </view>
