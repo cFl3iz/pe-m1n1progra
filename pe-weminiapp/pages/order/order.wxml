@@ -12,10 +12,10 @@
   <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
     <block wx:for-items="{{list}}" wx:key='item.orderId'  wx:for-item="item">
       <!-- item-->
-      <view data-specId="{{item.specId}}" catchtap="viewOrderItem" class="topContainsView">
+      <view data-orderId="{{item.orderId}}" bindtap="viewOrderItem" class="topContainsView">
         <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
         <view class="topRightView">
-          <text class="topRightName">{{item.productName}} </text>
+          <text class="topRightName">{{item.productName}}</text>
           <text class="topRightTime">￥500</text>
           <!--销量和评价-->
           <view class="saleAndcom">

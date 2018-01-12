@@ -19,29 +19,29 @@ Page({
       {
         orderId: 1,
         productName: '照相机',
-        detailImageUrl: '../../images/testImage/testImage.jpeg',
+        detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
       {
         orderId: 2,
         productName: 'aaa',
-        detailImageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
+        detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
       {
         orderId: 3,
         productName: 'bbb',
-        detailImageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
+        detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
     ],
     num: 1,
     limt: 20,
     tab: ''
   },
-  viewOrderItem:function(e){
-    wx.navigateTo({
-      url: '../orderDetail/orderDetail?orderId=' + e.currentTarget.orderId
-    })
+  // viewOrderItem:function(e){
+  //   wx.navigateTo({
+  //     url: '../orderDetail/orderDetail?orderId=10000' + e.currentTarget.orderId
+  //   })
      
-  },
+  // },
   //切换TAB
   onTapTag: function (e) {
     var that = this;
@@ -89,8 +89,10 @@ Page({
     this.getCollectProduct(options.unioId)
   },
   viewOrderItem(e) {
+    let orderid = e.currentTarget.dataset.orderid
+    
     wx.navigateTo({
-      url: '../orderDetail/orderDetail'
+      url: '../orderDetail/orderDetail?orderId=' + orderid
     })
   },
 })

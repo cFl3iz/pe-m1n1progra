@@ -10,6 +10,7 @@ Page({
     onLoad(option) {
         // this.order = App.HttpResource('/order/:id', {id: '@id'})
         this.order = []
+        console.log('!!!!!!!!!!!!!!!!! o r d e r i d =' + option.orderId)
         this.setData({
           orderId: option.orderId
         })
@@ -18,6 +19,7 @@ Page({
         this.getOrderDetail(this.data.orderId)
     },
     getOrderDetail(orderId) {
+      var that = this;
         // 先不做那么复杂。直接扒老金代码
         // App.HttpService.getOrderDetail(id)
        
