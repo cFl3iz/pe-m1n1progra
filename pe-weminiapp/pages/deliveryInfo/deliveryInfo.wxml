@@ -1,24 +1,24 @@
 <scroll-view scroll-y="true">
-  <view class="list" wx:for="{{deliveryInfoList}}" wx:key="i.id" wx:for-item="i" wx:for-index="index" bindtap="goPage">
+  <!-- <view class="list" wx:for="{{deliveryInfoList}}" wx:key="i.id" wx:for-item="i" wx:for-index="index" bindtap="goPage"> -->
     <view class='product-info'>
       <image src='https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=783702524,1931098429&fm=27&gp=0.jpg'></image>
-      <text>运单号：E1234647723</text>
+      <text>运单号：{{yunDanHo}}</text>
     </view>
-    <view class='text-list' wx:for="{{i.data}}" wx:for-item="item" wx:for-index="index">
+    <view class='text-list' wx:for="{{deliveryInfoList}}" wx:key="index" wx:for-item="item" wx:for-index="index">
       <view class='text-item' wx:if='{{index<5}}'>
         <view class='left'>
           <text wx:if='{{index==0}}' style='color:red'>{{item.time}}</text>
           <text wx:if='{{index!=0}}'>{{item.time}}</text>
         </view>
         <view class='center'>
-          <image wx:if='{{item.current}}' src='../../images/mine/delivery.png' />
-          <image wx:if='{{!item.current}}' src='../../images/mine/delivery1.png' />
+         <image wx:if='{{index==0}}' src='../../images/mine/delivery.png' />
+          <image  wx:if='{{index!=0}}' src='../../images/mine/delivery1.png' /> 
         </view>
         <view class='right'>
-          <text wx:if='{{index==0}}' style='color:red'>{{item.context}}</text>
-          <text wx:if='{{index!=0}}'>{{item.context}}</text>
+          <text wx:if='{{index==0}}' style='color:red'>{{item.status}}</text>
+          <text wx:if='{{index!=0}}'>{{item.status}}</text>
         </view>
       </view>
     </view>
-  </view>
+  <!-- </view> -->
 </scroll-view>

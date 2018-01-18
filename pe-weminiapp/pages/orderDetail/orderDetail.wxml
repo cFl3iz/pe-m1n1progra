@@ -12,8 +12,8 @@
         </view>
     </view>
     <view class="weui-form-preview__ft">
-        <navigator class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">联系商家</navigator>
-        <navigator class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">物流信息</navigator>
+        <navigator class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active" data-productid="{{orderDetail.productId}}" data-paytopartyid="{{orderDetail.payToPartyId}}" data-partyid="{{orderDetail.partyId}}" bindtap="goChatView">联系商家</navigator>
+        <navigator class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" data-orderId="{{orderDetail.orderId}}" data-internalCode="{{orderDetail.internalCode}}" bindtap="viewDeliveryInfo">物流信息</navigator>
     </view>
 </view>
 

@@ -19,14 +19,14 @@
         <text>管理地址</text>
       </view>
     </view>
-    <view class="my-item flex-wrp" catchtap="deliveryInfo">
+    <!-- <view class="my-item flex-wrp" catchtap="deliveryInfo">
       <view class="myitem-icon flex-item">
         <image src="../../images/mine/icon_already_shipped.png"></image>
       </view>
       <view class="myitem-name flex-item">
         <text>物流信息</text>
       </view>
-    </view>
+    </view> -->
     <view class="my-item flex-wrp" catchtap="no_comment">
       <view class="myitem-icon flex-item">
         <image src="../../images/mine/icon_no_comment.png"></image>

@@ -1,4 +1,4 @@
-const App = getApp()
+const app = getApp()
 import ServiceUrl from '../../utils/serviceUrl.js'
 import Request from '../../utils/request.js'
 Page({
@@ -14,6 +14,39 @@ Page({
         this.setData({
           orderId: option.orderId
         })
+    },
+    viewDeliveryInfo(e) {
+      let orderid = e.currentTarget.dataset.orderid 
+      let internalCode = e.currentTarget.dataset.internalcode 
+      wx.redirectTo({
+        url: '../deliveryInfo/deliveryInfo?orderId=' + orderid + '&internalCode=' + internalCode
+      })
+    },
+    goChatView(e) {
+      let username, password, nickname, avatar, payToPartyId, productId
+      username = e.currentTarget.dataset.partyid
+      password = e.currentTarget.dataset.partyid + '111'
+      avatar = app.globalData.userInfo.avatarUrl
+      nickname = app.globalData.userInfo.nickName
+      payToPartyId = e.currentTarget.dataset.paytopartyid
+      productId = e.currentTarget.dataset.productid
+      console.log(username, password, nickname, avatar, payToPartyId, productId)
+      const that = this
+      const url = ServiceUrl.platformManager + 'register'
+      const data = {
+        username: username,
+        password: password,
+        avatar: avatar,
+        nickname: nickname
+      }
+      Request.postRequest(url, data).then(function (data) {
+        console.log(JSON.stringify(data))
+      }).then(function () {
+        wx.navigateTo({
+          url: '../chatView/chatView?username=' + username + "&password=" + password + "&payToPartyId=" + payToPartyId + "&productId=" + productId
+        })
+      })
+
     },
     onShow() {
         this.getOrderDetail(this.data.orderId)
