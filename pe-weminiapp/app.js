@@ -1,9 +1,38 @@
 import ServiceUrl from './utils/serviceUrl'
 import Request from './utils/request.js'
+const Towxml = require('/towxml/main');
+const User = require('/utils/user');
+const Pages = require('/utils/pages');
 App({
   //初始化APP
   onLaunch: function () {
     console.log('启动APP')
+  },
+  towxml: new Towxml(),
+  user: new User(),
+  pages: new Pages(),
+  set_page_more(tis, res) {
+    if (res.data.total <= 0) {
+      tis.setData({
+        no_data: true,
+        no_more: false,
+        more: false,
+      })
+    }
+    if (res.data.last_page == tis.data.page) {
+      tis.setData({
+        no_more: true,
+        more: false,
+        more_data: "没有更多了"
+      })
+    } else if (res.data.last_page > tis.data.page) {
+      tis.setData({
+        more: true,
+      })
+    }
+    tis.setData({
+      is_load: false
+    })
   },
   //微信登陆授权
   weChatLogin: function () {

@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "资源圈",
+  "backgroundColor": "#f7f7f7",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": true
+}

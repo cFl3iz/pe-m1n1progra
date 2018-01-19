@@ -1,10 +1,9 @@
 {
   "pages": [
-    "pages/home/home",
+    "pages/dimensionsRetrieve/dimensionsRetrieve",
     "pages/order/order",
     "pages/orderDetail/orderDetail",
-    "pages/my/my",
-    "pages/search/search",
+    "pages/my/my", 
     "pages/chatView/chatView",
     "pages/addressAdd/addressAdd",
     "pages/deliveryInfo/deliveryInfo"
@@ -24,17 +23,11 @@
     "fontSize": "16",
     "list": [
       {
-        "pagePath": "pages/home/home",
-        "iconPath": "images/tabs/home.png",
-        "selectedIconPath": "images/tabs/home_active.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/search/search",
-        "iconPath": "images/message/emotion-o.png",
-        "selectedIconPath": "images/message/emotion-o.png",
+        "pagePath": "pages/dimensionsRetrieve/dimensionsRetrieve",
+        "iconPath": "images/mine/classify_nomal.png",
+        "selectedIconPath": "images/mine/classify_pressed.png",
         "text": "找资源"
-      },
+      }, 
       {
         "pagePath": "pages/order/order",
         "iconPath": "images/tabs/order.png",
