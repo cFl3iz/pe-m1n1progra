@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/dimensionsRetrieve/dimensionsRetrieve",
-    "pages/order/order",
+    "pages/resourceDetail/resourceDetail",
+    "pages/doc-info/doc-info",
+    "pages/tucao-reply-post/tucao-reply-post",
+    "pages/order/order", 
     "pages/orderDetail/orderDetail",
     "pages/my/my", 
     "pages/chatView/chatView",
@@ -14,7 +17,7 @@
     "navigationBarTitleText": "友评交易",
     "navigationBarBackgroundColor": "#4A708B",
     "backgroundColor": "#F2f2f2",
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": false
   },
   "tabBar": {
     "color": "#969696",

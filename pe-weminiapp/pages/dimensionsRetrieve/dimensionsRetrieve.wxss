@@ -4,7 +4,10 @@
   display: flex;
   background: #fff;
 }
-
+.redFont{
+  color: red;
+  font-size:15px;
+}
 .q-left {
   /* background: #f7f7f8;
   width: 140rpx;
@@ -125,8 +128,8 @@
 }
 
 .from-left,.from-left text {
-  font-size: 20rpx;
-  color: #999;
+  font-size: 26rpx;
+  color: 	#FF6347;
 }
 
 .from-right {

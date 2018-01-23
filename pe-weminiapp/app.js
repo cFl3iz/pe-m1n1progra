@@ -12,20 +12,24 @@ App({
   user: new User(),
   pages: new Pages(),
   set_page_more(tis, res) {
-    if (res.data.total <= 0) {
+    console.log('res.total=' + res.total)
+    console.log('tis.data.page=' + tis.data.page)
+    var flag = (tis.data.page == res.total)
+    if (res.total <= 0) {
       tis.setData({
         no_data: true,
         no_more: false,
         more: false,
       })
     }
-    if (res.data.last_page == tis.data.page) {
+    if (flag) {
+      console.log('in this fun !!!!!!!!!!')
       tis.setData({
         no_more: true,
         more: false,
         more_data: "没有更多了"
       })
-    } else if (res.data.last_page > tis.data.page) {
+    } else if (res.last_page > tis.data.page) {
       tis.setData({
         more: true,
       })
