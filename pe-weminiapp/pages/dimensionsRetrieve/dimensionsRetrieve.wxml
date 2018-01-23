@@ -1,10 +1,10 @@
 <block wx:if="{{show_page}}">
   <block wx:for="{{data.resourcesList}}" wx:key="{{item}}">
-    <navigator url="/pages/doc-info/doc-info?doc_id=123" class="q-item">
+    <navigator url="/pages/doc-info/doc-info?productid={{item.productId}}" class="q-item">
       <view class="q-left">
         <view class="q-status">
           <view class="answer-num">{{item.reply_count}}9人</view>
-          <view>收藏</view>
+          <view>购买</view>
         </view>
       </view>
       <view class="q-right">
