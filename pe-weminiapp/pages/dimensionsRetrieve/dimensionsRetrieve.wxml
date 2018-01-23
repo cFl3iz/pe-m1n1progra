@@ -1,6 +1,6 @@
 <block wx:if="{{show_page}}">
   <block wx:for="{{data.resourcesList}}" wx:key="{{item}}">
-    <navigator url="../resourceDetail/resourceDetail?productid={{item.productId}}&partyid={{item.partyId}}&paytopartyid={{item.contactPartyId}}" class="q-item">
+    <navigator url="/pages/doc-info/doc-info?doc_id=123" class="q-item">
       <view class="q-left">
         <view class="q-status">
           <view class="answer-num">{{item.reply_count}}9人</view>

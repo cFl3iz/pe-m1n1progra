@@ -36,47 +36,60 @@ Page({
     this.get_data()
   },
   get_data() {
-    wx.request({
-      url: getApp().api.get_v3_2_doc_info,
-      header: {
-        'Authorization': 'Bearer ' + getApp().user.ckLogin()
-      },
-      data: {
-        doc_id: this.data.doc_id,
-        page: this.data.page
-      },
-      success: (res) => {
-        if (res.data.current_page == 1) {
-          console.log('in this block !!!!res.data=' + JSON.stringify(res.data))
-          this.setData({
-            doc: res.data.doc,
-            data: res.data,
-            show_page: true
+
+ 
+
+  
+       this.setData({
+         doc: JSON.parse('{"id":80,"title":"SQLite全套视频教程23集","desc":"SQLit真是一个好东西啊,我们很喜欢这种小型数据库......  ","doc_class_id":"55","cover":"","h_cover":"","user_id":0,"source":"金龙熙的转发","source_url":null,"is_end":0,"order":99999,"is_hot":1,"created_at":"2017-08-15 15:27:27","updated_at":"2017-08-30 09:13:39","deleted_at":null,"state":1,"user":{"nick_name":"老沈"},"is_follow":false,"is_like":false,"like_count":3,"likes":[{"id":3364,"name":"Jack","avatar":"https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEKT1GyUvvZfAglMDVwt9Tia74gUh2LcJop63jvsa85ibxbDicpJficSFtfDRGvL894RtXtKftwtuFibfPg/0","pivot":{"followable_id":80,"user_id":3364,"followable_type":"","relation":"like","created_at":"2017-12-13 18:17:31"}},{"id":1738,"name":"安","avatar":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJpX356K341IDDAicf7icRrqfa8eTXMDIeFzMuuicdFt34dkul9DnxWWlADPY1JmqAYNGzf3msjPVibWg/0","pivot":{"followable_id":80,"user_id":1738,"followable_type":"","relation":"like","created_at":"2017-10-08 06:44:28"}},{"id":1451,"name":"吕丰泉","avatar":"https://wx.qlogo.cn/mmopen/PiajxSqBRaELPbZZjgklv6kRzZEws49cFv89LpAocKqUuxfmibAO1icFnck3DI0ibChlgzYd0ib0JaOgupicZ5aNDVdQ/0","pivot":{"followable_id":80,"user_id":1451,"followable_type":"","relation":"like","created_at":"2017-08-27 14:34:40"}}],"cover_url":"http://cloud-doc-img.leyix.com/image/Group 5 Copy 81.png!225x300","h_cover_url":"","doc_class":{"id":55,"title":"其他","desc":"其他","parent_id":5,"order":1,"icon":"","created_at":"2017-08-15 15:29:31","updated_at":"2017-08-15 15:29:31","state":1,"index_show":0,"icon_url":""}}'),
+         data: JSON.parse('{"current_page":1,"data":[],"from":null,"last_page":0,"next_page_url":null,"path":"https://cloud-doc.leyix.com/api/v3/doc-info-2","per_page":15,"prev_page_url":null,"to":null,"total":0}'),
+            show_page: true,
+            is_load: true
           })
-          if (!res.data.doc.is_follow) {
-            this.setData({
-              is_add: false,
-              add_text: "加入档库"
-            })
-          }
-          wx.setNavigationBarTitle({
-            title: res.data.doc.title
-          })
-        } else {
-          let o_data = this.data.data;
-          for (var index in res.data.data) {
-            o_data.data.push(res.data.data[index])
-          }
-          this.setData({
-            data: o_data
-          })
-        }
-        getApp().set_page_more(this, res)
-        wx.stopPullDownRefresh()
-      }, complete: () => {
-        wx.hideLoading()
-      }
-    })
+   
+       wx.stopPullDownRefresh()
+       wx.hideLoading()
+    // wx.request({
+    //   url: getApp().api.get_v3_2_doc_info,
+    //   header: {
+    //     'Authorization': 'Bearer ' + getApp().user.ckLogin()
+    //   },
+    //   data: {
+    //     doc_id: this.data.doc_id,
+    //     page: this.data.page
+    //   },
+    //   success: (res) => {
+    //     if (res.data.current_page == 1) {
+    //       console.log('in this block !!!!res.data=' + JSON.stringify(res.data))
+    //       this.setData({
+    //         doc: res.data.doc,
+    //         data: res.data,
+    //         show_page: true
+    //       })
+    //       if (!res.data.doc.is_follow) {
+    //         this.setData({
+    //           is_add: false,
+    //           add_text: "加入档库"
+    //         })
+    //       }
+    //       wx.setNavigationBarTitle({
+    //         title: res.data.doc.title
+    //       })
+    //     } else {
+    //       let o_data = this.data.data;
+    //       for (var index in res.data.data) {
+    //         o_data.data.push(res.data.data[index])
+    //       }
+    //       this.setData({
+    //         data: o_data
+    //       })
+    //     }
+    //     getApp().set_page_more(this, res)
+    //     wx.stopPullDownRefresh()
+    //   }, complete: () => {
+    //     wx.hideLoading()
+    //   }
+    // })
   },
   go_menu: function (event) {
     let doc_id = event.currentTarget.dataset.id;
@@ -137,7 +150,7 @@ Page({
   },
   onShareAppMessage: function () {
     return {
-      title: "云档-免费在线文档"
+      title: "友评-一个基于熟人社交网络的资源平台"
     }
   },
   doc_like(event) {
