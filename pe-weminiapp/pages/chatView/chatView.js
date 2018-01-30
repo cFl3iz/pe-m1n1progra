@@ -17,7 +17,8 @@ Page({
    */
 
   onLoad: function (options) {
-    console.log(options.username, options.password)
+    console.log('inthis options.username=' + options.username +"options.password="+options.password)
+    console.log('inthis options.productId=' + options.productId + "options.payToPartyId=" + options.payToPartyId)
     this.setData({
       username: options.username,
       password: options.password,

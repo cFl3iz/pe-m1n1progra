@@ -4,19 +4,30 @@
       <image src="{{doc.cover_url}}" class="book-cover-blur"></image>
       <view class="info-top">
         <view class="top-main">
+
+        <block wx:if="{{data.resourceDetail == undefined}}">
           <image class="info-pic" src="{{doc.cover_url}}"></image>
+        </block>
+        <block wx:if="{{data.resourceDetail != undefined}}">
+          <image class="info-pic" src="https://{{doc.cover_url}}"></image>
+        </block>
+
+
           <view class="main-r">
             <text class="info-title">{{doc.title}}</text>
-            <text class="info-username">发布人：{{doc.user.nick_name}}</text>
+            <text class="info-username">发布人：{{doc.user.firstName}}</text>
             <text class="info-class">类别：{{doc.doc_class.title}}</text>
             <text class="info-from">来源：{{doc.source}}</text>
           </view>
         </view>
         <view class="">
           <view class="top-btn-group">
-            <button size="mini" class="btn" type="warn" bindtap="go_menu" data-id="{{doc.id}}">下单</button>
+            <!-- <button size="mini" class="btn" type="warn" bindtap="go_menu" data-id="{{doc.id}}">下单</button> -->
             <!-- <button size="mini" class="btn" disabled="{{is_add}}" bindtap="add_my_doc" data-id="{{doc.id}}">{{add_text}}</button> -->
-            <button size="mini" class="btn"  bindtap="go_menu" data-id="{{doc.id}}">联系我</button>
+            <!-- <button size="mini" class="btn"  bindtap="go_menu" data-id="{{doc.id}}">联系我</button> -->
+            <navigator url="/pages/chatView/chatView?username={{doc.nowPartyId}}&password={{doc.nowPartyId}}111&payToPartyId={{doc.payToId}}&productId={{doc.id}}" class="q-item">
+            <button size="mini" class="btn" >联系我</button>
+            </navigator>
             <button size="mini" class="btn" open-type="share">分享给好友</button>
           </view>
         </view>
@@ -41,7 +52,13 @@
         <scroll-view class="zan-user-list-sv" scroll-x="true">
           <view class="zan-user-list">
             <view class="user-info" wx:for="{{doc.likes}}" wx:key="{{item}}">
-              <image class="user-avatar" src="{{item.avatar}}"></image>
+               <block wx:if="{{data.resourceDetail == undefined}}">
+                  <image class="user-avatar" src="{{item.avatar}}"></image>
+               </block>
+              <block wx:if="{{data.resourceDetail != undefined}}">
+                 <image class="user-avatar" src="https://{{item.avatar}}"></image>
+              </block>
+              
             </view>
           </view>
         </scroll-view>
@@ -53,7 +70,7 @@
   </view>
   <view class="zan-main">
     <view class="zan-top">
-      <text class="text-16" style="color:#333333;">问答</text>
+      <text class="text-16" style="color:#333333;">-</text>
       <view class="icon-btn">
         <text class="text-12">{{data.total}}个评论</text>
       </view>
@@ -72,7 +89,7 @@
           <view class="q-man">
             <image src="{{item.user.avatar}}" class="q-avatar"></image>
             <view class="q-asker">
-              <text class="name">{{item.user.name}}</text>
+              <text class="name">{{item.user.firstName}}</text>
               <text class="title">{{item.user.title}}</text>
             </view>
           </view>

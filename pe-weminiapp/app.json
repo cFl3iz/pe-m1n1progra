@@ -5,6 +5,7 @@
     "pages/doc-info/doc-info",
     "pages/tucao-reply-post/tucao-reply-post",
     "pages/order/order", 
+    "pages/releaseResource/releaseResource",
     "pages/orderDetail/orderDetail",
     "pages/my/my", 
     "pages/chatView/chatView",
@@ -37,6 +38,12 @@
         "selectedIconPath": "images/tabs/order_active.png",
         "text": "订单"
       }, 
+      {
+        "pagePath": "pages/releaseResource/releaseResource",
+        "text": "发布",
+        "iconPath": "images/tabbar/create_icon_normal@3x.png",
+        "selectedIconPath": "images/tabbar/create_icon_selected@3x.png"
+      },
       {
         "pagePath": "pages/my/my",
         "iconPath": "images/tabs/my.png",
