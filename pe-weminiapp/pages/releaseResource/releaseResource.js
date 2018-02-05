@@ -1,4 +1,5 @@
 // addbook.js
+import ServiceUrl from '../../utils/serviceUrl.js'
 Page({
 
   /**
@@ -107,6 +108,7 @@ Page({
   // 预览
   previewBook: function (event) {
     let bookid = event.currentTarget.dataset.bookid;
+    bookid = 1;
     if (bookid) {
       wx.navigateTo({
         url: '../previeweditbook/previeweditbook?bookId=' + bookid
@@ -122,11 +124,36 @@ Page({
   },
 
   finishBook: function () {
-    wx.switchTab({
-      url: '../profile/profile'
-    });
-  },
+    console.log('in ->>>> finishBook')
 
+
+
+
+    // wx.switchTab({
+    //   url: '../profile/profile'
+    // });
+  },
+  formSubmit: function (e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    console.log('bookCover：', this.data.bookCover)
+    
+    wx.uploadFile({
+      url: ServiceUrl.BaseURL+'releaseResource',
+      filePath: this.data.bookCover,
+      name: 'image',
+      formData: {
+        title: e.detail.value.title,
+        desc: e.detail.value.author
+      },
+      success: function (res) {
+        callback(res.data);
+      }
+    })
+    
+  },
+  formReset: function () {
+    console.log('form发生了reset事件')
+  } ,
   // 添加页面
   addPage: function (event) {
     let that = this;
@@ -287,11 +314,11 @@ Page({
           bookCover: res.tempFilePaths[0]
         });
         // 如果有了bookId，直接上传图片
-        if (that.data.bookId) {
-          getApp().uploadImage(that.data.bookId, 0, that.data.bookCover, function (data) {
-            console.log(data);
-          });
-        }
+        // if (that.data.bookId) {
+        //   getApp().uploadImage(that.data.bookId, 0, that.data.bookCover, function (data) {
+        //     console.log(data);
+        //   });
+        // }
       }
     })
   },
@@ -362,6 +389,7 @@ Page({
   // 上传表单form text内容
   pagesTextPost: function (event) {
     console.log(event.detail.value);
+
   },
 
   // confirmText 确认文本内容 传入text.value pages.index

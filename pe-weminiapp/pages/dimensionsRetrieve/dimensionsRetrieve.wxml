@@ -68,8 +68,8 @@
   <view class="no_more" wx:if="{{more}}">{{more_data}}</view>
   <view class="no_more" wx:if="{{no_more}}">{{more_data}}</view>
   <view class="no_data" wx:if="{{no_data}}">
-    <image class="no_data_icon" src="../../assets/images/no_data.png"></image>
-    <view class="no_data_text">暂无数据！</view>
+     <!-- <image class="no_data_icon" src="../../assets/images/no_data.png"></image> -->
+    <view class="no_data_text">没有更多了,已经拉到最下面啦!!!</view>
   </view>
   <navigator wx:if="{{false}}" url="../wenda-post/wenda-post?source=base&source_id=0" class="iconfont ask-btn" bindtap="goAsk">提问</navigator>
 </block>
