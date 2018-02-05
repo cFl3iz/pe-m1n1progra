@@ -1,4 +1,5 @@
 // addbook.js
+var app = getApp()
 import ServiceUrl from '../../utils/serviceUrl.js'
 Page({
 
@@ -134,22 +135,26 @@ Page({
     // });
   },
   formSubmit: function (e) {
-    console.log('form发生了submit事件，携带数据为：', e.detail.value)
-    console.log('bookCover：', this.data.bookCover)
-    
-    wx.uploadFile({
-      url: ServiceUrl.BaseURL+'releaseResource',
-      filePath: this.data.bookCover,
-      name: 'image',
-      formData: {
-        title: e.detail.value.title,
-        desc: e.detail.value.author
-      },
-      success: function (res) {
-        callback(res.data);
-      }
-    })
-    
+      wx.uploadFile({
+        header: {
+          'content-type': 'multipart/form-data' // 默认值
+        },
+        url: ServiceUrl.platformManager + 'releaseResource',
+        filePath: this.data.bookCover,
+        name: 'file',
+        formData: {
+          title: e.detail.value.title,
+          desc: e.detail.value.author,
+          unioId: app.globalData.unicodeId
+        },
+        success: function (res) {
+          console.log(res)
+          //callback(res.data);
+        },
+        fail: function (err) {
+          console.log(err)
+        }
+      })
   },
   formReset: function () {
     console.log('form发生了reset事件')
