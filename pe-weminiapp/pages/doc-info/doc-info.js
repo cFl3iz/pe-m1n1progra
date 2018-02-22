@@ -61,10 +61,7 @@ Page({
 
  
     const that = this
-  
-      
-
-       const data = {
+    const data = {
          unioId: unioId,
          productId:that.data.productId,
          page: that.data.page

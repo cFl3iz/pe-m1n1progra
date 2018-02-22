@@ -2,15 +2,18 @@
   "pages": [
     "pages/dimensionsRetrieve/dimensionsRetrieve",
     "pages/resourceDetail/resourceDetail",
+    "pages/previewreadResource/previewreadResource",
     "pages/doc-info/doc-info",
+    "pages/setting/setting",
     "pages/tucao-reply-post/tucao-reply-post",
-    "pages/order/order",  
+    "pages/order/order",
     "pages/releaseResource/releaseResource",
     "pages/orderDetail/orderDetail",
-    "pages/my/my", 
+    "pages/my/my",
     "pages/chatView/chatView",
     "pages/addressAdd/addressAdd",
-    "pages/deliveryInfo/deliveryInfo"
+    "pages/deliveryInfo/deliveryInfo",
+    "pages/myProduct/myProduct"
   ],
   "window": {
     "backgroundTextStyle": "white",
@@ -30,14 +33,14 @@
         "pagePath": "pages/dimensionsRetrieve/dimensionsRetrieve",
         "iconPath": "images/mine/classify_nomal.png",
         "selectedIconPath": "images/mine/classify_pressed.png",
-        "text": "找资源"
-      }, 
+        "text": "资源圈"
+      },
       {
         "pagePath": "pages/order/order",
         "iconPath": "images/tabs/order.png",
         "selectedIconPath": "images/tabs/order_active.png",
-        "text": "订单"
-      }, 
+        "text": "事项"
+      },
       {
         "pagePath": "pages/releaseResource/releaseResource",
         "text": "发布",
@@ -48,7 +51,7 @@
         "pagePath": "pages/my/my",
         "iconPath": "images/tabs/my.png",
         "selectedIconPath": "images/tabs/my_active.png",
-        "text": "我的"
+        "text": "我的所有"
       }
     ]
   },

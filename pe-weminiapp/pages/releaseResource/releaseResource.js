@@ -123,18 +123,43 @@ Page({
     }
 
   },
+  goToSharePage : function(mapObj){
+    console.log('mapObj=' + mapObj)
+    wx.redirectTo({
+      url: "../previewreadResource/previewreadResource?productid=" + JSON.parse(mapObj).productId
+    }) 
+  },
 
   finishBook: function () {
     console.log('in ->>>> finishBook')
-
-
-
-
+ 
     // wx.switchTab({
     //   url: '../profile/profile'
     // });
   },
   formSubmit: function (e) {
+    let that = this
+    if (this.data.bookCover == '' ){
+      wx.showToast({
+        title: '请选择图片!',
+        icon: 'success',
+        duration: 10000
+      })
+      return false
+    }
+    if (e.detail.value.title==''){
+      wx.showToast({
+        title: '请填写名称!',
+        icon: 'success',
+        duration: 10000
+      })
+      return false
+    }
+     wx.showToast({
+      title: '正在拼命发布,请稍后...',
+      icon: 'loading',
+      duration: 10000
+     })
       wx.uploadFile({
         header: {
           'content-type': 'multipart/form-data' // 默认值
@@ -148,8 +173,27 @@ Page({
           unioId: app.globalData.unicodeId
         },
         success: function (res) {
-          console.log(res)
-          //callback(res.data);
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+res.data) 
+          // wx.showToast({
+          //   title: '发布成功!',
+          //   icon: 'success',
+          //   duration: 2000
+          // })
+          wx.vibrateShort({
+            complete: function (res) {
+              wx.showToast({
+                title: '发布成功!',
+                icon: 'success',
+                duration: 2000
+              });
+            }
+          });
+         
+
+          let productId = res.data
+          that.goToSharePage(productId)
+           //previewreadbook
+          // callback(res.data);
         },
         fail: function (err) {
           console.log(err)

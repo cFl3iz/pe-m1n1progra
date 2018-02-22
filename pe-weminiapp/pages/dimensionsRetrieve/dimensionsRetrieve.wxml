@@ -1,24 +1,31 @@
-<block wx:if="{{show_page}}">
-  <block wx:for="{{data.resourcesList}}" wx:key="{{item}}">
-    <navigator url="/pages/doc-info/doc-info?productid={{item.productId}}" class="q-item">
+<view class="panel-head">
+  <text class="panel-head-title">资源圈推荐</text>
+  <navigator class="panel-head-more" url="../setting/setting">检索设置
+    <image mode="aspectFit" src="/images/icon/install_icon@3x.png"></image>
+  </navigator>
+</view>
+<block wx:if="{{show_page}}" >
+  <block wx:for="{{data.resourcesList}}"  wx:key="{{item}}" >
+     <view bindtap="goDetail" data-productId='{{item.productId}}'  bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd" class="q-item">
+     <!-- <navigator   url="/pages/doc-info/doc-info?productid={{item.productId}}" class="q-item">  -->
       <view class="q-left">
         <view class="q-status">
           <view class="answer-num">{{item.reply_count}}9人</view>
-          <view>购买</view>
+          <view>喜欢</view>
         </view>
       </view>
       <view class="q-right">
         <view class="q-info">
           <view class="q-man">
             <block wx:if="{{data.total==-1}}">
-            <image src="{{item.user.headPortrait}}" class="q-avatar"></image>
+              <image src="{{item.user.headPortrait}}" class="q-avatar"></image>
             </block>
             <block wx:if="{{data.total!=-1}}">
-            <image src="https://{{item.user.headPortrait}}" class="q-avatar"></image>
+              <image src="https://{{item.user.headPortrait}}" class="q-avatar"></image>
             </block>
             <view class="q-asker">
-            <text class="name">{{item.user.firstName}}</text>
-            <!-- <text class="title">{{item.user.title}}</text> -->
+              <text class="name">{{item.user.firstName}}</text>
+              <!-- <text class="title">{{item.user.title}}</text> -->
             </view>
           </view>
           <view class="q-time">{{item.created}}</view>
@@ -29,14 +36,19 @@
           <view class="q-tag">javascript</view>
           <view class="q-tag">nginx</view>
         </view>
-        <view class="pic-grid" wx:if="{{item.morePicture.length>0}}">
-            <block wx:if="{{data.total==-1}}">
-             <image mode="aspectFill" src="{{item.drObjectInfo}}" wx:for="{{item.morePicture}}" wx:key="{{item}}" class="pic3"></image>
-            </block>
-            <block wx:if="{{data.total!=-1}}">
-             <image mode="aspectFill" src="https://{{item.drObjectInfo}}" wx:for="{{item.morePicture}}" wx:key="{{item}}" class="pic3"></image>
-            </block>
-          
+        <!-- 单张图片 -->
+        <view class="pic-grid" wx:if="{{item.morePicture.length==''}}">
+<image mode="aspectFill" src="https://{{item.detailImageUrl}}"   class="pic3"></image>
+        </view>
+        <!-- 多张 -->
+        <view class="pic-grid" wx:if="{{item.morePicture.length!=''}}">
+          <block wx:if="{{data.total==-1}}">
+            <image mode="aspectFill" src="{{item.drObjectInfo}}" wx:for="{{item.morePicture}}" wx:key="{{item}}" class="pic3"></image>
+          </block>
+          <block wx:if="{{data.total!=-1}}">
+            <image mode="aspectFill" src="https://{{item.drObjectInfo}}" wx:for="{{item.morePicture}}" wx:key="{{item}}" class="pic3"></image>
+          </block>
+
 
           <block wx:if="{{item.pics_type==3}}">
             <image mode="aspectFill" src="{{item.thumb}}" wx:for="{{item.pics_arr}}" wx:key="{{item}}" class="pic3"></image>
@@ -49,7 +61,11 @@
           </block>
         </view>
         <view class="from-line">
-          <view class="from-left"><block wx:if="{{item.source_info.title}}">来自：<text class="redFont">{{item.source_info.title}}</text></block></view>
+          <view class="from-left">
+            <block wx:if="{{item.source_info.title}}">来自：
+              <text class="redFont">{{item.source_info.title}}</text>
+            </block>
+          </view>
           <view class="from-right">
             <view class="from-right-item" wx:if="{{false}}">
               <view class="iconfont icon-huida"></view>
@@ -62,13 +78,15 @@
           </view>
         </view>
       </view>
-    </navigator>
+
+     <!-- </navigator>  -->
+    </view>
     <view class="border-b"></view>
   </block>
   <view class="no_more" wx:if="{{more}}">{{more_data}}</view>
   <view class="no_more" wx:if="{{no_more}}">{{more_data}}</view>
   <view class="no_data" wx:if="{{no_data}}">
-     <!-- <image class="no_data_icon" src="../../assets/images/no_data.png"></image> -->
+    <!-- <image class="no_data_icon" src="../../assets/images/no_data.png"></image> -->
     <view class="no_data_text">没有更多了,已经拉到最下面啦!!!</view>
   </view>
   <navigator wx:if="{{false}}" url="../wenda-post/wenda-post?source=base&source_id=0" class="iconfont ask-btn" bindtap="goAsk">提问</navigator>

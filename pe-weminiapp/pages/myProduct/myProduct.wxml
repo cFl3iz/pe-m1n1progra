@@ -1,0 +1,22 @@
+<!-- <scroll-view scroll-y="true" style="height:600px" bindscrolltolower="lower">
+<block wx:for="{{myProductList}}">
+<view style="clear:both;">
+<image src="https://{{item.detailImageUrl}}" class="img"></image>
+<view class="description">
+<text>{{item.productName}}</text>
+<view style="margin-top:20rpx">{{item.time}}</view>
+</view>
+</view> 
+</block>
+</scroll-view> -->
+
+<view>
+ <view>
+  <scroll-view class="scroll" scroll-top="{{scrollTop}}" style="height:580px;" scroll-y="true" bindscroll="scrll"  bindscrolltolower="loadMore">
+   <view class="block" wx:for="{{myProductList}}" wx:for-item="item">
+   <image src="https://{{item.detailImageUrl}}" class="img"></image> <text>{{item.productName}}</text>
+   </view>  
+  </scroll-view>
+ </view>
+ <view class="top" hidden="{{hidden}}" catchtap="goTop">⇧</view>
+</view>

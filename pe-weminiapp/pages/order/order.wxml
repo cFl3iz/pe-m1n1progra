@@ -2,11 +2,11 @@
 <view class="containsView">
   <!-- 顶部导航栏 -->
   <view class="headerView">
-    <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
+    <!-- <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
       <view catchtap="onTapTag" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
         {{item.title}}
       </view>
-    </block>
+    </block> -->
   </view>
   <!--scrollview-->
   <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">

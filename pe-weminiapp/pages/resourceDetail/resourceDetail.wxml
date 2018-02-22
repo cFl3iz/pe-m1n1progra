@@ -20,7 +20,7 @@
       <view class="d-right">
         <view class="q-info">
           <view class="q-man">
-            <image src="{{wenda.user.avatar}}" class="q-avatar"></image>
+            <image src="https://{{wenda.user.avatar}}" class="q-avatar"></image>
             <view class="q-asker">
               <text class="name">{{wenda.user.name}}</text>
               <text class="title">{{wenda.user.title}}</text>
@@ -43,7 +43,7 @@
       </view>
     </view>
     <view class="item-doc" wx:if="{{wenda.source_info.title}}">
-      <image class="item-doc-avatar" src="{{wenda.source_info.h_cover_url}}" mode="aspectFill"></image>
+      <image class="item-doc-avatar" src="https://{{wenda.source_info.h_cover_url}}" mode="aspectFill"></image>
       <view class="item-doc-info">
         <text class="doc-title">{{wenda.source_info.title}}</text>
         <text class="doc-desc">{{wenda.source_info.desc}}</text>

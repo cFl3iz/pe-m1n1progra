@@ -1,0 +1,42 @@
+<!--setting.wxml-->
+<view class="wrapper">
+    <form>
+        <view class="ground">
+            <text class="info">资源日</text>
+            <picker mode="date" value="{{date}}" bindchange="bindDateChange">
+                <view class="picker-show">
+                    {{date}}
+                </view>
+            </picker>
+            <view class="right-arrow">
+                <image mode="aspectFit" src="../../images/icon/right_arrow@3x.png"></image>
+            </view>
+        </view>
+        <view class="ground">
+            <text class="info">想看异性资源?</text>
+            <radio-group class="radio-group" bindchange="radioChange">
+                <label class="radio">
+                        <radio name="sex" color="#3acebb" value="0" />男
+                    </label>
+                <label class="radio">
+                        <radio name="sex" color="#3acebb" value="1" />女
+                    </label>
+            </radio-group>
+        </view>
+        <view class="group">
+            <view class="title">资源特征类型</view>
+            <checkbox-group bindchange="checkboxChange">
+                <label class="checkbox" wx:for="{{taste}}">
+                    <checkbox value="{{item}}" checked="{{item.checked}}"/>{{item}}
+                </label>
+            </checkbox-group>
+        </view>
+         <view class="group">
+           <view class="section__title">维度</view>
+           <slider step='1' min='1' value="1" max='3' bindchange='changeSlider' name="slider" show-value ></slider>
+        </view>
+        <view class="btn-area">
+             <button class="default" type="primary" hover-class="default-hover" formType="submit" loading="true" bindtap="findByAnd" >检 索</button>
+        </view>
+    </form>
+</view>

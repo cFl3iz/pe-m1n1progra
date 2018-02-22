@@ -7,6 +7,19 @@ App({
   //初始化APP
   onLaunch: function () {
     console.log('启动APP')
+    wx.onUserCaptureScreen(function (res) {
+      wx.showModal({
+        title: '提示',
+        content: '你截屏想给谁看?要我帮你打开分享吗?',
+        success: function (res) {
+          if (res.confirm) {
+            
+          } else if (res.cancel) {
+             
+          }
+        }
+      })
+    })
   },
   towxml: new Towxml(),
   user: new User(),
@@ -51,6 +64,22 @@ App({
           resolve(code)
         }
       })
+    })
+  },
+  getUnionId: function (code) {
+    console.log('获取unicodeId' + code)
+    const that = this
+    const url = ServiceUrl.platformManager + 'jscode2session'
+    const data = {
+      code: code
+    }
+    Request.postRequest(url, data).then(function (data) {
+      console.log('设置全局unicodeId = ' + data)
+      const unicodeId = data
+      app.globalData.unicodeId = unicodeId //设置全局unicodeId
+      return unicodeId
+    }).then(function (data) {
+      that.get_data(data)
     })
   },
   //获取用户信息

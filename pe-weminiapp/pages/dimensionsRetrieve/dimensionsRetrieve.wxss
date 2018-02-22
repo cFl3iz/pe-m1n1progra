@@ -1,5 +1,30 @@
 @import '/assets/styles/iconfont.wxss';
 
+ .panel-head {
+  height: 96rpx;
+  line-height: 96rpx;
+  margin-bottom: 0;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+ .panel-head-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+ .panel-head-more {
+  float: right;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.panel-head-more image{
+    width: 24rpx;
+    height: 24rpx;
+    vertical-align: middle;
+}
+
 .q-item {
   display: flex;
   background: #fff;

@@ -1,7 +1,7 @@
 <block wx:if="{{show_page}}">
   <view class="">
     <view class="book-detail-x">
-      <image src="{{doc.cover_url}}" class="book-cover-blur"></image>
+      <image src="https://{{doc.cover_url}}" class="book-cover-blur"></image>
       <view class="info-top">
         <view class="top-main">
 
