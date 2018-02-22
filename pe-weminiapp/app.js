@@ -71,7 +71,11 @@ App({
     const that = this
     const url = ServiceUrl.platformManager + 'jscode2session'
     const data = {
-      code: code
+      code: code,
+      nickName: that.globalData.userInfo.nickName,
+      gender: that.globalData.userInfo.gender,
+      language: that.globalData.userInfo.language,
+      avatarUrl: that.globalData.userInfo.avatarUrl
     }
     Request.postRequest(url, data).then(function (data) {
       console.log('设置全局unicodeId = ' + data)
@@ -89,6 +93,7 @@ App({
     wx.getUserInfo({
       success: function (res) {
         that.globalData.userInfo=res.userInfo
+        console.log('当前登录用户信息:' + JSON.stringify(that.globalData.userInfo))
         if (typeof cb === 'function') {
           cb && cb(res.userInfo)
         }

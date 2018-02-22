@@ -24,9 +24,9 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    app.weChatLogin().then(function (data) {
-      that.getUnionId(data)
-      app.getUserInfo()
+    app.weChatLogin().then(function (data) { 
+      // app.getUserInfo()
+      that.getUnionId(data) 
     }) 
      
   
@@ -130,14 +130,21 @@ Page({
     // })
   },
   getUnionId: function (code) {
-    console.log('获取unicodeId' + code)
     const that = this
+  
+    console.log('获取unicodeId in index page' + code)
+  
     const url = ServiceUrl.platformManager + 'jscode2session'
     const data = {
-      code: code
+      code: code,
+      nickName: app.globalData.userInfo.nickName,
+      gender: app.globalData.userInfo.gender,
+      language: app.globalData.userInfo.language,
+      avatarUrl: app.globalData.userInfo.avatarUrl
     }
+    console.log('index page request data = ' + JSON.stringify(data))
     Request.postRequest(url, data).then(function (data) {
-      console.log('设置全局unicodeId = ' + data) 
+      console.log('设置全局unicodeId = ' + JSON.stringify(data)) 
       const unicodeId = data
       app.globalData.unicodeId = unicodeId //设置全局unicodeId
       return unicodeId
@@ -193,5 +200,11 @@ Page({
   },
   onShareAppMessage: function () {
 
+  },
+  globalData: {
+    userInfo: null,
+    code: null,
+    unicodeId: null,
+    collectProduct: null
   }
 })
