@@ -18,17 +18,17 @@ Page({
     list: [
       {
         orderId: 1,
-        productName: '照相机',
+        productName: '照相机询价',
         detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
       {
         orderId: 2,
-        productName: 'aaa',
+        productName: '芒果询价',
         detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
       {
         orderId: 3,
-        productName: 'bbb',
+        productName: '男装询价',
         detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
     ],
@@ -64,8 +64,8 @@ Page({
   //获取订单数据
   getCollectProduct: function (reqScopeOpenId) {
     const that = this
-    console.log('获取我的订单:' + app.globalData.unicodeId)
-    const url = ServiceUrl.platformManager + 'queryMyOrder'
+  
+    const url = ServiceUrl.platformManager + 'queryCustRequestList'
     let openId = app.globalData.unicodeId
     if (!openId){
       openId = reqScopeOpenId
@@ -74,12 +74,13 @@ Page({
       unioId: openId
     }
     Request.postRequest(url, data).then(function (data) {
+      console.log("我的请求:" + JSON.stringify(data))
       
-      const { code: code, orderList: orderList } = data
+      const { code: code, custRequestList: custRequestList } = data
       if (code === '200') {
-        console.log("我的订单:" + JSON.stringify(data))
+        
         that.setData({
-          list: orderList
+          list: custRequestList
         })
       }
     })
@@ -90,9 +91,14 @@ Page({
   },
   viewOrderItem(e) {
     let orderid = e.currentTarget.dataset.orderid
-    
-    wx.navigateTo({
-      url: '../orderDetail/orderDetail?orderId=' + orderid
-    })
+    wx.showToast({
+      title: '卖家还没给回馈',
+      icon: 'loading',
+      duration: 1000
+    });
+
+    // wx.navigateTo({
+    //   url: '../orderDetail/orderDetail?orderId=' + orderid
+    // })
   },
 })

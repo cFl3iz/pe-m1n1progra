@@ -1,4 +1,32 @@
 /* mybook.wxss */
+.aon{
+position: absolute;
+white-space:nowrap;/* 防止向下换行*/
+font-size:27px;
+}
+.doommview{
+  z-index: 3;
+  height: 80%;
+  width: 100%;
+  position: absolute;
+}
+/**定义从右边向左边的移动的动画**/
+@keyframes first{
+  from{left: 100%; }
+  to{left: -100%;}
+}
+.leftbtn{
+  float:left;
+  width:49%;
+  background-color:green;
+  color:#dddddd;
+}
+.rightbtn{
+  float:right;
+  width:49%;
+  background-color: #58aced;
+  color:#dddddd;
+}
 .page-wrapper{
     padding-top: 10rpx;
     padding-bottom: 180rpx;

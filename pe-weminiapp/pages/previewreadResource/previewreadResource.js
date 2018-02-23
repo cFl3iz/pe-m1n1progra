@@ -1,9 +1,10 @@
 
 var app = getApp()
+var page = undefined;
 // common utils.js
 let utils = require('../../utils/util.js');
 import Request from '../../utils/request.js'
-import ServiceUrl from '../../utils/serviceUrl.js' 
+import ServiceUrl from '../../utils/serviceUrl.js'
 // mybook.js
 Page({
 
@@ -11,7 +12,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    productid:null,
+    payToPartyId: '',
+    doommData: [],
+    productid: null,
+    productModel: '',
     bookInfo: {}, // 书本信息
     bookInfoData: {}, // 书本信息不更新到页面
     commentPageNum: 1, // 评论页码
@@ -25,28 +29,30 @@ Page({
    */
   onLoad: function (options) {
 
-
+    page = this;
 
     const that = this
 
     var unicodeId = app.globalData.unicodeId
-   
+
     console.log('unicodeId=>' + unicodeId)
 
-    if (unicodeId==null){
+    if (unicodeId == null) {
       app.weChatLogin().then(function (data) {
         app.getUnionId(data)
         // app.getUserInfo()
-      }) 
+      })
     }
-     unicodeId = app.globalData.unicodeId
+    unicodeId = app.globalData.unicodeId
 
     console.log(' after unicodeId=>' + unicodeId)
 
     console.log('options.productid=>' + options.productid)
-
+    console.log('options.productModel=>' + options.productModel)
     that.setData({
-      productid: options.productid
+      productid: options.productid,
+      productModel: options.productModel,
+      payToPartyId: options.payToPartyId
       // bookInfo: options,
       // bookInfoData: options
     });
@@ -65,21 +71,94 @@ Page({
     //     });
     //   }
     // })
-    
-   
+
+
 
     wx.setNavigationBarTitle({
       // title: that.data.bookInfo.title
-      title:'我的资源'
+      title: '资源介绍'
     });
+
+    that.getCollectProduct();
+
   },
-  contactB:function(){
+  getCollectProduct: function () {
+    const that = this
+
+    const url = ServiceUrl.platformManager + 'queryCustRequestListByProduct'
+    //const url = ServiceUrl.platformManager + 'queryCustRequestList'
+    let productId = that.data.productid
+
+    const reqdata = {
+      productId: productId
+    }
+    // const reqdata = {
+    //   unioId: 'o3kcL1sG1pwsuWLCcfRaCbVdx66A'
+    // }
+    Request.postRequest(url, reqdata).then(function (data) {
+      console.log("请求列表->:" + JSON.stringify(reqdata))
+      console.log("请求列表:" + JSON.stringify(data))
+
+      const { code: code, custRequestList: custRequestList } = data
+      if (code === '200') {
+        for (var custRequest in custRequestList) {
+          var line = custRequestList[custRequest].createdDate + custRequestList[custRequest].user.firstName+'购买过..';
+          doommList.push(new Doomm(line, Math.ceil(Math.random() * 100), Math.ceil(Math.random() * 10), getRandomColor()));
+          that.setData({
+            doommData: doommList
+          })
+        }
+
+      }
+
+
+    })
+  },
+  bindbt: function () {
+    doommList.push(new Doomm("龙熙购买过", Math.ceil(Math.random() * 100), Math.ceil(Math.random() * 10), getRandomColor()));
+    this.setData({
+      doommData: doommList
+    })
+  },
+  goHome: function (e) {
+    console.log('go home ')
+    wx.reLaunch({
+      url: '../dimensionsRetrieve/dimensionsRetrieve'
+    })
+  },
+  contactB: function () {
     wx.makePhoneCall({
       phoneNumber: '15000035538' //仅为示例，并非真实的电话号码
     })
   },
-  
-  flushData :function(productid){
+  contactC: function () {
+    console.log('productid=' + this.data.productid)
+    console.log('payToPartyId=' + this.data.payToPartyId)
+
+    var that = this
+    const data = {
+      productId: this.data.productid,
+      payToPartyId: this.data.payToPartyId,
+      unioId: app.globalData.unicodeId
+    }
+    Request.postRequest('https://www.yo-pe.com/api/common/createCustRequestFromMiniApp', data).then
+      (
+      function (data) {
+        console.log('>>>>>>>>>>>>>>>>>>>>>> data = ' + JSON.stringify(data))
+        wx.vibrateShort({
+          complete: function (res) {
+            wx.showToast({
+              title: '询价成功!',
+              icon: 'success',
+              duration: 2000
+            }); 
+          }
+        });
+      }
+      )
+  },
+
+  flushData: function (productid) {
     var that = this
     const data = {
       unioId: app.globalData.unicodeId,
@@ -103,7 +182,7 @@ Page({
         }
 
       }
-      )  
+      )
   },
 
   /**
@@ -155,9 +234,9 @@ Page({
     console.log('that.data.productid = ' + that.data.productid)
     return {
       title: '我发现了一个好东西,分享给你',
-      path: '/pages/previewreadResource/previewreadResource?productid=' + that.data.productid,
+      path: '/pages/previewreadResource/previewreadResource?productModel=' + that.data.productModel + '&productid=' + that.data.productid + '&payToPartyId=' + that.data.payToPartyId,
       success: function (res) {
-        // 转发成功
+        // 转发成功productModel
       },
       fail: function (res) {
         // 转发失败
@@ -201,7 +280,7 @@ Page({
 
       const data = {
         unioId: app.globalData.unicodeId,
-        productId:that.data.productid,
+        productId: that.data.productid,
         text: event.detail.value.comment
       }
 
@@ -209,22 +288,22 @@ Page({
 
       Request.postRequest('https://www.yo-pe.com/api/common/tuCao', data).then
         (
-          function (data) { 
+        function (data) {
 
-            console.log('data=' + JSON.stringify(data))
+          console.log('data=' + JSON.stringify(data))
 
-            if (data.code == 200){
-              wx.showToast({
-                title: '吐槽成功!',
-                icon: 'success',
-                duration: 10000
-              })
-              that.flushData(that.data.productid)
-            }else{
+          if (data.code == 200) {
+            wx.showToast({
+              title: '吐槽成功!',
+              icon: 'success',
+              duration: 10000
+            })
+            that.flushData(that.data.productid)
+          } else {
 
-            }
-              
           }
+
+        }
         )
       // getApp().addComment(that.data.bookInfo.bookid, that.data.bookInfo.reader, event.detail.value.comment, function (res) {
       //   if (res.code == 0) {
@@ -328,39 +407,39 @@ Page({
   likeIt: function (event) {
     let that = this;
     if (that.data.bookInfo.is_like == 'false') {
-    const data = {
-      unioId: app.globalData.unicodeId,
-      productId: that.data.productid 
-    } 
+      const data = {
+        unioId: app.globalData.unicodeId,
+        productId: that.data.productid
+      }
 
-    Request.postRequest('https://www.yo-pe.com/api/common/likeResource', data).then
-      (
-      function (data) {
+      Request.postRequest('https://www.yo-pe.com/api/common/likeResource', data).then
+        (
+        function (data) {
 
-        console.log('data=' + JSON.stringify(data))
+          console.log('data=' + JSON.stringify(data))
 
-        if (data.code == 200) {
-          wx.showToast({
-            title: '点赞成功',
-            icon: 'success',
-            duration: 2000
-          }) 
-          that.flushData(that.data.productid)
-        } else {
+          if (data.code == 200) {
+            wx.showToast({
+              title: '点赞成功',
+              icon: 'success',
+              duration: 2000
+            })
+            that.flushData(that.data.productid)
+          } else {
+
+          }
 
         }
+        )
 
-      }
-      )
-
-    }else{
+    } else {
       wx.showToast({
         title: '您已经赞过了',
         icon: 'success',
         duration: 2000
-      }) 
+      })
     }
-  
+
     // if (that.data.bookInfoData.hasLiked == 1) {
     //   that.data.bookInfoData.hasLiked = 0;
     //   that.data.bookInfoData.likeCnt = that.data.bookInfoData.likeCnt - 1;
@@ -383,3 +462,32 @@ Page({
   }
 
 })
+var doommList = [];
+var i = 0;//用做唯一的wx:key
+class Doomm {
+  constructor(text, top, time, color) {
+    //this.text = text + i;
+    this.text = text;
+    this.top = top;
+    this.time = time;
+    this.color = color;
+    this.display = true;
+    let that = this;
+    this.id = i++;
+    setTimeout(function () {
+      doommList.splice(doommList.indexOf(that), 1);//动画完成，从列表中移除这项
+      page.setData({
+        doommData: doommList
+      })
+    }, this.time * 2000)//定时器动画完成后执行。
+  }
+}
+function getRandomColor() {
+  let rgb = []
+  for (let i = 0; i < 3; ++i) {
+    let color = Math.floor(Math.random() * 256).toString(16)
+    color = color.length == 1 ? '0' + color : color
+    rgb.push(color)
+  }
+  return '#' + rgb.join('')
+}

@@ -7,6 +7,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    items: [
+      { name: 'BUY', value: '可直接购买' },
+      { name: 'CONTACT', value: '请联系我', checked: 'true' }
+    ],
+    hiddenmodalput: true,  
+    productModel:'CONTACT',
+    kuCun:'',
     bookId: '', //书本ID
     bookCover: '', // 书本封面
     book: {}, // 书本信息
@@ -15,7 +22,27 @@ Page({
     pagesData: [], //页面信息，不更新到页面
     idx: 0 // 页面编号 用于添加页面使用
   },
-
+  radioChange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    let that = this
+    that.setData(
+      {
+        productModel:e.detail.value
+      }
+    )
+    console.log('that.data.productModel=', that.data.productModel)
+  },
+  cancelmodel:function(e){
+      this.setData({
+        hiddenmodalput:true
+      })
+      return false;
+  },
+  confirmmodel:function(e){
+    this.setData({
+      hiddenmodalput: true
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -48,6 +75,7 @@ Page({
       });
     }
   },
+ 
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -126,7 +154,7 @@ Page({
   goToSharePage : function(mapObj){
     console.log('mapObj=' + mapObj)
     wx.redirectTo({
-      url: "../previewreadResource/previewreadResource?productid=" + JSON.parse(mapObj).productId
+      url: "../previewreadResource/previewreadResource?productModel=" + this.data.productModel + "&productid=" + JSON.parse(mapObj).productId + "&payToPartyId=" + JSON.parse(mapObj).payToPartyId
     }) 
   },
 
@@ -139,6 +167,7 @@ Page({
   },
   formSubmit: function (e) {
     let that = this
+   
     if (this.data.bookCover == '' ){
       wx.showToast({
         title: '请选择图片!',
@@ -155,8 +184,15 @@ Page({
       })
       return false
     }
+   
+    // if (this.data.productModel == 'BUY') {
+    //   that.setData({
+    //     hiddenmodalput: !that.data.hiddenmodalput
+    //   })
+    // }
+
      wx.showToast({
-      title: '正在拼命发布,请稍后...',
+      title: '正在发布..',
       icon: 'loading',
       duration: 10000
      })
@@ -169,6 +205,7 @@ Page({
         name: 'file',
         formData: {
           title: e.detail.value.title,
+          kuCun: e.detail.value.kuCun,
           desc: e.detail.value.author,
           unioId: app.globalData.unicodeId
         },
@@ -353,7 +390,8 @@ Page({
     let that = this;
     wx.chooseImage({
       count: 1, // 默认9
-      sizeType: ['original'], // original 原图，compressed 压缩图，默认二者都有
+     // sizeType: ['original'],  original 原图，compressed 压缩图，默认二者都有
+      sizeType: ['compressed'],
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片

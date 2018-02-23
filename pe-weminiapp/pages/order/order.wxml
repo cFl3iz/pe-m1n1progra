@@ -15,12 +15,12 @@
       <view data-orderId="{{item.orderId}}" bindtap="viewOrderItem" class="topContainsView">
         <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
         <view class="topRightView">
-          <text class="topRightName">{{item.productName}}</text>
-          <text class="topRightTime">￥500</text>
+          <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
+          <text class="topRightTime">￥{{item.price}}</text>
           <!--销量和评价-->
           <view class="saleAndcom">
             <text class="saletext">{{item.storeName}}</text>
-            <text class="saleRightText">50条评价 销量100</text>
+            <text class="saleRightText">{{item.description}}</text>
           </view>
         </view>
       </view>
