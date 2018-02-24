@@ -31,7 +31,7 @@
 <view class="text-box">
   <label>位置
   </label>
-  <input data-name="location" name="location" disabled="true" maxlength="-1" placeholder='点击右侧获取资源位置 (可不填写)' value='{{address}}'></input>
+  <input data-name="address" name="address" disabled="true" maxlength="-1" placeholder='点击右侧获取资源位置 (可不填写)' value='{{address}}'></input>
   <icon class='locationIcon' type='search' bindtap='getUserLocation'>
   </icon>
 </view>

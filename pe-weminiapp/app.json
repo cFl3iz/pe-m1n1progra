@@ -1,12 +1,9 @@
 {
   "pages": [ 
+     "pages/dimensionsRetrieve/dimensionsRetrieve",
     "pages/addimages/addimages",
-    "pages/dimensionsRetrieve/dimensionsRetrieve",
-    "pages/resourceDetail/resourceDetail",
-    "pages/previewreadResource/previewreadResource",
-    "pages/doc-info/doc-info",
-    "pages/setting/setting",
-    "pages/tucao-reply-post/tucao-reply-post",
+    "pages/previewreadResource/previewreadResource", 
+    "pages/setting/setting", 
     "pages/order/order",
     "pages/releaseResource/releaseResource",
     "pages/orderDetail/orderDetail",

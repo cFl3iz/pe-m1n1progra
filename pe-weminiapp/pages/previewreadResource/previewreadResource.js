@@ -79,7 +79,7 @@ Page({
       title: '资源介绍'
     });
 
-    that.getCollectProduct();
+    // that.getCollectProduct();
 
   },
   getCollectProduct: function () {

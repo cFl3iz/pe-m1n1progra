@@ -17,6 +17,8 @@ var datalist = {
     address:'',
     picturePaths:'',
     upLoadCount:0,
+    latitude:'',
+    longitude:''
 }
 
 Page({
@@ -75,9 +77,7 @@ foreachUploada(e){
      }) 
     // console.log('上传进度', res.progress)
     // console.log('已经上传的数据长度', res.totalBytesSent)
-    // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
-   
-
+    // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend) 
      }) 
     
   }
@@ -96,6 +96,7 @@ foreachUploada(e){
    const url = ServiceUrl.platformManager + 'releaseResource'
     
    
+   console.log('go to release that.data.latitude = ' + that.data.latitude)
 
    const reqdata = {
       title: e.detail.value.title,
@@ -103,6 +104,9 @@ foreachUploada(e){
       desc: e.detail.value.desc,
       price: e.detail.value.price,
       unioId: app.globalData.unicodeId,
+      address: e.detail.value.address,
+      latitude: that.data.latitude,
+      longitude: that.data.longitude,
       filePaths: picturePaths
    } 
    Request.postRequest(url, reqdata).then(function (data) {
@@ -120,7 +124,7 @@ foreachUploada(e){
         showCancel:false,
         success: function (res) {
           if (res.confirm) {
-            that.goToSharePage(productId)
+            that.goToSharePage(data)
           } 
         }
       }) 
@@ -128,9 +132,9 @@ foreachUploada(e){
    
  },
  goToSharePage: function (mapObj) {
-   console.log('mapObj=' + mapObj)
+   console.log('mapObj=' + JSON.stringify(mapObj))
    wx.redirectTo({
-     url: "../previewreadResource/previewreadResource?productModel=" + this.data.productModel + "&productid=" + JSON.parse(mapObj).productId + "&payToPartyId=" + JSON.parse(mapObj).payToPartyId
+     url: "../previewreadResource/previewreadResource?productModel=" + this.data.productModel + "&productid=" + mapObj.productId + "&payToPartyId=" + mapObj.payToPartyId
    })
  },
 formSubmit: function (e) {
@@ -241,8 +245,12 @@ getUserLocation:function(){
   let that = this
   wx.chooseLocation({
     success: function(res) {
+      console.log('getUserLocation - > ' + res.latitude);
+      console.log('getUserLocation - > ' + res.longitude);
         that.setData({
-          address: res.address
+          address: res.address,
+          latitude: res.latitude,
+          longitude: res.longitude
         })
     },
   })
