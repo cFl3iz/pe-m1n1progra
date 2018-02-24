@@ -1,6 +1,6 @@
 const app = getApp()
 import Request from '../../utils/request.js'
-app.getUserInfo();
+// app.getUserInfo();
 Page({
 
   /**

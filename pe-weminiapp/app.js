@@ -6,20 +6,31 @@ const Pages = require('/utils/pages');
 App({
   //初始化APP
   onLaunch: function () {
+    var that = this
     console.log('启动APP')
     wx.onUserCaptureScreen(function (res) {
       wx.showModal({
         title: '提示',
         content: '你截屏想给谁看?要我帮你打开分享吗?',
         success: function (res) {
-          if (res.confirm) {
-            
-          } else if (res.cancel) {
-             
+          if (res.confirm) { 
+          } else if (res.cancel) { 
           }
         }
       })
     })
+   
+    this.weChatLogin().then(
+      function(){
+        console.log('login then ->')
+        that.getUserInfo().then(
+          function(){
+            console.log('>>>>>>>>>>>>>global data  code = ' + that.globalData.code );
+            that.getUnionId(that.globalData.code)
+          }
+        );
+      }
+    ); 
   },
   towxml: new Towxml(),
   user: new User(),
@@ -62,10 +73,12 @@ App({
           var appid = 'wx299644ef4c9afbde';                 //填写微信小程序appid
           var secret = '7ba298224c1ae0f2f00301c8e5b312f7';  //填写微信小程序secret
           resolve(code)
+          that.globalData.code = code;
         }
       })
     })
   },
+  //每次真的要用了再拿
   getUnionId: function (code) {
     console.log('获取unicodeId' + code)
     const that = this
@@ -80,25 +93,27 @@ App({
     Request.postRequest(url, data).then(function (data) {
       console.log('设置全局unicodeId = ' + data)
       const unicodeId = data
-      app.globalData.unicodeId = unicodeId //设置全局unicodeId
-      return unicodeId
-    }).then(function (data) {
-      that.get_data(data)
+      that.globalData.unicodeId = unicodeId //设置全局unicodeId
+      // return unicodeId
     })
+    // .then(function (data) {
+    //   that.get_data(data)
+    // })
   },
   //获取用户信息
   getUserInfo: function (cb) {
-    console.log('获取用户信息')
     const that = this
-    wx.getUserInfo({
-      success: function (res) {
-        that.globalData.userInfo=res.userInfo
-        console.log('当前登录用户信息:' + JSON.stringify(that.globalData.userInfo))
-        if (typeof cb === 'function') {
-          cb && cb(res.userInfo)
+    return new Promise(function (resolve, reject){
+      console.log('获取用户信息') 
+      wx.getUserInfo({
+        success: function (res) {
+          that.globalData.userInfo = res.userInfo
+          resolve(res.userInfo)
+          console.log('当前登录用户信息:' + JSON.stringify(that.globalData.userInfo))
         }
-      }
+      })
     })
+  
   },
   //全局变量
   globalData: {

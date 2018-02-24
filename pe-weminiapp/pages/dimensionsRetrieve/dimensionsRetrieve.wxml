@@ -36,20 +36,18 @@
           <view class="q-tag">javascript</view>
           <view class="q-tag">nginx</view>
         </view>
-        <!-- 单张图片 -->
-        <view class="pic-grid" wx:if="{{item.morePicture.length==''}}">
+        <!-- 单张图片 wx:if="{{item.morePicture.length==''}}" -->
+        <view class="pic-grid" >
 <image mode="aspectFill" src="https://{{item.detailImageUrl}}"   class="pic3"></image>
         </view>
-        <!-- 多张 -->
-        <view class="pic-grid" wx:if="{{item.morePicture.length!=''}}">
+        <!-- 多张的情况先不管 -->
+        <!-- <view class="pic-grid" wx:if="{{item.morePicture.length!=''}}">
           <block wx:if="{{data.total==-1}}">
             <image mode="aspectFill" src="{{item.drObjectInfo}}" wx:for="{{item.morePicture}}" wx:key="{{item}}" class="pic3"></image>
           </block>
           <block wx:if="{{data.total!=-1}}">
             <image mode="aspectFill" src="https://{{item.drObjectInfo}}" wx:for="{{item.morePicture}}" wx:key="{{item}}" class="pic3"></image>
-          </block>
-
-
+          </block> 
           <block wx:if="{{item.pics_type==3}}">
             <image mode="aspectFill" src="{{item.thumb}}" wx:for="{{item.pics_arr}}" wx:key="{{item}}" class="pic3"></image>
           </block>
@@ -59,7 +57,7 @@
           <block wx:if="{{item.pics_type==1}}">
             <image mode="aspectFill" mode="widthFix" src="{{item.thumb}}" wx:for="{{item.pics_arr}}" wx:key="{{item}}" class="pic1"></image>
           </block>
-        </view>
+        </view> -->
         <view class="from-line">
           <view class="from-left">
             <block wx:if="{{item.source_info.title}}">来自：

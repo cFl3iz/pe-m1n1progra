@@ -133,10 +133,14 @@ Page({
     const that = this
     const url = ServiceUrl.platformManager + 'jscode2session'
     const data = {
-      code: code
+      code: code,
+      nickName: app.globalData.userInfo.nickName,
+      gender: app.globalData.userInfo.gender,
+      language: app.globalData.userInfo.language,
+      avatarUrl: app.globalData.userInfo.avatarUrl
     }
     Request.postRequest(url, data).then(function (data) {
-      console.log('设置全局unicodeId = ' + data)
+      console.log('indetail 设置全局unicodeId = ' + JSON.stringify(data))
       const unicodeId = data
       app.globalData.unicodeId = unicodeId //设置全局unicodeId
       return unicodeId

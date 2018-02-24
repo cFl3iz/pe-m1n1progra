@@ -10,6 +10,21 @@ function formatTime(date) {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+// 删除本地的Storage
+var removeStorage = function (key) {
+  wx.removeStorage({
+    key: key,
+    success: function (res) {
+    }
+  })
+};
+// 添加本地的Storage
+var setStorage = function (key, val) {
+  wx.setStorage({
+    key: key,
+    data: val
+  })
+};
 
 function formatNumber(n) {
   n = n.toString()
@@ -17,6 +32,9 @@ function formatNumber(n) {
 }
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  removeStorage: removeStorage,
+  setStorage: setStorage
 }
+ 
  

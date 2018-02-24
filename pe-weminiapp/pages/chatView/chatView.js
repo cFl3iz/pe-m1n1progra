@@ -1,5 +1,5 @@
 const app = getApp()
-app.getUserInfo();
+// app.getUserInfo();
 Page({
 
   /**
