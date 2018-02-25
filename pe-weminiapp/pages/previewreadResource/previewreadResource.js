@@ -48,11 +48,11 @@ Page({
     console.log(' after unicodeId=>' + unicodeId)
 
     console.log('options.productid=>' + options.productid)
-    console.log('options.productModel=>' + options.productModel)
+    console.log('options.paytopartyid=>' + options.paytopartyid)
     that.setData({
       productid: options.productid,
       productModel: options.productModel,
-      payToPartyId: options.payToPartyId
+      payToPartyId: options.paytopartyid
       // bookInfo: options,
       // bookInfoData: options
     });
@@ -157,8 +157,18 @@ Page({
       }
       )
   },
+  openLocationByAddress(e){
+    console.log('open wx location ! e.target.dataset.la =' + e.target.dataset.la)
+    console.log('open wx location !  e.target.dataset.lg =' + e.target.dataset.lg)
+    wx.openLocation({
+      latitude: Number(e.target.dataset.la),
+      longitude:Number(e.target.dataset.lg),
+      scale: 28
+    })
+  },
 
   flushData: function (productid) {
+    console.log(' flush data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     var that = this
     const data = {
       unioId: app.globalData.unicodeId,
@@ -167,6 +177,7 @@ Page({
     Request.postRequest('https://www.yo-pe.com/api/common/queryResourceDetail', data).then
       (
       function (data) {
+        console.log('return data = ' + JSON.stringify(data))
         // console.log('data.resourceDetail=' + data)
         if (data.resourceDetail == undefined) {
           // that.setDemoData()
@@ -299,6 +310,11 @@ Page({
               duration: 10000
             })
             that.flushData(that.data.productid)
+
+            that.setData({
+              showComment: false
+            });
+
           } else {
 
           }

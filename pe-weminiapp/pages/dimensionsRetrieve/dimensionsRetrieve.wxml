@@ -5,13 +5,17 @@
   </navigator>
 </view>
 <block wx:if="{{show_page}}" >
-  <block wx:for="{{data.resourcesList}}"  wx:key="{{item}}" >
-     <view bindtap="goDetail" data-productId='{{item.productId}}'  bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd" class="q-item">
+  <block wx:for="{{data.resourcesList}}"  wx:key="{{item}}" > 
+     <view bindtap="goDetail" data-productId='{{item.productId}}'  data-payToPartyId='{{item.contactPartyId}}' bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd" class="q-item">
      <!-- <navigator   url="/pages/doc-info/doc-info?productid={{item.productId}}" class="q-item">  -->
       <view class="q-left">
         <view class="q-status">
-          <view class="answer-num">{{item.reply_count}}9人</view>
-          <view>喜欢</view>
+          <view class="answer-num" >
+          {{
+           item.juLi
+          }}  
+          </view>
+          <view class='km'>Km</view>
         </view>
       </view>
       <view class="q-right">
@@ -60,6 +64,7 @@
         </view> -->
         <view class="from-line">
           <view class="from-left">
+            {{item.address}}
             <block wx:if="{{item.source_info.title}}">来自：
               <text class="redFont">{{item.source_info.title}}</text>
             </block>

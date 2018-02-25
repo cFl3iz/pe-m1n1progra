@@ -6,11 +6,11 @@ Page({
   },
   onLoad: function () {
     const that = this
-    app.getUserInfo(function(data){
+    // app.getUserInfo(function (data) { })
       that.setData({
-        userInfo:data
+        userInfo: app.globalData.userInfo
       })
-    })
+    
   },
   //点击管理地址
   addressAdd(e) {

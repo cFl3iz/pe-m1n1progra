@@ -7,6 +7,21 @@ App({
   //初始化APP
   onLaunch: function () {
     var that = this
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        var latitude = res.latitude
+        var longitude = res.longitude
+        var speed = res.speed
+        var accuracy = res.accuracy
+        // console.log('latitude=' + latitude)
+        // console.log('longitude=' + longitude)
+        that.globalData.latitude = latitude;
+        that.globalData.longitude = longitude;
+      }
+    }) 
+
+
     console.log('启动APP')
     wx.onUserCaptureScreen(function (res) {
       wx.showModal({
@@ -24,13 +39,14 @@ App({
       function(){
         console.log('login then ->')
         that.getUserInfo().then(
-          function(){
-            console.log('>>>>>>>>>>>>>global data  code = ' + that.globalData.code );
+          function(){ 
+          //  console.log('>>>>>>>>>>>>>global data  code = ' + that.globalData.code );
             that.getUnionId(that.globalData.code)
           }
         );
       }
     ); 
+ 
   },
   towxml: new Towxml(),
   user: new User(),
@@ -80,7 +96,7 @@ App({
   },
   //每次真的要用了再拿
   getUnionId: function (code) {
-    console.log('获取unicodeId' + code)
+    // console.log('获取unicodeId' + code)
     const that = this
     const url = ServiceUrl.platformManager + 'jscode2session'
     const data = {
@@ -109,7 +125,7 @@ App({
         success: function (res) {
           that.globalData.userInfo = res.userInfo
           resolve(res.userInfo)
-          console.log('当前登录用户信息:' + JSON.stringify(that.globalData.userInfo))
+          console.log('当前登录用户:' + JSON.stringify(that.globalData.userInfo.nickName))
         }
       })
     })
@@ -120,6 +136,8 @@ App({
     userInfo: null,
     code: null,
     unicodeId: null,
-    collectProduct: null
+    collectProduct: null,
+    latitude:null,
+    longitude:null
   }
 })
