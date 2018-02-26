@@ -4,7 +4,7 @@
     <swiper wx:if="{{bookInfo.morePicture != ''}}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
       <block wx:for="{{bookInfo.morePicture}}">
         <swiper-item>
-          <image src="https://{{item.drObjectInfo}}" class="slide-image" />
+          <image bindtap='previewImage' data-src="https://{{item.drObjectInfo}}" src="https://{{item.drObjectInfo}}" class="slide-image" />
         </swiper-item>
       </block>
     </swiper>
@@ -12,7 +12,7 @@
  <swiper wx:if="{{bookInfo.morePicture == ''}}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
        
         <swiper-item>
-          <image src="https://{{bookInfo.cover_url}}" class="slide-image" />
+          <image bindtap='previewImage' data-src="https://{{bookInfo.cover_url}}" src="https://{{bookInfo.cover_url}}" class="slide-image" />
         </swiper-item>
     
     </swiper>

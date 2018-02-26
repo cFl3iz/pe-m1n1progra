@@ -36,8 +36,7 @@ App({
     })
    
     this.weChatLogin().then(
-      function(){
-        console.log('login then ->')
+      function(){ 
         that.getUserInfo().then(
           function(){ 
           //  console.log('>>>>>>>>>>>>>global data  code = ' + that.globalData.code );
@@ -85,6 +84,7 @@ App({
     return new Promise(function (resolve, reject) {
       wx.login({
         success: function (loginok) {
+          console.log('>Login Over -> ' + JSON.stringify(loginok))
           var code = loginok.code;
           var appid = 'wx299644ef4c9afbde';                 //填写微信小程序appid
           var secret = '7ba298224c1ae0f2f00301c8e5b312f7';  //填写微信小程序secret

@@ -18,7 +18,8 @@ var datalist = {
     picturePaths:'',
     upLoadCount:0,
     latitude:'',
-    longitude:''
+    longitude:'',
+    tel:''
 }
 
 Page({
@@ -35,6 +36,59 @@ previewImage: function (e) {
     urls: this.data.arrimg // 需要预览的图片http链接列表  
   })
 },
+getPhoneNumber: function (e) {
+  var that = this
+  console.log(e.detail.errMsg)
+  console.log(e.detail.iv)
+  console.log(e.detail.encryptedData)
+  if (e.detail.errMsg == 'getPhoneNumber:fail user deny') {
+    wx.showModal({
+      title: '提示',
+      showCancel: false,
+      content: '(灬ꈍ ꈍ灬)不要拒绝嘛~',
+      success: function (res) { }
+    })
+  } else {
+    wx.showModal({
+      title: '提示',
+      showCancel: false,
+      content: '谢主隆恩',
+      success: function (res) {
+        that.getTelFromEncryptedData(e.detail.iv,e.detail.encryptedData);
+       }
+    })
+  }
+},  
+ //去后台解密拿手机号
+ getTelFromEncryptedData(iv,encryptedData){
+   var that = this
+   let code = app.globalData.code
+   console.log('getTelFromEncryptedData code=' + code)
+   const data = {
+     code: code,
+     iv: iv,
+     encryptedData: encryptedData
+   }
+
+   Request.postRequest('https://www.yo-pe.com/api/common/getTelFromEncryptedData', data).then
+     (
+     function (data) {
+
+       console.log('data=' + JSON.stringify(data))
+
+       if (data.code == 200) {
+         that.setData(
+           {
+             tel:data.tel
+           }
+         )
+       } else {
+
+       }
+
+     }
+     )
+ },
 foreachUploada(e){
   let that = this
   let count = that.data.arrimg.length

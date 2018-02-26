@@ -16,6 +16,7 @@ Page({
     doommData: [],
     productid: null,
     productModel: '',
+    shareName:'',
     bookInfo: {}, // 书本信息
     bookInfoData: {}, // 书本信息不更新到页面
     commentPageNum: 1, // 评论页码
@@ -81,6 +82,29 @@ Page({
 
     // that.getCollectProduct();
 
+  },
+  previewImage: function (e) {
+    var current = e.target.dataset.src;
+    var that = this
+    console.log('current='+current)
+    var pictureArray = []
+    //   pictureArray = that.data.bookInfo.morePicture
+    console.log('that.data.bookInfo.morePicture=' + JSON.stringify(that.data.bookInfo.morePicture))
+   
+    if (that.data.bookInfo.morePicture.length == 0 || that.data.bookInfo.morePicture[0].drObjectInfo==null){
+      pictureArray.push(current)
+    }else{
+      for (var i = 0; i < that.data.bookInfo.morePicture.length; i++) {
+        var rowPic = that.data.bookInfo.morePicture[i]
+        pictureArray.push('https://'+rowPic.drObjectInfo)
+      }
+    }
+    console.log(pictureArray)
+
+    wx.previewImage({
+      current: current, // 当前显示图片的http链接  
+      urls: pictureArray // 需要预览的图片http链接列表  
+    })
   },
   getCollectProduct: function () {
     const that = this
@@ -185,6 +209,7 @@ Page({
           console.log('return data = ' + JSON.stringify(data))
           that.setData({
             bookInfo: data.resourceDetail,
+            shareName: data.resourceDetail.title,
             data: data,
             bookInfoData: true,
             comments: data.resourceDetail.tuCaoList
@@ -243,8 +268,9 @@ Page({
   onShareAppMessage: function () {
     let that = this
     console.log('that.data.productid = ' + that.data.productid)
+    var shareName = that.data.shareName
     return {
-      title: '我发现了一个好东西,分享给你',
+      title: shareName,
       path: '/pages/previewreadResource/previewreadResource?productModel=' + that.data.productModel + '&productid=' + that.data.productid + '&payToPartyId=' + that.data.payToPartyId,
       success: function (res) {
         // 转发成功productModel
