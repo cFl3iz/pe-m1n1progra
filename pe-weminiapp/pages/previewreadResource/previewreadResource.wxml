@@ -1,7 +1,7 @@
 <view class="container">
 
   <view>
-    <swiper wx:if="{{bookInfo.morePicture != ''}}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
+    <swiper wx:if="{{bookInfo.morePicture[0].drObjectInf != null }}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
       <block wx:for="{{bookInfo.morePicture}}">
         <swiper-item>
           <image bindtap='previewImage' data-src="https://{{item.drObjectInfo}}" src="https://{{item.drObjectInfo}}" class="slide-image" />
@@ -9,7 +9,7 @@
       </block>
     </swiper>
 
- <swiper wx:if="{{bookInfo.morePicture == ''}}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
+ <swiper wx:if="{{bookInfo.morePicture[0].drObjectInf == null }}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
        
         <swiper-item>
           <image bindtap='previewImage' data-src="https://{{bookInfo.cover_url}}" src="https://{{bookInfo.cover_url}}" class="slide-image" />
@@ -38,8 +38,13 @@
           <text class="c-block wx-text_TvHPc9" data-c_e_id="wx_text4c27de86">{{bookInfo.title}}</text>
           <text class="price">￥{{bookInfo.price}}
           </text>
-          
-          <view bindtap='openLocationByAddress' data-la='{{bookInfo.latitude}}' data-lg='{{bookInfo.longitude}}' class="c-block wx-text_LS2Jup" data-c_e_id="wx_text41b4b36d">
+          <view wx:if="{{bookInfo.quantityOnHandTotal != null}}">
+           <text class="inventory" >库存:{{bookInfo.quantityOnHandTotal}}
+          </text>
+          </view>
+         
+       
+          <view wx:if="{{bookInfo.address != null}}" bindtap='openLocationByAddress' data-la='{{bookInfo.latitude}}' data-lg='{{bookInfo.longitude}}' class="c-block wx-text_LS2Jup" data-c_e_id="wx_text41b4b36d">
           <image style="width: 15px; height: 15px;" src='../../images/message/map.png'></image>
           {{bookInfo.address}}
           </view>
@@ -114,9 +119,11 @@
         <!-- 一条评论 E-->
     </view>
 
-
+<modal hidden="{{hiddenmodalput}}" title="备注" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
+    <input type='text'placeholder="给卖家的留言.." />  
+</modal>  
  
 <view class="btn-wrapper"> 
-        <button type='leftbtn' catchtap='contactC'  class='leftbtn'>我想要</button>       
+        <button type='leftbtn' catchtap='contactC'  class='leftbtn'>下单</button>       
         <button type='rightbtn' catchtap='contactB'  class='rightbtn'>联系资源主</button>
 </view>

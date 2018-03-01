@@ -12,11 +12,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    contactTel:'',
+    hiddenmodalput:true,
+    quantityOnHandTotal: null,
     payToPartyId: '',
     doommData: [],
     productid: null,
     productModel: '',
-    shareName:'',
+    shareName: '',
     bookInfo: {}, // 书本信息
     bookInfoData: {}, // 书本信息不更新到页面
     commentPageNum: 1, // 评论页码
@@ -86,17 +89,17 @@ Page({
   previewImage: function (e) {
     var current = e.target.dataset.src;
     var that = this
-    console.log('current='+current)
+    console.log('current=' + current)
     var pictureArray = []
     //   pictureArray = that.data.bookInfo.morePicture
     console.log('that.data.bookInfo.morePicture=' + JSON.stringify(that.data.bookInfo.morePicture))
-   
-    if (that.data.bookInfo.morePicture.length == 0 || that.data.bookInfo.morePicture[0].drObjectInfo==null){
+
+    if (that.data.bookInfo.morePicture.length == 0 || that.data.bookInfo.morePicture[0].drObjectInfo == null) {
       pictureArray.push(current)
-    }else{
+    } else {
       for (var i = 0; i < that.data.bookInfo.morePicture.length; i++) {
         var rowPic = that.data.bookInfo.morePicture[i]
-        pictureArray.push('https://'+rowPic.drObjectInfo)
+        pictureArray.push('https://' + rowPic.drObjectInfo)
       }
     }
     console.log(pictureArray)
@@ -126,7 +129,7 @@ Page({
       const { code: code, custRequestList: custRequestList } = data
       if (code === '200') {
         for (var custRequest in custRequestList) {
-          var line = custRequestList[custRequest].createdDate + custRequestList[custRequest].user.firstName+'购买过..';
+          var line = custRequestList[custRequest].createdDate + custRequestList[custRequest].user.firstName + '购买过..';
           doommList.push(new Doomm(line, Math.ceil(Math.random() * 100), Math.ceil(Math.random() * 10), getRandomColor()));
           that.setData({
             doommData: doommList
@@ -152,41 +155,75 @@ Page({
   },
   contactB: function () {
     wx.makePhoneCall({
-      phoneNumber: '15000035538' //仅为示例，并非真实的电话号码
+      phoneNumber: this.data.contactTel //仅为示例，并非真实的电话号码
     })
+  },//取消按钮  
+  cancel: function () {
+    this.setData({
+      hiddenmodalput: true
+    });
+    this.buyProduct();
   },
-  contactC: function () {
+  //确认  
+  confirm: function () {
+    this.setData({
+      hiddenmodalput: true
+    })
+    this.buyProduct();
+  } ,
+  buyProduct(){
     console.log('productid=' + this.data.productid)
     console.log('payToPartyId=' + this.data.payToPartyId)
 
     var that = this
-    const data = {
-      productId: this.data.productid,
-      payToPartyId: this.data.payToPartyId,
-      unioId: app.globalData.unicodeId
-    }
-    Request.postRequest('https://www.yo-pe.com/api/common/createCustRequestFromMiniApp', data).then
-      (
-      function (data) {
-        console.log('>>>>>>>>>>>>>>>>>>>>>> data = ' + JSON.stringify(data))
-        wx.vibrateShort({
-          complete: function (res) {
-            wx.showToast({
-              title: '询价成功!',
-              icon: 'success',
-              duration: 2000
-            }); 
-          }
-        });
+    var quantityOnHandTotal = that.data.quantityOnHandTotal
+    console.log('that - data - quantity = ' + quantityOnHandTotal)
+    //如果卖家不限制库存,那么可以买?
+    if (null == quantityOnHandTotal || parseInt(quantityOnHandTotal) > 0) {
+
+
+
+
+      const data = {
+        productId: this.data.productid,
+        payToPartyId: this.data.payToPartyId,
+        unioId: app.globalData.unicodeId
       }
-      )
+      Request.postRequest('https://www.yo-pe.com/api/common/createCustRequestFromMiniApp', data).then
+        (
+        function (data) {
+          console.log('>>>>>>>>>>>>>>>>>>>>>> data = ' + JSON.stringify(data))
+          wx.vibrateShort({
+            complete: function (res) {
+              wx.showToast({
+                title: '下单成功!',
+                icon: 'success',
+                duration: 2000
+              });
+            }
+          });
+        }
+        )
+
+    } else {
+      wx.showToast({
+        title: '卖完了',
+        icon: 'error',
+        duration: 2000
+      });
+    }
   },
-  openLocationByAddress(e){
+  contactC: function () { 
+    this.setData({
+      hiddenmodalput: false
+    })   
+  },
+  openLocationByAddress(e) {
     console.log('open wx location ! e.target.dataset.la =' + e.target.dataset.la)
     console.log('open wx location !  e.target.dataset.lg =' + e.target.dataset.lg)
     wx.openLocation({
       latitude: Number(e.target.dataset.la),
-      longitude:Number(e.target.dataset.lg),
+      longitude: Number(e.target.dataset.lg),
       scale: 28
     })
   },
@@ -212,7 +249,9 @@ Page({
             shareName: data.resourceDetail.title,
             data: data,
             bookInfoData: true,
-            comments: data.resourceDetail.tuCaoList
+            comments: data.resourceDetail.tuCaoList,
+            quantityOnHandTotal: data.resourceDetail.quantityOnHandTotal,
+            contactTel: data.resourceDetail.contactNumber
           })
           wx.hideLoading()
         }

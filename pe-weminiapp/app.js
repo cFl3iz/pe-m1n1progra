@@ -2,9 +2,9 @@ import ServiceUrl from './utils/serviceUrl'
 import Request from './utils/request.js'
 const Towxml = require('/towxml/main');
 const User = require('/utils/user');
-const Pages = require('/utils/pages');
+const Pages = require('/utils/pages'); 
 App({
-  //初始化APP
+  //Initial App
   onLaunch: function () {
     var that = this
     wx.getLocation({
@@ -13,16 +13,14 @@ App({
         var latitude = res.latitude
         var longitude = res.longitude
         var speed = res.speed
-        var accuracy = res.accuracy
-        // console.log('latitude=' + latitude)
-        // console.log('longitude=' + longitude)
+        var accuracy = res.accuracy 
         that.globalData.latitude = latitude;
         that.globalData.longitude = longitude;
       }
     }) 
 
 
-    console.log('启动APP')
+    console.log('START-APP')
     wx.onUserCaptureScreen(function (res) {
       wx.showModal({
         title: '提示',
@@ -35,11 +33,11 @@ App({
       })
     })
    
+    //LOGIN->GET USER INFO -> GET UNIO_ID
     this.weChatLogin().then(
       function(){ 
         that.getUserInfo().then(
-          function(){ 
-          //  console.log('>>>>>>>>>>>>>global data  code = ' + that.globalData.code );
+          function(){  
             that.getUnionId(that.globalData.code)
           }
         );
@@ -77,7 +75,7 @@ App({
       is_load: false
     })
   },
-  //微信登陆授权
+  //Wx Login
   weChatLogin: function () {
     console.log('微信登陆授权')
     const that = this
@@ -94,9 +92,8 @@ App({
       })
     })
   },
-  //每次真的要用了再拿
-  getUnionId: function (code) {
-    // console.log('获取unicodeId' + code)
+  //Get Unio Id
+  getUnionId: function (code) { 
     const that = this
     const url = ServiceUrl.platformManager + 'jscode2session'
     const data = {
@@ -107,14 +104,35 @@ App({
       avatarUrl: that.globalData.userInfo.avatarUrl
     }
     Request.postRequest(url, data).then(function (data) {
-      console.log('设置全局unicodeId = ' + data)
+      console.log('Global Data unio_Id = ' + data)
       const unicodeId = data
-      that.globalData.unicodeId = unicodeId //设置全局unicodeId
-      // return unicodeId
+      that.globalData.unicodeId = unicodeId  
+    
+      //查询用户联系手机、邮政地址。
+       that.findUserContactInfo(unicodeId) 
     })
-    // .then(function (data) {
-    //   that.get_data(data)
-    // })
+    
+  },
+  findUserContactInfo:function(unioId){
+    var that = this
+    const data = {
+      unioId: unioId
+    }
+
+    Request.postRequest('https://www.yo-pe.com/api/common/getUserContactInfo', data).then
+      (
+      function (data) {
+
+        console.log('data=' + JSON.stringify(data))
+
+        if (data.code == 200) {
+          that.globalData.contactInfo = data.contactInfo 
+        } else {
+
+        }
+
+      }
+      ) 
   },
   //获取用户信息
   getUserInfo: function (cb) {
@@ -138,6 +156,7 @@ App({
     unicodeId: null,
     collectProduct: null,
     latitude:null,
-    longitude:null
+    longitude:null,
+    contactInfo:null
   }
 })

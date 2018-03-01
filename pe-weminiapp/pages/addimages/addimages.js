@@ -26,8 +26,12 @@ Page({
 data:datalist,
 onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数 
-  console.log('!!!!!!!!!!!!!!!!!!!!! app.globalData.unicodeId = ' + app.globalData.unicodeId)
+    console.log('!!!!!!!!!!!!!!!!!!!!! app.globalData.unicodeId = ' + app.globalData.unicodeId)
     Utils.removeStorage("tw");
+    var tel = app.globalData.contactInfo.contactTel
+    this.setData({
+      tel:tel
+    })
 },
 previewImage: function (e) {
   var current = e.target.dataset.src;
@@ -52,7 +56,7 @@ getPhoneNumber: function (e) {
     wx.showModal({
       title: '提示',
       showCancel: false,
-      content: '谢主隆恩',
+      content: '已授权',
       success: function (res) {
         that.getTelFromEncryptedData(e.detail.iv,e.detail.encryptedData);
        }
@@ -62,32 +66,42 @@ getPhoneNumber: function (e) {
  //去后台解密拿手机号
  getTelFromEncryptedData(iv,encryptedData){
    var that = this
-   let code = app.globalData.code
-   console.log('getTelFromEncryptedData code=' + code)
-   const data = {
-     code: code,
-     iv: iv,
-     encryptedData: encryptedData
-   }
-
-   Request.postRequest('https://www.yo-pe.com/api/common/getTelFromEncryptedData', data).then
-     (
-     function (data) {
-
-       console.log('data=' + JSON.stringify(data))
-
-       if (data.code == 200) {
-         that.setData(
-           {
-             tel:data.tel
-           }
-         )
-       } else {
-
+   wx.login({
+     success: function (loginok) {
+       
+       var code = loginok.code; 
+       console.log('getTelFromEncryptedData code=' + code)
+       console.log('getTelFromEncryptedData iv=' + iv)
+       console.log('getTelFromEncryptedData encryptedData=' + encryptedData)
+       const data = {
+         code: code,
+         iv: iv,
+         encryptedData: encryptedData
        }
 
+       Request.postRequest('https://www.yo-pe.com/api/common/getTelFromEncryptedData', data).then
+         (
+         function (data) {
+
+           console.log('data=' + JSON.stringify(data))
+
+           if (data.code == 200) {
+             that.setData(
+               {
+                 tel: data.tel
+               }
+             )
+           } else {
+
+           }
+
+         }
+         )
+
      }
-     )
+   })
+ 
+  
  },
 foreachUploada(e){
   let that = this
@@ -151,7 +165,7 @@ foreachUploada(e){
     
    
    console.log('go to release that.data.latitude = ' + that.data.latitude)
-
+  var tel = that.data.tel
    const reqdata = {
       title: e.detail.value.title,
       kuCun: e.detail.value.count,
@@ -161,7 +175,8 @@ foreachUploada(e){
       address: e.detail.value.address,
       latitude: that.data.latitude,
       longitude: that.data.longitude,
-      filePaths: picturePaths
+      filePaths: picturePaths,
+      tel: tel == null ? '' : tel
    } 
    Request.postRequest(url, reqdata).then(function (data) {
       
