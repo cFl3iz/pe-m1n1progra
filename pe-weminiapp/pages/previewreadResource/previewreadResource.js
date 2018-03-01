@@ -12,9 +12,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    nowPartyId:'',
     contactTel:'',
     hiddenmodalput:true,
-    quantityOnHandTotal: null,
+    availableToPromiseTotal: null,
     payToPartyId: '',
     doommData: [],
     productid: null,
@@ -36,7 +37,9 @@ Page({
     page = this;
 
     const that = this
-
+    wx.showLoading({
+      title: '加载中',
+    })
     var unicodeId = app.globalData.unicodeId
 
     console.log('unicodeId=>' + unicodeId)
@@ -84,7 +87,7 @@ Page({
     });
 
     // that.getCollectProduct();
-
+    wx.hideLoading()
   },
   previewImage: function (e) {
     var current = e.target.dataset.src;
@@ -162,34 +165,39 @@ Page({
     this.setData({
       hiddenmodalput: true
     });
-    this.buyProduct();
+    this.buyProduct('无备注');
+  },
+  input: function (e) {
+    this.setData({
+      'remark': e.detail['value']
+    })
+   
   },
   //确认  
   confirm: function () {
     this.setData({
       hiddenmodalput: true
     })
-    this.buyProduct();
+    this.buyProduct(this.data.remark);
   } ,
-  buyProduct(){
+  buyProduct(remark){
+    console.log('remark == ' + remark) 
     console.log('productid=' + this.data.productid)
     console.log('payToPartyId=' + this.data.payToPartyId)
 
     var that = this
-    var quantityOnHandTotal = that.data.quantityOnHandTotal
-    console.log('that - data - quantity = ' + quantityOnHandTotal)
-    //如果卖家不限制库存,那么可以买?
-    if (null == quantityOnHandTotal || parseInt(quantityOnHandTotal) > 0) {
-
-
-
-
+  
+ 
       const data = {
         productId: this.data.productid,
         payToPartyId: this.data.payToPartyId,
-        unioId: app.globalData.unicodeId
+        unioId: app.globalData.unicodeId,
+        tarjeta: this.data.bookInfo.tarjeta,
+        productStoreId: this.data.bookInfo.productStoreId,
+        prodCatalogId: this.data.bookInfo.prodCatalogId,
+        remark: remark
       }
-      Request.postRequest('https://www.yo-pe.com/api/common/createCustRequestFromMiniApp', data).then
+      Request.postRequest('https://www.yo-pe.com/api/common/buyProduct', data).then
         (
         function (data) {
           console.log('>>>>>>>>>>>>>>>>>>>>>> data = ' + JSON.stringify(data))
@@ -200,23 +208,83 @@ Page({
                 icon: 'success',
                 duration: 2000
               });
+              that.selectAddress(data.orderId) 
             }
           });
         }
         )
+      
+  },
+  selectAddress:function(orderId){
+    var that = this
+    //选择收货地址
+    wx.chooseAddress({
+      success: function (res) {
+        console.log(res.userName)
+        console.log(res.postalCode)
+        console.log(res.provinceName)
+        console.log(res.cityName)
+        console.log(res.countyName)
+        console.log(res.detailInfo)
+        console.log(res.nationalCode)
+        console.log(res.telNumber)
 
+        const createShipAddressdata = {
+          tarjeta: that.data.bookInfo.tarjeta,
+          userName: res.userName,
+          postalCode: res.postalCode,
+          provinceName: res.provinceName,
+          cityName: res.cityName,
+          countyName: res.countyName,
+          detailInfo: res.detailInfo,
+          nationalCode: res.nationalCode,
+          telNumber: res.telNumber,
+          orderId: orderId
+        }
+        Request.postRequest('https://www.yo-pe.com/api/common/createPersonPartyPostalAddress', createShipAddressdata).then
+          (
+          function (data) {
+            that.goOrderPage(app.globalData.unicodeId)
+
+          }
+          )
+
+
+      },
+      fail: function (err) {
+        that.selectAddress(orderId)
+      }
+
+    })
+  },
+  goOrderPage: function (unioId) {
+    wx.showToast({
+      title: '已确认地址',
+      icon: 'success',
+      duration: 1000
+    }); 
+    console.log('unioId=' + unioId)
+    wx.switchTab({
+      url: "../order/order?unioId=" + unioId
+    })
+  },
+  contactC: function () { 
+    var that = this
+    var availableToPromiseTotal = that.data.availableToPromiseTotal
+    console.log('that - data - availableToPromiseTotal = ' + availableToPromiseTotal)
+    //如果卖家不限制库存,那么可以买?
+    if (null == availableToPromiseTotal || parseInt(availableToPromiseTotal) > 0) {
+      this.setData({
+        hiddenmodalput: false
+      })   
     } else {
       wx.showToast({
-        title: '卖完了',
+        title: '卖光了',
         icon: 'error',
         duration: 2000
       });
     }
-  },
-  contactC: function () { 
-    this.setData({
-      hiddenmodalput: false
-    })   
+  
   },
   openLocationByAddress(e) {
     console.log('open wx location ! e.target.dataset.la =' + e.target.dataset.la)
@@ -245,12 +313,13 @@ Page({
         } else {
           console.log('return data = ' + JSON.stringify(data))
           that.setData({
+             nowPartyId:data.nowPartyId,
             bookInfo: data.resourceDetail,
             shareName: data.resourceDetail.title,
             data: data,
             bookInfoData: true,
             comments: data.resourceDetail.tuCaoList,
-            quantityOnHandTotal: data.resourceDetail.quantityOnHandTotal,
+            availableToPromiseTotal: data.resourceDetail.availableToPromiseTotal,
             contactTel: data.resourceDetail.contactNumber
           })
           wx.hideLoading()
@@ -310,7 +379,7 @@ Page({
     var shareName = that.data.shareName
     return {
       title: shareName,
-      path: '/pages/previewreadResource/previewreadResource?productModel=' + that.data.productModel + '&productid=' + that.data.productid + '&payToPartyId=' + that.data.payToPartyId,
+      path: '/pages/previewreadResource/previewreadResource?' + 'productid=' + that.data.productid + '&paytopartyid=' + that.data.payToPartyId,
       success: function (res) {
         // 转发成功productModel
       },

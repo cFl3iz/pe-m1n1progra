@@ -7,6 +7,9 @@ App({
   //Initial App
   onLaunch: function () {
     var that = this
+
+    
+
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
@@ -16,6 +19,19 @@ App({
         var accuracy = res.accuracy 
         that.globalData.latitude = latitude;
         that.globalData.longitude = longitude;
+      },
+      fail:function(){
+        wx.getLocation({
+          type: 'wgs84',
+          success: function (res) {
+            var latitude = res.latitude
+            var longitude = res.longitude
+            var speed = res.speed
+            var accuracy = res.accuracy
+            that.globalData.latitude = latitude;
+            that.globalData.longitude = longitude;
+          } 
+        }) 
       }
     }) 
 

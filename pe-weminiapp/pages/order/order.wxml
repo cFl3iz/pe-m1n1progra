@@ -16,12 +16,13 @@
         <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
         <view class="topRightView">
           <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
-          <text class="topRightTime">￥{{item.price}}</text>
+          <text class="topRightTime">￥{{item.unitPrice}}/{{item.currencyUom}}</text>
           <!--销量和评价-->
           <view class="saleAndcom">
-            <text class="saletext">{{item.storeName}}</text>
-            <text class="saleRightText">{{item.description}}</text>
+            <text class="saletext">{{item.quantity}}件</text>
+            <text class="saleRightText">{{item.personAddressInfoMap.contactAddress}}</text>
           </view>
+          <text class="orderTime">订单时间:{{item.orderDate.month}}月{{item.orderDate.date}}日</text>
         </view>
       </view>
     </block>

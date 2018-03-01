@@ -38,12 +38,10 @@
           <text class="c-block wx-text_TvHPc9" data-c_e_id="wx_text4c27de86">{{bookInfo.title}}</text>
           <text class="price">￥{{bookInfo.price}}
           </text>
-          <view wx:if="{{bookInfo.quantityOnHandTotal != null}}">
-           <text class="inventory" >库存:{{bookInfo.quantityOnHandTotal}}
+          <view wx:if="{{bookInfo.availableToPromiseTotal != null}}">
+           <text class="inventory" >库存:{{bookInfo.availableToPromiseTotal}}
           </text>
-          </view>
-         
-       
+          </view> 
           <view wx:if="{{bookInfo.address != null}}" bindtap='openLocationByAddress' data-la='{{bookInfo.latitude}}' data-lg='{{bookInfo.longitude}}' class="c-block wx-text_LS2Jup" data-c_e_id="wx_text41b4b36d">
           <image style="width: 15px; height: 15px;" src='../../images/message/map.png'></image>
           {{bookInfo.address}}
@@ -92,7 +90,7 @@
             </form>
         </view>
     </view>
-
+  
 <view class="comment-panel">
         <!--没有评论 S-->
         <view class="comment-none" wx:if="{{comments == null}}">
@@ -119,11 +117,11 @@
         <!-- 一条评论 E-->
     </view>
 
-<modal hidden="{{hiddenmodalput}}" title="备注" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
-    <input type='text'placeholder="给卖家的留言.." />  
+<modal hidden="{{hiddenmodalput}}" title="备注" confirm-text="提交" cancel-text="无备注" bindcancel="cancel" bindconfirm="confirm">  
+    <input type='text' bindinput="input" value="{{remark}}" placeholder="给卖家的留言.." />  
 </modal>  
- 
-<view class="btn-wrapper"> 
+
+<view class="btn-wrapper" wx:if="{{nowPartyId !== payToPartyId}}"> 
         <button type='leftbtn' catchtap='contactC'  class='leftbtn'>下单</button>       
         <button type='rightbtn' catchtap='contactB'  class='rightbtn'>联系资源主</button>
 </view>

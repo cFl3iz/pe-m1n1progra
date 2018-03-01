@@ -18,17 +18,17 @@ Page({
     list: [
       {
         orderId: 1,
-        productName: '照相机询价',
+        productName: '照相机订单',
         detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
       {
         orderId: 2,
-        productName: '芒果询价',
+        productName: '芒果订单',
         detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
       {
         orderId: 3,
-        productName: '男装询价',
+        productName: '男装订单',
         detailImageUrl: 'timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513833520380&di=0aa8c697ed66f1857bd14632eb2e8f71&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3812b31bb051f819b05efd42d0b44aed2e73e7bb.jpg',
       },
     ],
@@ -65,7 +65,7 @@ Page({
   getCollectProduct: function (reqScopeOpenId) {
     const that = this
   
-    const url = ServiceUrl.platformManager + 'queryCustRequestList'
+    const url = ServiceUrl.platformManager + 'queryMyOrder'
     let openId = app.globalData.unicodeId
     if (!openId){
       openId = reqScopeOpenId
@@ -74,13 +74,13 @@ Page({
       unioId: openId
     }
     Request.postRequest(url, data).then(function (data) {
-      console.log("我的请求:" + JSON.stringify(data))
+      console.log("我的订单=>:" + JSON.stringify(data))
       
-      const { code: code, custRequestList: custRequestList } = data
+      const { code: code, orderList: orderList } = data
       if (code === '200') {
         
         that.setData({
-          list: custRequestList
+          list: orderList
         })
       }
     })

@@ -20,6 +20,7 @@
 /*右侧文本整体样式*/
 
 .topRightView {
+  height:100px;
   width: 250px;
   margin-left: 15rpx;
   display: flex;
@@ -29,7 +30,7 @@
 /*用户名称样式*/
 
 .topRightName {
-  font-size: 25rpx;
+  font-size: 45rpx;
 }
 
 /*时间样式*/
@@ -64,14 +65,17 @@
 }
 
 .saletext {
-  font-size: 25rpx;
+  font-size:30rpx;
 }
-
+.orderTime{
+  font-size:27rpx;
+}
 .saleRightText {
   position: absolute;
   right: 0;
   margin-right: 10rpx;
-  font-size: 25rpx;
+  color:cadetblue;
+  font-size: 30rpx;
 }
 
 /*整体view样式*/
