@@ -31,7 +31,7 @@ Page({
     })
   },
   //点击查询物流信息
-  deliveryInfo(e){
+  myResources(e){
     wx.navigateTo({
       url: '../myProduct/myProduct'
     })

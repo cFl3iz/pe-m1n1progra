@@ -11,7 +11,7 @@
   </view>
   <!--下部信息-->
   <view class="my">
-      <view class="my-item flex-wrp" catchtap="deliveryInfo">
+      <view class="my-item flex-wrp" catchtap="myResources">
         <view class="myitem-icon flex-item">
           <image src="../../images/mine/icon_already_shipped.png"></image>
         </view>

@@ -13,6 +13,21 @@ page {
   font-size:35rpx;
 }
 
+.top {
+  width: 70rpx;
+  height: 70rpx;
+  color:white;
+  line-height: 60rpx;
+  background-color: grey;
+  position: fixed;
+  top: 40rpx;
+  left: 20rpx;
+  text-align: center;
+  font-size: 52rpx;
+  opacity: .8;
+  border-radius: 50%;
+  border: 1px solid #fff; 
+}
 
 
 checkbox-group,

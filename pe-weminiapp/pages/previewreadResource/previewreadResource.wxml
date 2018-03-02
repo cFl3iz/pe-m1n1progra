@@ -125,3 +125,4 @@
         <button type='leftbtn' catchtap='contactC'  class='leftbtn'>下单</button>       
         <button type='rightbtn' catchtap='contactB'  class='rightbtn'>联系资源主</button>
 </view>
+ <view class="top"  catchtap="goHome">←</view>
