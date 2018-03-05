@@ -11,12 +11,13 @@
 </scroll-view> -->
 
 <view>
- <view>
-  <scroll-view class="scroll" scroll-top="{{scrollTop}}" style="height:580px;" scroll-y="true" bindscroll="scrll"  bindscrolltolower="loadMore">
-   <view class="block" wx:for="{{myProductList}}" wx:for-item="item">
-   <image src="https://{{item.detailImageUrl}}" class="img"></image> <text>{{item.productName}}</text>
-   </view>  
-  </scroll-view>
- </view>
- <view class="top" hidden="{{hidden}}" catchtap="goTop">⇧</view>
+  <view>
+    <scroll-view class="scroll" scroll-top="{{scrollTop}}" style="height:580px;" scroll-y="true" bindscroll="scrll" bindscrolltolower="loadMore">
+      <view bindtap='editProduct' data-productid="{{item.productId}}" class="block" wx:for="{{myProductList}}" wx:for-item="item">
+        <image src="https://{{item.detailImageUrl}}" class="img"></image>
+        <text>{{item.productName}}</text>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="top" hidden="{{hidden}}" catchtap="goTop">⇧</view>
 </view>

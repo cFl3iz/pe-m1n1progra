@@ -1,0 +1,85 @@
+<!-- 妈的我最讨厌写前端的东西  -->
+<form bindsubmit="formSubmit" bindreset="formReset">
+  <!--上传图片  -->
+  <!-- <view class="upload-img">
+    <view class="imgs-style" wx:for="{{arrimg}}" wx:key="{{arrimg}}">
+      <view class="close" bindtap="closeImgFn" id="{{index}}">
+        <image src="/images/close.png"></image>
+      </view>
+      <image bindtap='previewImage' src="{{item}}" data-id="{{index}}"></image>
+    </view>
+    <image src="/images/upload.png" bindtap="chooseimage" bindtouchstart=""></image>
+
+    <text style='color:#6F6F6F;'>{{index}}/{{len}}</text>
+  </view> -->
+  <view class='whiteBlock'>
+  </view>
+
+  <view class="text-box">
+    <label>标题
+    </label>
+    <input data-name="title" value="{{productDetail.title}}" name="title" placeholder='建议增加品牌型号信息'></input>
+  </view>
+  <!-- 写的一条实线 -->
+  <view class="line-css">
+  </view>
+  <view class="text-box">
+    <label>价格
+    </label>
+    <input data-name="price" value="{{productDetail.price}}" name="price" type='digit' placeholder='有价才能卖 (可不填写)' confirm-type='done'></input>
+  </view>
+  <!-- 写的一条实线 -->
+  <view class="line-css">
+  </view>
+
+  <view class="text-box">
+    <label>
+      描述
+    </label>
+    <textarea data-name="desc" name="desc" maxlength="80" auto-height placeholder="可不填写" placeholder-style="color:#666;font-size:30rpx; " value="{{productDetail.desc}}"bindinput="textareaFn"></textarea>
+  </view>
+  <view class="line-css">
+  </view>
+  <!-- 所在地 -->
+  <view class="text-box">
+    <label>位置
+    </label>
+    <input data-name="address" name="address" disabled="true" maxlength="-1" placeholder='点击右侧获取资源位置 (可不填写)' value='{{productDetail.address}}'></input>
+    <icon class='locationIcon' type='search' bindtap='getUserLocation'>
+    </icon>
+  </view>
+  <!-- 写的一条实线 -->
+  <view class="line-css">
+  </view>
+  <view class="text-box">
+    <label>存货
+    </label>
+    <input data-name="count" name="count" type='digit' placeholder='存量 (可不填写,无库存限制)' confirm-type='done' value="{{availableToPromiseTotal}}"></input>
+  </view>
+  <view class="line-css">
+  </view>
+  <view class="text-box">
+    <label>联络
+    </label>
+    <input data-name="tel" name="tel" type='digit' placeholder='点击右侧按钮或手动填联系电话(可不填)' confirm-type='done' value='{{contactTel}}'></input>
+    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+    </button>
+  </view>
+
+
+
+  <!-- 写的一条实线 -->
+  <view class="line-css">
+  </view>
+
+
+  <!--温馨提示  -->
+  <!-- <view class="prompt">
+  <text> Yo 提示:</text>
+  <text>1.勿盗图,二手商品提供发票图片能提高(可信度)。</text>
+  <text>2.提供更多细节角度,可减少买家重复咨询(已增加图片预览功能)。</text> 
+</view> -->
+  <!-- 下一步-->
+  <button class="next-step" form-type="submit">
+    <text>更 新</text> </button>
+</form>

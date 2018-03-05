@@ -8,6 +8,12 @@ Page({
   onLoad: function (options) {
     this.runderList()
   },
+  editProduct:function(e){
+    var productid = e.currentTarget.dataset.productid
+    wx.navigateTo({
+      url: '../editProduct/editProduct?productid='+ productid,
+    })
+  },
   runderList: function () {
     console.log('=>app.globalData.unicodeId=' + app.globalData.unicodeId)
     const that = this

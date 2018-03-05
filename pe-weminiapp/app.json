@@ -11,7 +11,8 @@
     "pages/chatView/chatView",
     "pages/addressAdd/addressAdd",
     "pages/deliveryInfo/deliveryInfo",
-    "pages/myProduct/myProduct"
+    "pages/myProduct/myProduct",
+    "pages/editProduct/editProduct"
   ],
   "window": {
     "backgroundTextStyle": "white",
