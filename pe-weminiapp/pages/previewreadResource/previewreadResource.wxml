@@ -46,9 +46,9 @@
           <image style="width: 15px; height: 15px;" src='../../images/message/map.png'></image>
           {{bookInfo.address}}
         </view>
-        <view class='relationQBox' bindtap=''> 
+        <!-- <view class='relationQBox' bindtap=''> 
         <text style='color:#ee735c;font-size:35rpx;'>{{bookInfo.user.firstName}}</text>算哪号人物?<image style="width:65rpx; height: 65rpx;" src='../../images/icon/search-male-user.png'></image>
-        </view>
+        </view> -->
       </view>
       <!-- </navigator> -->
     </view>
