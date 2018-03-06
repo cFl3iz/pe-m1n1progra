@@ -6,11 +6,14 @@ Page({
   },
   onLoad: function () {
     const that = this
+    wx.showLoading({
+      title: '加载中',
+    })
     // app.getUserInfo(function (data) { })
       that.setData({
         userInfo: app.globalData.userInfo
       })
-    
+      wx.hideLoading()
   },
   //点击管理地址
   addressAdd(e) {

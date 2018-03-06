@@ -8,6 +8,9 @@ Page({
         },
     },
     onLoad(option) {
+      wx.showLoading({
+        title: '加载中',
+      })
         // this.order = App.HttpResource('/order/:id', {id: '@id'})
         this.order = []
         console.log('!!!!!!!!!!!!!!!!! o r d e r i d =' + option.orderId)
@@ -79,6 +82,7 @@ Page({
           that.setData({
             orderDetail: orderDetail
           })
+          wx.hideLoading()
         }
       })
 

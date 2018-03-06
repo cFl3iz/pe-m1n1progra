@@ -5,6 +5,7 @@ var page = undefined;
 let utils = require('../../utils/util.js');
 import Request from '../../utils/request.js'
 import ServiceUrl from '../../utils/serviceUrl.js'
+var items = ['卖家是我的亲戚', '卖家是我的朋友', '卖家是我的同事', '卖家是我的同学', '卖家是我的邻居', '卖家是我的死党']
 // mybook.js
 Page({
 
@@ -12,6 +13,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    actionSheetHidden: true,
+    actionSheetItems: items,
     nowPartyId:'',
     contactTel:'',
     hiddenmodalput:true,
@@ -28,18 +31,36 @@ Page({
     isComment: 1, // 是否有评论，0 有， 1 无
     showComment: false // 输入评论, 
   },
+  actionSheetTap: function (e) {
+    console.log(this);
+    this.setData({
+      actionSheetHidden: !this.data.actionSheetHidden
+    })
+  },
+  actionSheetChange: function (e) {
+    this.setData({
+      actionSheetHidden: !this.data.actionSheetHidden
+    });
+    console.log("点击ation-sheet-cancel，会触发action-sheet绑定的事件。在这里可以通过改变hidden控制菜单的隐藏");
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    page = this;
-
-    const that = this
     wx.showLoading({
       title: '加载中',
     })
+    page = this;
+    for (var i = 0; i < items.length; ++i) {
+      (function (itemName) {
+        page['bind' + itemName] = function (e) {
+          console.log('click' + itemName, e)
+        }
+      })(items[i])
+    }
+    const that = this
+  
     var unicodeId = app.globalData.unicodeId
 
     console.log('unicodeId=>' + unicodeId)

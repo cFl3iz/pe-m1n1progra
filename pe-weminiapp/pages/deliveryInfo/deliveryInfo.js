@@ -21,6 +21,10 @@ Page({
    */
 
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
+
     console.log(options.username, options.password)
     console.log('*物流信息 option.orderId=' + options.orderId)
     console.log('*物流信息 option.internalCode=' + options.internalCode)
@@ -102,6 +106,7 @@ Page({
             deliveryInfoList:res.data.result.list,
             yunDanHo:res.data.result.number 
          })
+         wx.hideLoading()
       }
     })  
   },

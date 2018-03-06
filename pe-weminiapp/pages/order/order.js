@@ -82,23 +82,22 @@ Page({
         that.setData({
           list: orderList
         })
+        wx.hideLoading()
       }
     })
   },
   onLoad: function (options) {
-
+    wx.showLoading({
+      title: '加载中',
+    })
     this.getCollectProduct(options.unioId)
   },
   viewOrderItem(e) {
     let orderid = e.currentTarget.dataset.orderid
-    wx.showToast({
-      title: '卖家还没给回馈',
-      icon: 'loading',
-      duration: 1000
-    });
+     
 
-    // wx.navigateTo({
-    //   url: '../orderDetail/orderDetail?orderId=' + orderid
-    // })
+    wx.navigateTo({
+      url: '../orderDetail/orderDetail?orderId=' + orderid
+    })
   },
 })
