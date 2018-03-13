@@ -12,7 +12,9 @@ Page({
   /**
    * 页面的初始数据
    */
-  data: {
+  data: {  
+    num: 1,
+    minusStatus: 'disabled',
     actionSheetHidden: true,
     actionSheetItems: items,
     nowPartyId:'',
@@ -110,6 +112,54 @@ Page({
     // that.getCollectProduct();
     wx.hideLoading()
   },
+  /* 点击减号 */
+  bindMinus: function () {
+    var num = this.data.num;
+    // 如果大于1时，才可以减  
+    if (num > 1) {
+      num--;
+    }
+    // 只有大于一件的时候，才能normal状态，否则disable状态  
+    var minusStatus = num <= 1 ? 'disabled' : 'normal';
+    // 将数值与状态写回  
+    this.setData({
+      num: num,
+      minusStatus: minusStatus
+    });
+  },
+  /* 点击加号 */
+  bindPlus: function () {
+    var num = this.data.num;
+    if (num + 1 > this.data.availableToPromiseTotal){
+      wx.showToast({
+        title: '库存仅' + this.data.availableToPromiseTotal +'件!',
+        icon: 'success',
+        duration: 2000
+      });
+      this.setData({
+        num:1
+      })
+      return 
+    }
+    // 不作过多考虑自增1  
+    num++;
+    // 只有大于一件的时候，才能normal状态，否则disable状态  
+    var minusStatus = num < 1 ? 'disabled' : 'normal';
+    // 将数值与状态写回  
+    this.setData({
+      num: num,
+      minusStatus: minusStatus
+    });
+  },
+  /* 输入框事件 */
+  bindManual: function (e) {
+    return false;
+    // var num = e.detail.value;
+    // // 将数值与状态写回  
+    // this.setData({
+    //   num: num
+    // });
+  },
   previewImage: function (e) {
     var current = e.target.dataset.src;
     var that = this
@@ -201,7 +251,8 @@ Page({
     })
     this.buyProduct(this.data.remark);
   } ,
-  buyProduct(remark){
+  buyProduct(remark){ 
+    
     console.log('remark == ' + remark) 
     console.log('productid=' + this.data.productid)
     console.log('payToPartyId=' + this.data.payToPartyId)
@@ -216,7 +267,8 @@ Page({
         tarjeta: this.data.bookInfo.tarjeta,
         productStoreId: this.data.bookInfo.productStoreId,
         prodCatalogId: this.data.bookInfo.prodCatalogId,
-        remark: remark
+        remark: remark,
+        amount: this.data.num
       }
       Request.postRequest('https://www.yo-pe.com/api/common/buyProduct', data).then
         (
@@ -289,7 +341,7 @@ Page({
       url: "../order/order?unioId=" + unioId
     })
   },
-  contactC: function () { 
+  contactC: function () {     
     var that = this
     var availableToPromiseTotal = that.data.availableToPromiseTotal
     console.log('that - data - availableToPromiseTotal = ' + availableToPromiseTotal)

@@ -34,12 +34,17 @@ Page({
 
     setTimeout(function () {
       that.get_data(app.globalData.unicodeId);
-    },1200);
+    },2500);
    
 
 //
 
 
+  },
+  goRelease(){
+    wx.navigateTo({
+      url: '../addimages/addimages'
+    }) 
   },
   getLocations(){
     var that = this
@@ -113,7 +118,8 @@ Page({
       page: that.data.page
     }
     Request.postRequest('https://www.yo-pe.com/api/common/queryFriendResources', data).then(function (data) {
-      console.log('准备获取数据--------------------------------data.current_page-----' + JSON.stringify(data.current_page) + '|data.total=' + data.total + 'DATA = ' + JSON.stringify(data))
+      // console.log('准备获取数据--------------------------------data.current_page-----' + JSON.stringify(data.current_page) + '|data.total=' + data.total + 'DATA = ' + JSON.stringify(data))
+     
       //计算那个什么距离\
       that.getLocations().then(
         function(){

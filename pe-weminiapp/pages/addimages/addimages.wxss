@@ -1,56 +1,83 @@
 label{
+  padding-top: 1rpx;
+  padding-right: 15rpx;
   font-size: 30rpx;
   color:#383838;
 }
 
+/* .scroll-header{
+display: flex;
+white-space: nowrap; 
+} */
+
+/* .scroll-header view{
+height:128rpx;
+width:128rpx;
+border:1px solid red;
+display: inline-block; 
+} */
+
 .whiteBlock{
-    padding-bottom:45rpx;
+    padding-bottom:15rpx;
+    background-color: #F6F7FB;
 }
 
 .line-css {
     height:0.1rpx;
-    background:#6F6F6F; 
+    background-color: #F6F7FB;
     margin:0 20rpx;
-    margin-bottom:25rpx;
+    margin-bottom:15rpx;
 }
 
+.text-box-textarea {
+    display: flex;
+    padding: 20rpx;
+    padding-top: 0px;
+    height: 300rpx;
+}
 .text-box {
     display: flex;
     padding: 20rpx;
 }
-
 .text-box input{
-    width:550rpx;
+    width:280rpx;
     color:#6F6F6F;
-    font-size: 30rpx;
+    font-size: 35rpx;
     display: flex;
-    padding-left: 45rpx;
-    padding-top: 5rpx;
+    /* padding-left: 45rpx; */ 
+    padding-top: 3rpx;
 }
-.locationIcon{
-    flex:1;
-}
-.text-box textarea{
+ .locationIcon{
+    padding-right:15rpx;
+} 
+.text-box-textarea textarea{
+   
     color:#6F6F6F;
-    padding: 10rpx;
-    margin-left: 45rpx;
+    /* padding: 10rpx; */ 
     flex: 1;
-    border:1rpx solid #ccc;
+     /* overflow-y:hidden; */
+    /* border:1rpx solid #ccc; */
     font-size: 25rpx;
-    height:350rpx;
-    
+    height:300rpx;
+   
 }
 .upload-img {
       display: flex;
       padding: 15rpx;
-      justify-content: flex-end;
-      align-items:center;
+      justify-content: center;
+      align-items:center; 
 }
 .upload-img image {
     height: 150rpx;
     width: 150rpx;
     margin-left: 15rpx;
+    display: inline-block;
 }
+.chooseImageBox{
+      justify-content:center;
+      align-items:center; 
+}
+
 .upload-img  .imgs-style {
     display: flex;
      justify-content: center;
@@ -82,11 +109,15 @@ label{
     color: #d92a2a;
 }
 .next-step {
+    width:100%;
     margin-top: 50rpx;
-    display: flex;
-    padding: 0 15rpx;
+    /* display: flex; */
+    position: fixed;
+    padding: 0 15rpx; 
+    bottom: 5rpx;
+    /* position: fixed;bottom: 0; */
 }
-.next-step text{
+.next-step text{ 
     font-size: 36rpx;
     height: 80rpx;
     background: #4395FF;

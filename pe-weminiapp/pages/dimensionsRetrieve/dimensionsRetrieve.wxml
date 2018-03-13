@@ -1,3 +1,5 @@
+<view class="top" catchtap="goRelease">发布</view>
+
 <view class="panel-head">
   <text class="panel-head-title">资源圈推荐</text>
   <navigator class="panel-head-more" url="../setting/setting">检索设置

@@ -6,7 +6,21 @@
   margin-bottom: 0;
   border-bottom: 1px solid #f4f4f4;
 }
-
+.top {
+  width: 115rpx;
+  height: 107rpx;
+  color:white;
+  line-height: 100rpx;
+  background-color: green;
+  position: fixed;
+  bottom: 40rpx;
+  right: 20rpx;
+  text-align: center;
+  font-size: 35rpx;
+  opacity: .8;
+  border-radius: 50%;
+  border: 1px solid #fff; 
+}
  .panel-head-title {
   font-size: 32rpx;
   font-weight: bold;

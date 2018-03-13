@@ -16,7 +16,7 @@
         <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
         <view class="topRightView">
           <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
-          <text class="topRightTime">￥{{item.unitPrice}}/{{item.currencyUom}}</text>
+          <text class="topRightTime">￥{{item.unitPrice * item.quantity }}/{{item.currencyUom}}</text>
           <!--销量和评价-->
           <view class="saleAndcom">
             <text class="saletext">{{item.quantity}}件</text>

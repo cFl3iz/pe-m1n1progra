@@ -18,7 +18,7 @@
     "backgroundTextStyle": "white",
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "友评交易",
-    "navigationBarBackgroundColor": "#4A708B",
+    "navigationBarBackgroundColor": "#4395ff",
     "backgroundColor": "#F2f2f2",
     "enablePullDownRefresh": false
   },
@@ -40,13 +40,8 @@
         "selectedIconPath": "images/tabs/order_active.png",
         "text": "订单"
       }, 
-      {
-          "pagePath": "pages/addimages/addimages",
-          "text": "发资源",
-          "iconPath": "images/tabbar/create_icon_normal@3x.png",
-          "selectedIconPath": "images/tabbar/create_icon_selected@3x.png"
-      },
-      {
+
+      { 
         "pagePath": "pages/my/my",
         "iconPath": "images/tabs/my.png",
         "selectedIconPath": "images/tabs/my_active.png",

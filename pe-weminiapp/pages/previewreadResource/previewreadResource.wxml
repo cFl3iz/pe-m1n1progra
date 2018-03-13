@@ -124,12 +124,22 @@
   <!-- 一条评论 E-->
 </view>
 
-<modal hidden="{{hiddenmodalput}}" title="备注" confirm-text="提交" cancel-text="无备注" bindcancel="cancel" bindconfirm="confirm">
-  <input type='text' bindinput="input" value="{{remark}}" placeholder="给卖家的留言.." />
+<modal hidden="{{hiddenmodalput}}" title="选择购买数量及备注" confirm-text="提交" cancel-text="无备注" bindcancel="cancel" bindconfirm="confirm">
+  <!-- 主容器 -->  
+<view class="stepper">  
+    <!-- 减号 -->  
+    <text class="{{minusStatus}}" bindtap="bindMinus">-</text>  
+    <!-- 数值 -->  
+    <input type="number" bindchange="bindManual" value="{{num}}" />  
+    <!-- 加号 -->  
+    <text class="normal" bindtap="bindPlus">+</text>  
+</view>  
+  <input style='float:left;' type='text' bindinput="input" value="{{remark}}" placeholder="点此处给卖家的留言.." />
 </modal>
 
 <view class="btn-wrapper" wx:if="{{nowPartyId !== payToPartyId}}">
-  <button type='leftbtn' catchtap='contactC' class='leftbtn'>下单</button>
+  <button type='leftbtn' wx:if="{{bookInfo.availableToPromiseTotal > 0 }}" catchtap='contactC' class='leftbtn'>下单</button>
+  <button type='leftbtn' wx:if="{{bookInfo.availableToPromiseTotal <= 0 }}"  class='leftbtn'>卖完了</button>
   <button type='rightbtn' catchtap='contactB' class='rightbtn'>联系资源主</button>
 </view>
 <view class="top" catchtap="goHome">←</view>

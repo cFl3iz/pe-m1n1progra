@@ -12,9 +12,9 @@ var datalist = {
     successArr:[],      // 存储上传返回的img的url =>发送的数据
     questions:{},        // 提交数据存储到本地的josn
     bool: true,  // 是否通过上传的权限
-    mun:0,
+    mun:1,
     tempFilePath:"",
-    address:'',
+    address:'选择宝贝位置',
     picturePaths:'',
     upLoadCount:0,
     latitude:'',
@@ -35,6 +35,7 @@ onLoad: function (options) {
 },
 previewImage: function (e) {
   var current = e.target.dataset.src;
+   
   wx.previewImage({
     current: current, // 当前显示图片的http链接  
     urls: this.data.arrimg // 需要预览的图片http链接列表  
@@ -339,29 +340,8 @@ getUserLocation:function(){
   // })
 },
 chooseImageFn:function(){   // 上传的fn
-    var _this = this;
-    var len = _this.data.len;   // 获取data的上传的总个数
-    var mun = _this.data.index;  // 获取data的上传完成的个数
-    var arr = _this.data.arrimg;         // 获取data的img的list 
-    var suArr = _this.data.successArr; // 存储上传返回的img的src
 
-    // 调取手机的上传
-    wx.chooseImage({
-        count: 1,
-        sizeType: ['compressed'],
-        sourceType: ['album', 'camera'],
-        success: function (res) {       // 成功
-            console.log(res)
-            var tempFilePaths = res.tempFilePaths[0].toString();
-            len == mun ? mun = 4 : mun++;
-            if (_this.data.index <= 3) {// 上传之前的验证个数
-                arr.push(tempFilePaths);
-                _this.setData({
-                    arrimg: arr,
-                    index: mun
-                })
-                console.log('arrimg =' + _this.data.arrimg)
-                // wx.uploadFile({    
+     // wx.uploadFile({    
                 //     url: Utils.url + '/index.php/upload?server=1',
                 //     filePath: arr[arr.length - 1],
                 //     name: 'file',
@@ -377,12 +357,69 @@ chooseImageFn:function(){   // 上传的fn
                 //         })
                 //     }
                 // })
+
+
+    var _this = this;
+    var len = _this.data.len;   // 获取data的上传的总个数
+    var mun = _this.data.index;  // 获取data的上传完成的个数
+    var arr = _this.data.arrimg;         // 获取data的img的list 
+    var suArr = _this.data.successArr; // 存储上传返回的img的src
+
+    // 调取手机的上传
+    wx.chooseImage({
+        count: 4,
+        sizeType: ['compressed'],
+        sourceType: ['album', 'camera'],
+        success: function (res) {       // 成功
+            console.log(res)
+           // var tempFilePaths = res.tempFilePaths[0].toString();
+            var filePathArray = res.tempFilePaths;
+            console.log('tempFilePaths=' + JSON.stringify(filePathArray))
+            let mun = _this.data.mun;
+            let dataIndex = _this.data.index;
+            console.log('->data Index = ' + dataIndex);
+            if (dataIndex != 0){
+              
+              let arrIndex = filePathArray.length;
+              console.log('data index in arrIndex=' + arrIndex);
+              for (let path of filePathArray) {
+                // len == mun ? mun = 4 : mun++;
+                if (_this.data.index <= 3) {// 上传之前的验证个数
+                  arr.push(path);
+                  _this.setData({
+                    arrimg: arr 
+                  })
+                  console.log('arrimg =' + _this.data.arrimg)
+                } 
+              }
+              if (_this.data.index <= 3) {
+              _this.setData({ 
+                index: _this.data.index+arrIndex
+              })
+              }
+            }else{
+              for (let path of filePathArray) {
+                // len == mun ? mun = 4 : mun++;
+                if (_this.data.index <= 3) {// 上传之前的验证个数
+                  arr.push(path);
+                  _this.setData({
+                    arrimg: arr,
+                    index: mun
+                  })
+                  console.log('arrimg =' + _this.data.arrimg)
+                }
+                mun++;
+              }
             }
+            
+            
+            
         }
     })
 },
 closeImgFn:function(e){
     var doId = e.currentTarget.id;      // 对应的img的唯一id
+    console.log('del doId='+doId)
     var doarrimg = this.data.arrimg;    // 页面显示的img the list    
     var doindex = this.data.index;   // 上传显示的个数
     var suArr = this.data.successArr;      // 发送的img的list的数组
