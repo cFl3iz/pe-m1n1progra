@@ -422,14 +422,16 @@ closeImgFn:function(e){
     console.log('del doId='+doId)
     var doarrimg = this.data.arrimg;    // 页面显示的img the list    
     var doindex = this.data.index;   // 上传显示的个数
-    var suArr = this.data.successArr;      // 发送的img的list的数组
-    doarrimg.splice(doarrimg[doId], 1);     // 删除当前的下标的数组
-    suArr.splice(suArr[doId], 1); 
+    console.log('del doindex=' + doindex)
+    console.log('del doarrimg=' + doarrimg[doId])
+   // var suArr = this.data.successArr;      // 发送的img的list的数组
+    doarrimg.splice(doId,1);     // 删除当前的下标的数组
+    //suArr.splice(suArr[doId], 1); 
     doindex --;       // 删除一个上传的个数就递减
     this.setData({
         arrimg: doarrimg,
-        index: doindex,
-        successArr: suArr
+        index: doindex
+        // successArr: suArr
     })
 },
 getSetting:function(){  // 请求权限

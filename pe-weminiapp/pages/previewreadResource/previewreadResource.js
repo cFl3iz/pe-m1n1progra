@@ -385,6 +385,12 @@ Page({
           // that.setDemoData()
         } else {
           console.log('return data = ' + JSON.stringify(data))
+          var cover_url = data.resourceDetail.cover_url
+          var map = {
+            drObjectInfo: cover_url
+          };
+          data.resourceDetail.morePicture.unshift(map)
+
           that.setData({
              nowPartyId:data.nowPartyId,
             bookInfo: data.resourceDetail,

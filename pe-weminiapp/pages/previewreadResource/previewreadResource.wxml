@@ -1,23 +1,13 @@
 <view class="container">
 
   <view>
-    <swiper wx:if="{{bookInfo.morePicture[0].drObjectInf != null }}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
+    <swiper class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
       <block wx:for="{{bookInfo.morePicture}}">
         <swiper-item>
           <image bindtap='previewImage' data-src="https://{{item.drObjectInfo}}" src="https://{{item.drObjectInfo}}" class="slide-image" />
         </swiper-item>
       </block>
-    </swiper>
-
-    <swiper wx:if="{{bookInfo.morePicture[0].drObjectInf == null }}" class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
-
-      <swiper-item>
-        <image bindtap='previewImage' data-src="https://{{bookInfo.cover_url}}" src="https://{{bookInfo.cover_url}}" class="slide-image" />
-      </swiper-item>
-
-    </swiper>
-
-
+    </swiper> 
 
   </view>
 

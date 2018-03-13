@@ -37,7 +37,7 @@
     <!-- <label>
       描述
     </label> -->
-    <textarea style="height: 500rpx"  data-name="desc" name="desc"  placeholder="详细的描述有助于您更快卖出哦。如：商品的品牌、规格、成色、购买渠道、转让原因、推荐理由等。" placeholder-style="color:#666;font-size:30rpx; " value="{{textareaVal}}" bindinput="textareaFn"></textarea>
+    <textarea style="height: 350rpx"  data-name="desc" name="desc"  placeholder="详细的描述有助于您更快卖出哦。如：商品的品牌、规格、成色、购买渠道、转让原因、推荐理由等。" placeholder-style="color:#666;font-size:30rpx; " value="{{textareaVal}}" bindinput="textareaFn"></textarea>
   </view>
 
   
