@@ -460,12 +460,26 @@ Page({
       title: shareName,
       path: '/pages/previewreadResource/previewreadResource?' + 'productid=' + that.data.productid + '&paytopartyid=' + that.data.payToPartyId,
       success: function (res) {
-        // 转发成功productModel
+        console.log('on share success')
+        that.onShare()
       },
       fail: function (res) {
         // 转发失败
       }
     }
+  },
+  onShare(){ 
+    const data = {
+      productId: this.data.productid,
+      payToPartyId: this.data.payToPartyId, 
+      tarjeta: this.data.bookInfo.tarjeta 
+    }
+    Request.postRequest('https://www.yo-pe.com/api/common/shareInformation', data).then
+      (
+       function (data) { 
+        console.log('share over data = ' + JSON.stringify(data)) 
+        }
+      )
   },
 
   // 去听书
