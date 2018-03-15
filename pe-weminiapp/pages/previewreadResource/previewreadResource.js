@@ -50,6 +50,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    var spm = options.spm
+
+  
+
     wx.showLoading({
       title: '加载中',
     })
@@ -79,6 +84,8 @@ Page({
 
     console.log('options.productid=>' + options.productid)
     console.log('options.paytopartyid=>' + options.paytopartyid)
+
+    
     that.setData({
       productid: options.productid,
       productModel: options.productModel,
@@ -87,7 +94,11 @@ Page({
       // bookInfoData: options
     });
 
-    that.flushData(options.productid)
+    that.flushData(options.productid).then(
+      (data)=>{
+        this.receivedInformation(spm, options.paytopartyid)
+      }
+    )
 
     // reader 0 书本  1 朗读 
     // getApp().getCommentList(that.data.bookInfo.bookId, that.data.bookInfo.reader, that.data.commentPageNum, function (res) {
@@ -111,6 +122,11 @@ Page({
 
     // that.getCollectProduct();
     wx.hideLoading()
+
+
+    
+
+    
   },
   /* 点击减号 */
   bindMinus: function () {
@@ -370,8 +386,9 @@ Page({
   },
 
   flushData: function (productid) {
-    console.log(' flush data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     var that = this
+    return new Promise(function (resolve, reject) { 
+    console.log(' flush data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
     const data = {
       unioId: app.globalData.unicodeId,
       productId: productid
@@ -390,7 +407,7 @@ Page({
             drObjectInfo: cover_url
           };
           data.resourceDetail.morePicture.unshift(map)
-
+          resolve(data)
           that.setData({
              nowPartyId:data.nowPartyId,
             bookInfo: data.resourceDetail,
@@ -406,6 +423,7 @@ Page({
 
       }
       )
+    })
   },
 
   /**
@@ -455,10 +473,11 @@ Page({
   onShareAppMessage: function () {
     let that = this
     console.log('that.data.productid = ' + that.data.productid)
+    console.log('that.data.nowPartyId=' + that.data.nowPartyId)
     var shareName = that.data.shareName
     return {
       title: shareName,
-      path: '/pages/previewreadResource/previewreadResource?' + 'productid=' + that.data.productid + '&paytopartyid=' + that.data.payToPartyId,
+      path: '/pages/previewreadResource/previewreadResource?' + 'productid=' + that.data.productid + '&paytopartyid=' + that.data.payToPartyId + '&spm=' + that.data.nowPartyId,
       success: function (res) {
         console.log('on share success')
         that.onShare()
@@ -467,6 +486,21 @@ Page({
         // 转发失败
       }
     }
+  },
+  receivedInformation(spm,payToPartyId){
+    const data = { 
+      tarjeta: this.data.bookInfo.tarjeta,
+      productId: this.data.productid,
+      payToPartyId: payToPartyId, 
+      spm: spm
+    }
+
+    Request.postRequest('https://www.yo-pe.com/api/common/receivedInformation', data).then
+      (
+        function (data) {
+          console.log('received Information = ' + JSON.stringify(data))
+        }
+      ) 
   },
   onShare(){ 
     const data = {

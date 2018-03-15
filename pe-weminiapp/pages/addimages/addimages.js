@@ -14,7 +14,7 @@ var datalist = {
     bool: true,  // 是否通过上传的权限
     mun:1,
     tempFilePath:"",
-    address:'选择宝贝位置',
+    address:'',
     picturePaths:'',
     upLoadCount:0,
     latitude:'',

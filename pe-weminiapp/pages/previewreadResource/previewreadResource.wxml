@@ -44,7 +44,7 @@
     </view>
     <navigator class="wx-navigator_PNd8QQ" data-c_e_id="wx_navigatore5f0a9a2" hover-class="navigator-hover">
       <view class="wx-view_KedDbI" data-c_e_id="wx_view61fade93">
-        <text class="c-block wx-text_6zTs4l" data-c_e_id="wx_text3a07b200">
+        <text wx:if="{{bookInfo.desc != null}}" class="c-block wx-text_6zTs4l" data-c_e_id="wx_text3a07b200">
         {{bookInfo.desc}}
         </text>
       </view>
@@ -114,7 +114,7 @@
   <!-- 一条评论 E-->
 </view>
 
-<modal hidden="{{hiddenmodalput}}" title="选择购买数量及备注" confirm-text="提交" cancel-text="无备注" bindcancel="cancel" bindconfirm="confirm">
+<modal class="orderPropBox" hidden="{{hiddenmodalput}}" title="选择购买数量及备注" confirm-text="确认" cancel-text="" bindcancel="cancel" bindconfirm="confirm">
   <!-- 主容器 -->  
 <view class="stepper">  
     <!-- 减号 -->  
@@ -124,7 +124,9 @@
     <!-- 加号 -->  
     <text class="normal" bindtap="bindPlus">+</text>  
 </view>  
+<view class='commntBox'>
   <input style='float:left;' type='text' bindinput="input" value="{{remark}}" placeholder="点此处给卖家的留言.." />
+</view>  
 </modal>
 
 <view class="btn-wrapper" wx:if="{{nowPartyId !== payToPartyId}}">
@@ -140,3 +142,8 @@
   </block>
   <action-sheet-cancel >取消</action-sheet-cancel>
 </action-sheet>
+
+
+
+
+ 

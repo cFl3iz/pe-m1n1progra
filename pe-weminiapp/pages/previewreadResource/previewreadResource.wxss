@@ -4,6 +4,9 @@ view,scroll-view,swiper,swiper-item,icon,text,progress,button,checkbox-group,che
         -moz-box-sizing: border-box;
         box-sizing: border-box;
 }
+.orderPropBox{
+  height: 300rpx;
+}
 page {
         height: 100%;
         font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
@@ -377,4 +380,23 @@ page{
     margin: 20rpx 0;
     color: #939393;
     line-height: 22px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.commntBox{
+    width: 100%;  
+    height: 120rpx;  
+    /*给主容器设一个边框*/  
+    border: 1px solid #ccc;  
+    border-radius: 3px;  
+    margin-top:20rpx;  
 }

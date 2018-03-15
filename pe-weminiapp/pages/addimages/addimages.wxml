@@ -47,7 +47,7 @@
   <view class="text-box">
     <icon size="25" class='locationIcon' type='search' bindtap='getUserLocation'>
     </icon>
-    <input style="width:580rpx;" bindtap='getUserLocation' data-name="address" name="address" disabled="true" maxlength="-1"   value='{{address}}'></input> 
+    <input style="width:580rpx;" bindtap='getUserLocation' data-name="address" name="address" disabled="true" maxlength="-1" placeholder='选择宝贝位置'   value='{{address}}'></input> 
   </view>
   <!-- 写的一条实线 -->
   <view class='whiteBlock'>
