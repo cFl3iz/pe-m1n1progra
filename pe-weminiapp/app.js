@@ -159,7 +159,7 @@ App({
         success: function (res) {
           that.globalData.userInfo = res.userInfo
           resolve(res.userInfo)
-          console.log('当前登录用户:' + JSON.stringify(that.globalData.userInfo.nickName))
+          console.log('当前登录用户:' + JSON.stringify(that.globalData.userInfo))
         }
       })
     })

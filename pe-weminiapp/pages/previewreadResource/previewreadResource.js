@@ -100,19 +100,7 @@ Page({
       }
     )
 
-    // reader 0 书本  1 朗读 
-    // getApp().getCommentList(that.data.bookInfo.bookId, that.data.bookInfo.reader, that.data.commentPageNum, function (res) {
-    //   if (res.payload.comments.length !== 0) {
-    //     res.payload.comments.forEach(function (element, index) {
-    //       res.payload.comments[index].ts = utils.formatTime(new Date(element.ts * 1000));
-    //     }, this);
-    //     that.setData({
-    //       comments: res.payload.comments,
-    //       isComment: 0
-    //     });
-    //   }
-    // })
-
+ 
 
 
     wx.setNavigationBarTitle({
@@ -297,7 +285,12 @@ Page({
                 icon: 'success',
                 duration: 2000
               });
-              that.selectAddress(data.orderId) 
+              that.selectAddress(data.orderId).then(
+                (data)=>{
+                  console.log('select address result = ' + JSON.stringify(data))
+                  that.goOrderPage(app.globalData.unicodeId)
+                }
+              ); 
             }
           });
         }
@@ -306,45 +299,50 @@ Page({
   },
   selectAddress:function(orderId){
     var that = this
-    //选择收货地址
-    wx.chooseAddress({
-      success: function (res) {
-        console.log(res.userName)
-        console.log(res.postalCode)
-        console.log(res.provinceName)
-        console.log(res.cityName)
-        console.log(res.countyName)
-        console.log(res.detailInfo)
-        console.log(res.nationalCode)
-        console.log(res.telNumber)
+    return new Promise(function (resolve, reject) {
+      //选择收货地址
+      wx.chooseAddress({
+        success: function (res) {
+          console.log(res.userName)
+          console.log(res.postalCode)
+          console.log(res.provinceName)
+          console.log(res.cityName)
+          console.log(res.countyName)
+          console.log(res.detailInfo)
+          console.log(res.nationalCode)
+          console.log(res.telNumber)
 
-        const createShipAddressdata = {
-          tarjeta: that.data.bookInfo.tarjeta,
-          userName: res.userName,
-          postalCode: res.postalCode,
-          provinceName: res.provinceName,
-          cityName: res.cityName,
-          countyName: res.countyName,
-          detailInfo: res.detailInfo,
-          nationalCode: res.nationalCode,
-          telNumber: res.telNumber,
-          orderId: orderId
-        }
-        Request.postRequest('https://www.yo-pe.com/api/common/createPersonPartyPostalAddress', createShipAddressdata).then
-          (
-          function (data) {
-            that.goOrderPage(app.globalData.unicodeId)
-
+          const createShipAddressdata = {
+            tarjeta: that.data.bookInfo.tarjeta,
+            userName: res.userName,
+            postalCode: res.postalCode,
+            provinceName: res.provinceName,
+            cityName: res.cityName,
+            countyName: res.countyName,
+            detailInfo: res.detailInfo,
+            nationalCode: res.nationalCode,
+            telNumber: res.telNumber,
+            orderId: orderId
           }
-          )
+          Request.postRequest('https://www.yo-pe.com/api/common/createPersonPartyPostalAddress', createShipAddressdata).then
+            (
+            function (data) {
+              resolve(data)
+             
+
+            }
+            )
 
 
-      },
-      fail: function (err) {
-        that.selectAddress(orderId)
-      }
+        },
+        fail: function (err) {
+          that.selectAddress(orderId)
+        }
 
-    })
+      })
+      
+    });
+    
   },
   goOrderPage: function (unioId) {
     wx.showToast({
@@ -354,7 +352,12 @@ Page({
     }); 
     console.log('unioId=' + unioId)
     wx.switchTab({
-      url: "../order/order?unioId=" + unioId
+      url: "../order/order?unioId=" + unioId,
+      success: function (e) {
+        var page = getCurrentPages().pop();
+        if (page == undefined || page == null) return;
+        page.onShow(unioId);
+      }  
     })
   },
   contactC: function () {     
@@ -582,22 +585,7 @@ Page({
 
         }
         )
-      // getApp().addComment(that.data.bookInfo.bookid, that.data.bookInfo.reader, event.detail.value.comment, function (res) {
-      //   if (res.code == 0) {
-      //     res.payload.comment.ts = utils.formatTime(new Date(res.payload.comment.ts * 1000));
-      //     let data = that.data.comments.concat(res.payload.comment);
-      //     wx.showToast({
-      //       title: '评论成功',
-      //       icon: 'success',
-      //       duration: 1000
-      //     });
-      //     that.setData({
-      //       comments: data,
-      //       showComment: false,
-      //       isComment: 0
-      //     });
-      //   }
-      // });
+ 
     } else {
       wx.showToast({
         title: '请输入评论内容',
@@ -716,26 +704,7 @@ Page({
         duration: 2000
       })
     }
-
-    // if (that.data.bookInfoData.hasLiked == 1) {
-    //   that.data.bookInfoData.hasLiked = 0;
-    //   that.data.bookInfoData.likeCnt = that.data.bookInfoData.likeCnt - 1;
-    //   that.setData({
-    //     bookInfo: that.data.bookInfoData
-    //   });
-    //   getApp().likeAct(that.data.bookInfo.bookId, that.data.bookInfo.reader, 0, function (res) {
-    //     console.log('取消点赞');
-    //   });
-    // } else {
-    //   that.data.bookInfoData.hasLiked = 1;
-    //   that.data.bookInfoData.likeCnt = (that.data.bookInfoData.likeCnt - 0) + 1;
-    //   that.setData({
-    //     bookInfo: that.data.bookInfoData
-    //   });
-    //   getApp().likeAct(that.data.bookInfo.bookId, that.data.bookInfo.reader, 1, function (res) {
-    //     console.log('点赞成功');
-    //   });
-    // }
+ 
   }
 
 })

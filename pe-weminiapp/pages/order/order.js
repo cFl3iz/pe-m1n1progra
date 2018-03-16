@@ -61,6 +61,12 @@ Page({
     //   that.getData();
     // }
   },
+  onShow:function(unioId){
+    wx.showLoading({
+      title: '加载中',
+    })
+    this.getCollectProduct(unioId)
+  },
   //获取订单数据
   getCollectProduct: function (reqScopeOpenId) {
     const that = this
