@@ -1,30 +1,74 @@
-<!-- 整体 -->
-<view class="containsView">
-  <!-- 顶部导航栏 -->
-  <view class="headerView">
-    <!-- <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
-      <view catchtap="onTapTag" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
-        {{item.title}}
-      </view>
-    </block> -->
-  </view>
-  <!--scrollview-->
-  <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
-    <block wx:for-items="{{list}}" wx:key='item.orderId'  wx:for-item="item">
-      <!-- item-->
-      <view data-orderId="{{item.orderId}}" bindtap="viewOrderItem" class="topContainsView">
-        <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
-        <view class="topRightView">
-          <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
-          <text class="topRightTime">￥{{item.unitPrice * item.quantity }}/{{item.currencyUom}}</text>
-          <!--销量和评价-->
-          <view class="saleAndcom">
-            <text class="saletext">{{item.quantity}}件</text>
-            <text class="saleRightText">{{item.personAddressInfoMap.contactAddress}}</text>
-          </view>
-          <text class="orderTime">订单时间:{{item.orderDate.month}}月{{item.orderDate.date}}日</text>
-        </view>
-      </view>
-    </block>
-  </scroll-view>
+<view class="swiper-tab">
+  <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">我买的</view>
+  <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">我卖的</view>
+
 </view>
+<swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 31}}px" bindchange="bindChange">
+  <!-- 我是采购订单 -->
+  <swiper-item>
+    <view class="containsView">
+      <!-- 顶部导航栏 -->
+      <view class="headerView">
+        <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
+          <view catchtap="onTapTag" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
+            {{item.title}}
+          </view>
+        </block>
+      </view>
+      <!--scrollview-->
+      <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
+        <block wx:for-items="{{list}}" wx:key='item.orderId' wx:for-item="item">
+          <!-- item-->
+          <view data-orderId="{{item.orderId}}" bindtap="viewOrderItem" class="topContainsView">
+            <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
+            <view class="topRightView">
+              <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
+              <text class="topRightTime">￥{{item.unitPrice * item.quantity }}/{{item.currencyUom}} - {{item.quantity}}个</text>
+              <!--销量和评价-->
+              <view class="saleAndcom">
+                <text class="saletext">{{item.quantity}}件-{{item.personAddressInfoMap.contactAddress}}</text>
+                <!-- <text class="saleRightText"></text> -->
+              </view>
+              <text class="orderTime">订单时间:{{item.orderDate.month}}月{{item.orderDate.date}}日 状态:{{item.orderPayStatus}}/{{item.orderShipment}}</text>
+            </view>
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+  </swiper-item>
+  <!-- 销售订单列表 -->
+  <swiper-item>
+    <view class="containsView">
+      <!-- 顶部导航栏 -->
+      <view class="headerView">
+        <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
+          <view catchtap="onTapTag" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
+            {{item.title}}
+          </view>
+        </block>
+      </view>
+      <!--scrollview-->
+      <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
+        <block wx:for-items="{{salesList}}" wx:key='item.orderId' wx:for-item="item">
+          <!-- item-->
+          <view data-orderId="{{item.orderId}}" bindtap="viewOrderItem" class="topContainsView">
+            <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
+            <view class="topRightView">
+              <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
+              <text class="topRightTime">￥{{item.unitPrice * item.quantity }}/{{item.currencyUom}} - {{item.quantity}}个</text>
+              <!--销量和评价-->
+              <view class="saleAndcom">
+                <text class="saletext">{{item.quantity}}件-{{item.personAddressInfoMap.contactAddress}}</text>
+                <!-- <text class="saleRightText"></text> -->
+              </view>
+              <text class="orderTime">订单时间:{{item.orderDate.month}}月{{item.orderDate.date}}日 状态:{{item.orderPayStatus}}/{{item.orderShipment}}</text>
+            </view>
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+  </swiper-item>
+
+</swiper>
+
+<!-- 整体 -->

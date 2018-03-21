@@ -7,6 +7,12 @@ view,scroll-view,swiper,swiper-item,icon,text,progress,button,checkbox-group,che
 .orderPropBox{
   height: 300rpx;
 }
+.q-avatar {
+  border-radius: 50%;
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 20rpx;
+}
 page {
         height: 100%;
         font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;

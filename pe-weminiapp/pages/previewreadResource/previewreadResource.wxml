@@ -4,7 +4,7 @@
     <swiper class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
       <block wx:for="{{bookInfo.morePicture}}">
         <swiper-item>
-          <image bindtap='previewImage' data-src="https://{{item.drObjectInfo}}" src="https://{{item.drObjectInfo}}" class="slide-image" />
+          <image mode="aspectFill" bindtap='previewImage' data-src="https://{{item.drObjectInfo}}" src="https://{{item.drObjectInfo}}" class="slide-image" />
         </swiper-item>
       </block>
     </swiper> 
@@ -94,8 +94,15 @@
   </view>
   <!--没有评论 E-->
   <!-- 一条评论 S-->
+  <view wx:if="{{relationList.length != 0}}" >
+        <text style='color:#ee735c;font-size:45rpx;'>卖家[{{salerName}}]到底是谁?</text>
+        <view class="comment-item" wx:for="{{relationList}}" wx:for-item="Ritem">
+                <image src="https://{{Ritem.relationPartyAvatar}}" class="q-avatar"></image>
+            <text class="comment-username">{{Ritem.relationDisc}}</text>
+        </view>
+  </view>
+
   <view wx:if="{{comments != null}}">
-  吐槽区
     <view class="comment-item" wx:for="{{comments}}" wx:for-item="Citem">
       <view class="comment-avatar">
         <image src="https://{{Citem.userInfo.headPortrait}}"></image>
@@ -132,13 +139,13 @@
 <view class="btn-wrapper" wx:if="{{nowPartyId !== payToPartyId}}">
   <button type='leftbtn' wx:if="{{bookInfo.availableToPromiseTotal > 0 }}" catchtap='contactC' class='leftbtn'>下单</button>
   <button type='leftbtn' wx:if="{{bookInfo.availableToPromiseTotal <= 0 }}"  class='leftbtn'>卖完了</button>
-  <button type='rightbtn' catchtap='contactB' class='rightbtn'>联系资源主</button>
+  <button  type='rightbtn' catchtap='contactB' class='rightbtn'>联系资源主</button>
 </view>
 <view class="top" catchtap="goHome">←</view>
 
 <action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetChange">
   <block wx:for-items="{{actionSheetItems}}">
-    <action-sheet-item bindtap="bind{{item}}">{{item}}</action-sheet-item>
+    <action-sheet-item bindtap="bind{{item}}" data-item="{{item}}">{{item.desc}}</action-sheet-item>
   </block>
   <action-sheet-cancel >取消</action-sheet-cancel>
 </action-sheet>

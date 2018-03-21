@@ -5,21 +5,23 @@ var page = undefined;
 let utils = require('../../utils/util.js');
 import Request from '../../utils/request.js'
 import ServiceUrl from '../../utils/serviceUrl.js'
-var items = ['卖家是我的亲戚', '卖家是我的朋友', '卖家是我的同事', '卖家是我的同学', '卖家是我的邻居', '卖家是我的死党']
+var items = [{ id: '0', desc: '卖家是我的亲戚', name: '亲戚' }, { id: '02', desc: '卖家是我的朋友', name: '朋友' }]
 // mybook.js
 Page({
 
   /**
    * 页面的初始数据
    */
-  data: {  
+  data: {
+    salerName: null,
+    relationList:null,
     num: 1,
     minusStatus: 'disabled',
     actionSheetHidden: true,
     actionSheetItems: items,
-    nowPartyId:'',
-    contactTel:'',
-    hiddenmodalput:true,
+    nowPartyId: '',
+    contactTel: '',
+    hiddenmodalput: true,
     availableToPromiseTotal: null,
     payToPartyId: '',
     doommData: [],
@@ -50,24 +52,69 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    var spm = options.spm
-
-  
-
+    
     wx.showLoading({
       title: '加载中',
     })
+    var spm = options.spm 
     page = this;
     for (var i = 0; i < items.length; ++i) {
-      (function (itemName) {
-        page['bind' + itemName] = function (e) {
-          console.log('click' + itemName, e)
+      (function (relation) {
+        page['bind' + relation] = function (e) {
+          var selectRelation = e.currentTarget.dataset.item
+          console.log('select ' + JSON.stringify(selectRelation))
+          if (selectRelation.id == '0') {
+            wx.showToast({
+              title: '已是' + selectRelation.name + '了',
+              icon: 'success',
+              duration: 2000
+            });
+          } else {
+            // 增加关联
+            const url = ServiceUrl.platformManager + 'addPartyRelationShip' 
+          
+
+            const reqdata = {
+              partyIdTo: this.data.payToPartyId,
+              tarjeta: this.data.bookInfo.tarjeta,
+              partyRelationshipTypeId: selectRelation.id
+            } 
+            var that = this
+            Request.postRequest(url, reqdata).then(function (data) {
+               
+              if (data.code === '200') {
+                wx.showToast({
+                  title: '关联成功!',
+                  icon: 'success',
+                  duration: 2000
+                });
+                that.flushData(that.data.productid).then(
+                  (data) => {
+                    console.log('data=' + JSON.stringify(data))
+                     
+                    that.setData({
+                      actionSheetItems: data.resourceDetail.returnPersonalRelationsTypeList,
+                      relationList: data.resourceDetail.returnRelationsList,
+                      salerName: data.resourceDetail.user.firstName
+                    });
+                   
+                  }
+                )
+
+              }
+            });
+          }
+
+          this.setData({
+            actionSheetHidden:true
+          })
+
+
         }
       })(items[i])
     }
     const that = this
-  
+
     var unicodeId = app.globalData.unicodeId
 
     console.log('unicodeId=>' + unicodeId)
@@ -81,11 +128,10 @@ Page({
     unicodeId = app.globalData.unicodeId
 
     console.log(' after unicodeId=>' + unicodeId)
-
     console.log('options.productid=>' + options.productid)
     console.log('options.paytopartyid=>' + options.paytopartyid)
 
-    
+
     that.setData({
       productid: options.productid,
       productModel: options.productModel,
@@ -95,12 +141,19 @@ Page({
     });
 
     that.flushData(options.productid).then(
-      (data)=>{
+      (data) => {
+        console.log('data='+JSON.stringify(data))
         this.receivedInformation(spm, options.paytopartyid)
+        this.setData({
+          actionSheetItems: data.resourceDetail.returnPersonalRelationsTypeList,
+          relationList: data.resourceDetail.returnRelationsList,
+          salerName: data.resourceDetail.user.firstName
+        });
+        wx.hideLoading() 
       }
     )
 
- 
+
 
 
     wx.setNavigationBarTitle({
@@ -109,11 +162,6 @@ Page({
     });
 
     // that.getCollectProduct();
-    wx.hideLoading()
-
-
-    
-
     
   },
   /* 点击减号 */
@@ -134,16 +182,16 @@ Page({
   /* 点击加号 */
   bindPlus: function () {
     var num = this.data.num;
-    if (num + 1 > this.data.availableToPromiseTotal){
+    if (num + 1 > this.data.availableToPromiseTotal) {
       wx.showToast({
-        title: '库存仅' + this.data.availableToPromiseTotal +'件!',
+        title: '库存仅' + this.data.availableToPromiseTotal + '件!',
         icon: 'success',
         duration: 2000
       });
       this.setData({
-        num:1
+        num: 1
       })
-      return 
+      return
     }
     // 不作过多考虑自增1  
     num++;
@@ -246,7 +294,7 @@ Page({
     this.setData({
       'remark': e.detail['value']
     })
-   
+
   },
   //确认  
   confirm: function () {
@@ -254,50 +302,50 @@ Page({
       hiddenmodalput: true
     })
     this.buyProduct(this.data.remark);
-  } ,
-  buyProduct(remark){ 
-    
-    console.log('remark == ' + remark) 
+  },
+  buyProduct(remark) {
+
+    console.log('remark == ' + remark)
     console.log('productid=' + this.data.productid)
     console.log('payToPartyId=' + this.data.payToPartyId)
 
     var that = this
-  
- 
-      const data = {
-        productId: this.data.productid,
-        payToPartyId: this.data.payToPartyId,
-        unioId: app.globalData.unicodeId,
-        tarjeta: this.data.bookInfo.tarjeta,
-        productStoreId: this.data.bookInfo.productStoreId,
-        prodCatalogId: this.data.bookInfo.prodCatalogId,
-        remark: remark,
-        amount: this.data.num
+
+
+    const data = {
+      productId: this.data.productid,
+      payToPartyId: this.data.payToPartyId,
+      unioId: app.globalData.unicodeId,
+      tarjeta: this.data.bookInfo.tarjeta,
+      productStoreId: this.data.bookInfo.productStoreId,
+      prodCatalogId: this.data.bookInfo.prodCatalogId,
+      remark: remark,
+      amount: this.data.num
+    }
+    Request.postRequest('https://www.yo-pe.com/api/common/buyProduct', data).then
+      (
+      function (data) {
+        console.log('>>>>>>>>>>>>>>>>>>>>>> data = ' + JSON.stringify(data))
+        wx.vibrateShort({
+          complete: function (res) {
+            wx.showToast({
+              title: '下单成功!',
+              icon: 'success',
+              duration: 2000
+            });
+            that.selectAddress(data.orderId).then(
+              (data) => {
+                console.log('select address result = ' + JSON.stringify(data))
+                that.goOrderPage(app.globalData.unicodeId)
+              }
+            );
+          }
+        });
       }
-      Request.postRequest('https://www.yo-pe.com/api/common/buyProduct', data).then
-        (
-        function (data) {
-          console.log('>>>>>>>>>>>>>>>>>>>>>> data = ' + JSON.stringify(data))
-          wx.vibrateShort({
-            complete: function (res) {
-              wx.showToast({
-                title: '下单成功!',
-                icon: 'success',
-                duration: 2000
-              });
-              that.selectAddress(data.orderId).then(
-                (data)=>{
-                  console.log('select address result = ' + JSON.stringify(data))
-                  that.goOrderPage(app.globalData.unicodeId)
-                }
-              ); 
-            }
-          });
-        }
-        )
-      
+      )
+
   },
-  selectAddress:function(orderId){
+  selectAddress: function (orderId) {
     var that = this
     return new Promise(function (resolve, reject) {
       //选择收货地址
@@ -328,7 +376,7 @@ Page({
             (
             function (data) {
               resolve(data)
-             
+
 
             }
             )
@@ -340,16 +388,16 @@ Page({
         }
 
       })
-      
+
     });
-    
+
   },
   goOrderPage: function (unioId) {
     wx.showToast({
       title: '已确认地址',
       icon: 'success',
       duration: 1000
-    }); 
+    });
     console.log('unioId=' + unioId)
     wx.switchTab({
       url: "../order/order?unioId=" + unioId,
@@ -357,10 +405,10 @@ Page({
         var page = getCurrentPages().pop();
         if (page == undefined || page == null) return;
         page.onShow(unioId);
-      }  
+      }
     })
   },
-  contactC: function () {     
+  contactC: function () {
     var that = this
     var availableToPromiseTotal = that.data.availableToPromiseTotal
     console.log('that - data - availableToPromiseTotal = ' + availableToPromiseTotal)
@@ -368,7 +416,7 @@ Page({
     if (null == availableToPromiseTotal || parseInt(availableToPromiseTotal) > 0) {
       this.setData({
         hiddenmodalput: false
-      })   
+      })
     } else {
       wx.showToast({
         title: '卖光了',
@@ -376,7 +424,7 @@ Page({
         duration: 2000
       });
     }
-  
+
   },
   openLocationByAddress(e) {
     console.log('open wx location ! e.target.dataset.la =' + e.target.dataset.la)
@@ -390,42 +438,42 @@ Page({
 
   flushData: function (productid) {
     var that = this
-    return new Promise(function (resolve, reject) { 
-    console.log(' flush data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
-    const data = {
-      unioId: app.globalData.unicodeId,
-      productId: productid
-    }
-    Request.postRequest('https://www.yo-pe.com/api/common/queryResourceDetail', data).then
-      (
-      function (data) {
-        console.log('return data = ' + JSON.stringify(data))
-        // console.log('data.resourceDetail=' + data)
-        if (data.resourceDetail == undefined) {
-          // that.setDemoData()
-        } else {
-          console.log('return data = ' + JSON.stringify(data))
-          var cover_url = data.resourceDetail.cover_url
-          var map = {
-            drObjectInfo: cover_url
-          };
-          data.resourceDetail.morePicture.unshift(map)
-          resolve(data)
-          that.setData({
-             nowPartyId:data.nowPartyId,
-            bookInfo: data.resourceDetail,
-            shareName: data.resourceDetail.title,
-            data: data,
-            bookInfoData: true,
-            comments: data.resourceDetail.tuCaoList,
-            availableToPromiseTotal: data.resourceDetail.availableToPromiseTotal,
-            contactTel: data.resourceDetail.contactNumber
-          })
-          wx.hideLoading()
-        }
-
+    return new Promise(function (resolve, reject) {
+      console.log(' flush data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+      const data = {
+        unioId: app.globalData.unicodeId,
+        productId: productid
       }
-      )
+      Request.postRequest('https://www.yo-pe.com/api/common/queryResourceDetail', data).then
+        (
+        function (data) {
+          console.log('return data = ' + JSON.stringify(data))
+          // console.log('data.resourceDetail=' + data)
+          if (data.resourceDetail == undefined) {
+            // that.setDemoData()
+          } else {
+            console.log('return data = ' + JSON.stringify(data))
+            var cover_url = data.resourceDetail.cover_url
+            var map = {
+              drObjectInfo: cover_url
+            };
+            data.resourceDetail.morePicture.unshift(map)
+            resolve(data)
+            that.setData({
+              nowPartyId: data.nowPartyId,
+              bookInfo: data.resourceDetail,
+              shareName: data.resourceDetail.title,
+              data: data,
+              bookInfoData: true,
+              comments: data.resourceDetail.tuCaoList,
+              availableToPromiseTotal: data.resourceDetail.availableToPromiseTotal,
+              contactTel: data.resourceDetail.contactNumber
+            })
+            wx.hideLoading()
+          }
+
+        }
+        )
     })
   },
 
@@ -490,32 +538,32 @@ Page({
       }
     }
   },
-  receivedInformation(spm,payToPartyId){
-    const data = { 
+  receivedInformation(spm, payToPartyId) {
+    const data = {
       tarjeta: this.data.bookInfo.tarjeta,
       productId: this.data.productid,
-      payToPartyId: payToPartyId, 
+      payToPartyId: payToPartyId,
       spm: spm
     }
 
     Request.postRequest('https://www.yo-pe.com/api/common/receivedInformation', data).then
       (
-        function (data) {
-          console.log('received Information = ' + JSON.stringify(data))
-        }
-      ) 
+      function (data) {
+        console.log('received Information = ' + JSON.stringify(data))
+      }
+      )
   },
-  onShare(){ 
+  onShare() {
     const data = {
       productId: this.data.productid,
-      payToPartyId: this.data.payToPartyId, 
-      tarjeta: this.data.bookInfo.tarjeta 
+      payToPartyId: this.data.payToPartyId,
+      tarjeta: this.data.bookInfo.tarjeta
     }
     Request.postRequest('https://www.yo-pe.com/api/common/shareInformation', data).then
       (
-       function (data) { 
-        console.log('share over data = ' + JSON.stringify(data)) 
-        }
+      function (data) {
+        console.log('share over data = ' + JSON.stringify(data))
+      }
       )
   },
 
@@ -585,7 +633,7 @@ Page({
 
         }
         )
- 
+
     } else {
       wx.showToast({
         title: '请输入评论内容',
@@ -704,7 +752,7 @@ Page({
         duration: 2000
       })
     }
- 
+
   }
 
 })

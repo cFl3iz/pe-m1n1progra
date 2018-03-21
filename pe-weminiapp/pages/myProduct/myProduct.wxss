@@ -1,3 +1,40 @@
+.rightBtn{
+  background-color:green;color:white;
+  width:45%;
+  float: right;
+}
+.tips{
+  color:#ee735c;
+  margin: 0;
+  padding: 0;
+}
+.deleteBtn{
+   background-color:blanchedalmond;color:white;
+  width:100%;
+}
+.productName{
+  font-size:35rpx;
+  color:cadetblue;  
+   overflow:hidden; 
+    text-overflow:ellipsis; 
+    white-space:nowrap; 
+}
+.inventoryQuantity{
+  margin-left: 10rpx;
+  font-size:35rpx;
+  color:#ee735c; 
+}
+ 
+.leftBtn{
+  background-color:#ee735c;color:white;
+  width:45%;
+   float: left;
+}
+.donBox{
+  height:100rpx;
+  width:100%;
+}
+
 .block {
   border: 8px solid #71b471;
   margin: 20rpx 20rpx;

@@ -30,15 +30,17 @@
 /*用户名称样式*/
 
 .topRightName {
-  font-size: 45rpx;
+  font-size: 35rpx;
+  overflow:hidden;  
+    text-overflow:ellipsis; 
+    white-space:nowrap;  
 }
 
 /*时间样式*/
 
 .topRightTime {
   font-size: 25rpx;
-  color: red;
-  margin-top: 10rpx;
+  color: red; 
 }
 
 /*Item样式中的图标样式 */
@@ -59,13 +61,15 @@
 
 /*销量和评价那一条*/
 
-.saleAndcom {
-  margin-top: 8rpx;
+.saleAndcom { 
   flex-direction: row;
 }
 
 .saletext {
-  font-size:30rpx;
+  font-size:28rpx;
+  overflow:hidden;  
+    text-overflow:ellipsis; 
+    white-space:nowrap;  
 }
 .orderTime{
   font-size:27rpx;
@@ -130,3 +134,28 @@
 .scrollview-list {
   margin-top: 72rpx;
 }
+
+
+
+
+
+
+
+/**index.wxss**/  
+.swiper-tab{  
+    width: 100%;  
+    border-bottom: 2rpx solid #777777;  
+    text-align: center;  
+    line-height: 80rpx;}  
+.swiper-tab-list{  font-size: 30rpx;  
+    display: inline-block;  
+    width: 33.33%;  
+    color: #777777;  
+}  
+.on{ color: #da7c0c;  
+    border-bottom: 5rpx solid #da7c0c;}  
+  
+.swiper-box{ display: block; height: 100%; width: 100%; overflow: hidden; }  
+.swiper-box view{  
+    text-align: center;  
+}  

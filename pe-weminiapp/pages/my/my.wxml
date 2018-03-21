@@ -6,7 +6,7 @@
     </view>
     <view class="user-info flex-item">
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-       <text class="edit">一个传说中的资源主...</text> 
+       <text class="edit">还没有个人简介....</text> 
     </view>
   </view>
   <!--下部信息-->

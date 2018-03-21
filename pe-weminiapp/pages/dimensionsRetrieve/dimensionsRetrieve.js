@@ -292,9 +292,9 @@ Page({
       this.get_data(app.globalData.unicodeId)
     }
   },
-  onShareAppMessage: function () {
+  // onShareAppMessage: function () {
 
-  },
+  // },
   globalData: {
     userInfo: null,
     code: null,

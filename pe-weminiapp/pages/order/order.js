@@ -9,11 +9,15 @@ var navlist = [
   { id: "goodsStorePrice", title: "已完成", icon: "../../images/pop_select_pray.png" },
 ];
 Page({
-  data: {
+  data: { 
+    winWidth: 0,
+    winHeight: 0,   
+    currentTab: 0,  
     pageNo: 1,
     activeIndex: 0,
     navList: navlist,
     systemInfo: [],
+    salesList:null,
     loadingHidden: true,
     list: [
       {
@@ -61,11 +65,26 @@ Page({
     //   that.getData();
     // }
   },
+  /** 
+  * 点击tab切换 
+  */
+  swichNav: function (e) {
+
+    var that = this;
+
+    if (this.data.currentTab === e.target.dataset.current) {
+      return false;
+    } else {
+      that.setData({
+        currentTab: e.target.dataset.current
+      })
+    }
+  },  
   onShow:function(unioId){
     wx.showLoading({
       title: '加载中',
     })
-    this.getCollectProduct(unioId)
+    this.getCollectProduct(unioId) 
   },
   //获取订单数据
   getCollectProduct: function (reqScopeOpenId) {
@@ -80,7 +99,7 @@ Page({
       unioId: openId
     }
     Request.postRequest(url, data).then(function (data) {
-      console.log("我的订单=>:" + JSON.stringify(data))
+      // console.log("我的订单=>:" + JSON.stringify(data))
       
       const { code: code, orderList: orderList } = data
       if (code === '200') {
@@ -92,11 +111,36 @@ Page({
       }
     })
   },
+  getSalesOrder: function (reqScopeOpenId) {
+    const that = this
+
+    const url = ServiceUrl.platformManager + 'queryMyResourceOrderFromWeChat'
+    let openId = app.globalData.unicodeId
+    if (!openId) {
+      openId = reqScopeOpenId
+    }
+    const data = {
+      unioId: openId
+    }
+    Request.postRequest(url, data).then(function (data) {
+      console.log("我的销售订单=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>:" + JSON.stringify(data))
+
+      const { code: code } = data
+      if (code === '200') {
+
+        that.setData({
+          salesList: data.queryMyResourceOrderList
+        })
+        wx.hideLoading()
+      }
+    })
+  },
   onLoad: function (options) {
     wx.showLoading({
       title: '加载中',
     })
     this.getCollectProduct(options.unioId)
+    this.getSalesOrder(options.unioId)
   },
   viewOrderItem(e) {
     let orderid = e.currentTarget.dataset.orderid

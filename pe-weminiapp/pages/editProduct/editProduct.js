@@ -61,9 +61,9 @@ Page({
       icon: 'success',
       duration: 20000
     })
-    return false;
+     
 
-    //that.releaseProduct(e)
+    that.releaseProduct(e)
   },
   releaseProduct(e) {
     const that = this

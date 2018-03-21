@@ -1,8 +1,8 @@
 {
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "有信任,有朋友!",
+  "navigationBarTitleText": "YO-PE.COM",
   "backgroundColor": "#f7f7f7",
   "backgroundTextStyle": "dark",
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false 
 }
