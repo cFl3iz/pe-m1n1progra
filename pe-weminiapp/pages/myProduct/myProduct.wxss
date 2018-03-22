@@ -47,7 +47,7 @@
   width: 100rpx;
   height: 100rpx;
   line-height: 100rpx;
-  background-color: #fff;
+  background-color:darkcyan;
   position: fixed;
   bottom: 40rpx;
   right: 20rpx;
@@ -55,5 +55,6 @@
   font-size: 50rpx;
   opacity: .8;
   border-radius: 50%;
+  color:white;
   border: 1px solid #fff; 
 }

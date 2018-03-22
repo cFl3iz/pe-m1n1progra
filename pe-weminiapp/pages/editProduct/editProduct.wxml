@@ -56,21 +56,33 @@
     </label>
     <input data-name="count" name="count" type='digit' placeholder='存量 (可不填写,无库存限制)' confirm-type='done' value="{{availableToPromiseTotal}}"></input>
   </view>
-  <view class="line-css">
-  </view>
+  <!-- <view class="line-css">
+  </view>  
   <view class="text-box">
-    <label>联络
+     <label>联络
     </label>
-    <input data-name="tel" name="tel" type='digit' placeholder='点击右侧按钮或手动填联系电话(可不填)' confirm-type='done' value='{{contactTel}}'></input>
-    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
-    </button>
-  </view>
+    <input data-name="tel" name="tel" type='digit' placeholder='点击右侧按钮或手动填联系电话(可不填)' confirm-type='done' value='{{contactTel}}'></input> 
+  </view>-->
 
 
 
   <!-- 写的一条实线 -->
   <view class="line-css">
   </view>
+
+ <view class="upload-img">
+    <view class="imgs-style" wx:for="{{arrimg}}" >
+      <view class="close" bindtap="closeImgFn" id="{{index}}">
+        <image src="/images/close.png"></image>
+      </view>
+      <image bindtap='previewImage' src="{{item}}" data-src="{{item}}" data-id="{{index}}"></image>
+    </view>
+
+    <image wx:if="{{index<4}}" class='chooseImageBox' src="/images/upload.png" bindtap="chooseimage" bindtouchstart=""></image>
+
+    <!-- <text style='color:#6F6F6F;'>{{index}}/{{len}}</text> -->
+  </view>
+
 
 
   <!--温馨提示  -->
