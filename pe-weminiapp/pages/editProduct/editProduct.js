@@ -3,6 +3,7 @@ import Request from '../../utils/request.js'
 var app = getApp();
 Page({
   data: {
+    morePicture: [],
     arrimg: [],           // 上传img的attr     => 页面显示的img                  
     len: 4,              // 上传的img的最大的length
     index: 0,         // 上传完成的个数
@@ -66,8 +67,15 @@ Page({
             // len == mun ? mun = 4 : mun++;
             if (_this.data.index <= 3) {// 上传之前的验证个数
               arr.push(path);
+              var onePicture = {
+                contentId: 'NA',
+                drObjectInfo: path
+              }
+              var tempPictures = _this.data.morePicture
+              tempPictures.unshift(onePicture)
               _this.setData({
-                arrimg: arr
+                arrimg: arr,
+                morePicture: tempPictures
               })
               console.log('arrimg =' + _this.data.arrimg)
             }
@@ -82,8 +90,17 @@ Page({
             // len == mun ? mun = 4 : mun++;
             if (_this.data.index <= 3) {// 上传之前的验证个数
               arr.push(path);
+
+              var onePicture = {
+                contentId: 'NA',
+                drObjectInfo: path
+              }
+              var tempPictures = _this.data.morePicture
+              tempPictures.unshift(onePicture)
+
               _this.setData({
                 arrimg: arr,
+                morePicture: tempPictures,
                 index: mun
               })
               console.log('arrimg =' + _this.data.arrimg)
@@ -96,7 +113,7 @@ Page({
   },
   previewImage: function (e) {
     var current = e.target.dataset.src;
-    console.log('this.data.arrimg=' + this.data.arrimg) 
+    console.log('this.data.arrimg=' + this.data.arrimg)
     wx.previewImage({
       current: current, // 当前显示图片的http链接  
       urls: this.data.arrimg // 需要预览的图片http链接列表  
@@ -113,37 +130,51 @@ Page({
     Request.postRequest('https://www.yo-pe.com/api/common/queryResourceDetail', data).then
       (
       function (data) {
-        console.log('return data = ' + JSON.stringify(data))
+
         var cover_url = data.resourceDetail.cover_url
+        if(null!=cover_url&& cover_url!=''){
+
+        
         var map = {
-          drObjectInfo: cover_url
+          drObjectInfo: cover_url,
+          contentId: '308561217_784838898'
         };
         data.resourceDetail.morePicture.unshift(map)
+        }
         var tempArray = []
         for (var key of data.resourceDetail.morePicture) {
-          　　 
-      　　　　console.log('key='+key);
-             tempArray.unshift("https://"+key.drObjectInfo)
+          console.log('key=' + key);
+          tempArray.unshift("https://" + key.drObjectInfo)
+          key.drObjectInfo = "https://" + key.drObjectInfo
         }
 
-        console.log('return data = ' + JSON.stringify(data))
         that.setData({
           nowPartyId: data.nowPartyId,
           productDetail: data.resourceDetail,
           shareName: data.resourceDetail.title,
           comments: data.resourceDetail.tuCaoList,
           availableToPromiseTotal: data.resourceDetail.availableToPromiseTotal,
-          contactTel: data.resourceDetail.contactNumber ,
-          arrimg: tempArray
+          contactTel: data.resourceDetail.contactNumber,
+          arrimg: tempArray,
+          morePicture: data.resourceDetail.morePicture,
+          dataIndex: data.resourceDetail.morePicture.length,
+          index: data.resourceDetail.morePicture.length
         })
         wx.hideLoading()
-
+        console.log('dataIndex = ' + that.data.dataIndex)
 
       }
       )
   },
   closeImgFn: function (e) {
-    var doId = e.currentTarget.id;      // 对应的img的唯一id
+
+ 
+
+    var contentId = e.currentTarget.id.substr(e.currentTarget.id.indexOf('/') + 1);
+
+    var doId = e.currentTarget.id.substr(0, e.currentTarget.id.indexOf('/'));
+
+    console.log('del contentId=' + contentId)
     console.log('del doId=' + doId)
     var doarrimg = this.data.arrimg;    // 页面显示的img the list    
     var doindex = this.data.index;   // 上传显示的个数
@@ -151,10 +182,39 @@ Page({
     console.log('del doarrimg=' + doarrimg[doId])
     doarrimg.splice(doId, 1);     // 删除当前的下标的数组
     doindex--;       // 删除一个上传的个数就递减
+
+    var tempPictures = this.data.morePicture
+    tempPictures.splice(doId, 1)
     this.setData({
       arrimg: doarrimg,
-      index: doindex
+      index: doindex,
+      morePicture: tempPictures
     })
+
+    console.log('tempPictures=' + JSON.stringify(tempPictures))
+    var that = this
+    if (contentId != null && contentId != 'NA') {
+      //说明要删后台及OSS数据
+      const url = ServiceUrl.platformManager + 'removeResourcePicture'
+
+      const reqdata = {
+        productId: that.data.productId,
+        contentId: contentId
+      }
+      Request.postRequest(url, reqdata).then(function (data) {
+
+        console.log('delete picture - > = ' + JSON.stringify(data))
+        wx.showToast({
+          title: '已删除!',
+          icon: 'success',
+          duration: 2000
+        })
+        that.flushData(that.data.productId)
+      })
+    }
+
+
+
   },
   formSubmit: function (e) {
     let that = this

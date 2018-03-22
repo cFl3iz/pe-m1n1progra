@@ -71,13 +71,13 @@
   </view>
 
  <view class="upload-img">
-    <view class="imgs-style" wx:for="{{arrimg}}" >
-      <view class="close" bindtap="closeImgFn" id="{{index}}">
+    <view class="imgs-style" wx:for="{{morePicture}}" > 
+      <view class="close" bindtap="closeImgFn" id="{{index}}/{{item.contentId}}">
         <image src="/images/close.png"></image>
       </view>
-      <image bindtap='previewImage' src="{{item}}" data-src="{{item}}" data-id="{{index}}"></image>
+      <image bindtap='previewImage' src="{{item.drObjectInfo}}" data-id='{{index}}'  data-src="{{item.drObjectInfo}}" ></image>
     </view>
-
+ 
     <image wx:if="{{index<4}}" class='chooseImageBox' src="/images/upload.png" bindtap="chooseimage" bindtouchstart=""></image>
 
     <!-- <text style='color:#6F6F6F;'>{{index}}/{{len}}</text> -->
