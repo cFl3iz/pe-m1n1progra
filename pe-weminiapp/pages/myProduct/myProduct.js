@@ -23,7 +23,7 @@ Page({
       }
       Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
         console.log('getOverDueResourceList >>>> ' + JSON.stringify(data))
-       
+
         that.setData({
           overdueResourceList: data.productList
         })
@@ -31,7 +31,42 @@ Page({
       })
     })
   },
+  //恢复上架
+  recoveResource: function (e) {
+    var productid = e.currentTarget.dataset.productid;
+    var name = e.currentTarget.dataset.name;
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '重新上架(' + name + ')?',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+          const data = {
+            productId: productid
+          }
+          Request.postRequest('https://www.yo-pe.com/api/common/recoveResource', data).then(function (data) {
+            console.log('recoveResource >>>> ' + JSON.stringify(data)) 
+            wx.showToast({
+              title: '已上架!',
+              icon: 'success',
+              duration: 2000
+            })
+            that.setData(
+              {
+                showModalStatus:false
+              }
+            )
+            that.runderList()
 
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
+  },
   powerDrawer: function (e) {
     var that = this
     this.getOverDueResourceList().then(

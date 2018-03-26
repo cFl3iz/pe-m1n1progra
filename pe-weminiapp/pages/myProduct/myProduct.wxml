@@ -41,15 +41,15 @@
 <!--使用animation属性指定需要执行的动画-->
 <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
   <!--drawer content-->
-  <view class="drawer_title">已下架的资源</view>
-  <view class="drawer_content" wx:for="{{overdueResourceList}}" wx:for-item="item">
-    <view class="top grid">
+  <view class="drawer_title">已下架的</view>
+  <view class="drawer_content" >
+    <view class="top grid" wx:for="{{overdueResourceList}}" wx:for-item="item">
        <image style="width: 50px; height: 50px;margin-left:10rpx;"    data-productid="{{item.productId}}" src="https://{{item.detailImageUrl}}" ></image>
        <label class="title col-0">{{item.productName}}/{{item.price}}￥
        </label>
       
        <label class="title col-1">
-      <view class="btn_ok" style='background-color:green;color:white;margin-left:15rpx;' bindtap="powerDrawer" data-statu="close">恢复</view> 
+      <view class="btn_ok" style='justify-content:center;align-items:center;background-color:green;color:white;margin-left:15rpx;margin-botton:30rpx;' data-productid="{{item.productId}}" data-name="{{item.productName}}" bindtap="recoveResource" data-statu="close">恢复</view> 
        </label> 
       <!-- <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input> -->
     </view>
