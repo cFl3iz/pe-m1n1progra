@@ -4,18 +4,55 @@ var app = getApp();
 Page({
   data: {
     showModalStatus: false,
-    nowPartyId:'',
-    tarjeta:'',
+    nowPartyId: '',
+    tarjeta: '',
     myProductList: [],
     touchStartTime: '',
-    touchEndTime: ''
+    touchEndTime: '',
+    overdueResourceList: []
   },
   onLoad: function (options) {
     this.runderList()
   },
+  getOverDueResourceList: function () {
+    const that = this
+    return new Promise(function (resolve, reject) {
+      const data = {
+        unioId: app.globalData.unicodeId,
+        isDiscontinuation: '1'
+      }
+      Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
+        console.log('getOverDueResourceList >>>> ' + JSON.stringify(data))
+       
+        that.setData({
+          overdueResourceList: data.productList
+        })
+        resolve(that.data.overdueResourceList)
+      })
+    })
+  },
+
   powerDrawer: function (e) {
-    var currentStatu = e.currentTarget.dataset.statu;
-    this.util(currentStatu)
+    var that = this
+    this.getOverDueResourceList().then(
+      function () {
+        var overdueResourceListLength = that.data.overdueResourceList.length
+        //根本没有下架的产品,让他走。
+        if (overdueResourceListLength == 0) {
+          wx.showToast({
+            title: '无下架的数据',
+            icon: 'success',
+            duration: 2000
+          })
+          return false;
+        }
+
+        var currentStatu = e.currentTarget.dataset.statu;
+        that.util(currentStatu)
+      }
+    )
+
+
   },
   util: function (currentStatu) {
     /* 动画部分 */
@@ -64,15 +101,15 @@ Page({
         }
       );
     }
-  } ,
+  },
 
   //编辑
-  editProduct:function(e){
+  editProduct: function (e) {
     if (this.data.touchEndTime - this.data.touchStartTime < 350) {
-    var productid = e.currentTarget.dataset.productid
-    wx.navigateTo({
-      url: '../editProduct/editProduct?productid='+ productid,
-    })
+      var productid = e.currentTarget.dataset.productid
+      wx.navigateTo({
+        url: '../editProduct/editProduct?productid=' + productid,
+      })
     }
   },
   /// 按钮触摸开始
@@ -84,8 +121,8 @@ Page({
   touchEnd: function (e) {
     this.data.touchEndTime = e.timeStamp
   },
-  removeProductFromCategory:function(productId){
-    var that = this 
+  removeProductFromCategory: function (productId) {
+    var that = this
     console.log('removeProductFromCategory =>' + productId)
     const data = {
       productId: productId
@@ -122,7 +159,7 @@ Page({
     console.log(JSON.stringify(e))
     let that = this
     var productid = e.target.dataset.productid
-    var shareName = e.target.dataset.sharename  
+    var shareName = e.target.dataset.sharename
     var payToPartyId = e.target.dataset.paytopartyid
     var nowPartyId = this.data.nowPartyId
     var tarjeta = this.data.tarjeta
@@ -145,9 +182,9 @@ Page({
       }
     }
   },
-  onShare(productid,paytopartyid,tarjeta) {
+  onShare(productid, paytopartyid, tarjeta) {
     const data = {
-      productId: productid, 
+      productId: productid,
       payToPartyId: paytopartyid,
       tarjeta: tarjeta
     }
@@ -159,8 +196,8 @@ Page({
       )
   },
 
-  salesDiscontinuation:function(e){
-    var that  = this
+  salesDiscontinuation: function (e) {
+    var that = this
     console.log('salesDiscontinuation=>')
     var productid = e.currentTarget.dataset.productid
     const data = {
@@ -179,10 +216,11 @@ Page({
     console.log('=>app.globalData.unicodeId=' + app.globalData.unicodeId)
     const that = this
     const data = {
-      unioId: app.globalData.unicodeId
+      unioId: app.globalData.unicodeId,
+      isDiscontinuation: '0'
     }
     Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
-      console.log('=>>>>'+JSON.stringify(data))
+      console.log('queryMyProduct=>>>>')
       that.setData({
         myProductList: data.productList,
         tarjeta: data.tarjeta,

@@ -92,7 +92,7 @@
   height: 750rpx;  
   overflow: hidden;  
   position: fixed;  
-  top: 30%;  
+  top: 45%;  
   left: 0;  
   z-index: 1001;  
   background: #FAFAFA;  
@@ -106,7 +106,7 @@
   text-align: center;  
 }  
 .drawer_content {  
-  height: 210px;  
+  height: 750rpx;  
   overflow-y: scroll; /*超出父盒子高度可滚动*/  
 }  
   
@@ -130,7 +130,7 @@
     width: 160rpx;  
     text-align: center;  
     display: inline-block;  
-    font: 300 28rpx/30px "microsoft yahei";  
+    font: 300 30rpx/30px "microsoft yahei";  
 }  
   
 .input_base {  
@@ -160,8 +160,9 @@ input {
 radio{  
     margin-right: 20px;  
 }  
-.grid { display: -webkit-box; display: box; }  
-.col-0 {-webkit-box-flex:0;box-flex:0;}  
+ 
+.grid { display: -webkit-box; display: box;border-bottom: 1px black solid;}  
+.col-0 {-webkit-box-flex:0;box-flex:0;font-size:30rpx;}  
 .col-1 {-webkit-box-flex:1;box-flex:1;}  
 .fl { float: left;}  
 .fr { float: right;}  
