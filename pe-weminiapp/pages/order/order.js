@@ -81,9 +81,14 @@ Page({
     }
   },  
   onShow:function(unioId){
-    wx.showLoading({
+    wx.showToast({
       title: '加载中',
+      icon: 'success',
+      duration: 9999
     })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     this.getCollectProduct(unioId) 
   },
   //获取订单数据
@@ -136,9 +141,14 @@ Page({
     })
   },
   onLoad: function (options) {
-    wx.showLoading({
+    wx.showToast({
       title: '加载中',
+      icon: 'success',
+      duration: 9999
     })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     this.getCollectProduct(options.unioId)
     this.getSalesOrder(options.unioId)
   },

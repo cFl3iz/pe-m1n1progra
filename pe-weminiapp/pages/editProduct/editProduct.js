@@ -132,14 +132,14 @@ Page({
       function (data) {
 
         var cover_url = data.resourceDetail.cover_url
-        if(null!=cover_url&& cover_url!=''){
+        if (null != cover_url && cover_url != '') {
 
-        
-        var map = {
-          drObjectInfo: cover_url,
-          contentId: '308561217_784838898'
-        };
-        data.resourceDetail.morePicture.unshift(map)
+
+          var map = {
+            drObjectInfo: cover_url,
+            contentId: '308561217_784838898'
+          };
+          data.resourceDetail.morePicture.unshift(map)
         }
         var tempArray = []
         for (var key of data.resourceDetail.morePicture) {
@@ -168,7 +168,7 @@ Page({
   },
   closeImgFn: function (e) {
 
- 
+
 
     var contentId = e.currentTarget.id.substr(e.currentTarget.id.indexOf('/') + 1);
 
@@ -227,12 +227,6 @@ Page({
       })
       return false
     }
-    wx.showToast({
-      title: '施工中...',
-      icon: 'success',
-      duration: 20000
-    })
-
 
     that.releaseProduct(e)
   },
@@ -250,9 +244,86 @@ Page({
       },
     })
   },
-  releaseProduct(e) {
-    const that = this
 
+
+  foreachUploada(e) {
+    let that = this
+    let count = 0
+    //说明这是没有持久化过的新图,这个我才传
+    console.log('that.data.arrimg=' + JSON.stringify(that.data.arrimg))
+    for (var i in that.data.arrimg) {
+      if (that.data.arrimg[i].indexOf('http://tmp/') >= 0) {
+        count++
+      }
+    }
+    console.log('共' + count)
+    if (count > 0) {
+
+
+      // wx.showLoading({
+      //   title: '正在更新..',
+      // })
+      wx.showToast({
+        title: '正在更新',
+        icon: 'success',
+        duration: 9999
+      })
+
+
+      for (var i in that.data.arrimg) {
+        console.log('Upload -> i = ' + i)
+        //说明这是没有持久化过的新图,这个我才传
+        if (that.data.arrimg[i].indexOf('http://tmp/') >= 0) {
+          const uploadTask = wx.uploadFile({
+            url: ServiceUrl.platformManager + 'uploadFileToOss', //仅为示例，非真实的接口地址
+            filePath: that.data.arrimg[i],
+            name: 'file',
+            formData: {
+            },
+            success: function (res) {
+              var data = res.data
+              console.log('data = ' + JSON.stringify(data))
+              that.setData({
+                picturePaths: that.data.picturePaths + JSON.parse(data).filePath + ',',
+                upLoadCount: parseInt(parseInt(that.data.upLoadCount) + 1)
+              })
+              //do something
+              console.log('that.data.upLoadCount=' + that.data.upLoadCount)
+              console.log('count=' + count)
+              if (that.data.upLoadCount == count) {
+                console.log('Over that.data.picturePaths = ' + that.data.picturePaths)
+                wx.showToast({
+                  title: '上传完毕',
+                  icon: 'success',
+                  duration: 2000
+                })
+                that.updateProduct(that.data.picturePaths, e);
+              }
+            }
+          })
+
+          uploadTask.onProgressUpdate((res) => {
+            wx.showToast({
+              title: '跑图中:' + res.progress + '%',
+              icon: 'loading',
+              duration: 1000
+            })
+            wx.showToast({
+              title: '请稍后..',
+              icon: 'success',
+              duration: 9999
+            })
+          })
+
+        }
+      }
+    } else {
+      that.updateProduct('', e);
+    }
+  },
+  //更新产品
+  updateProduct: function (picturePaths, e) {
+    const that = this
     wx.showToast({
       title: '正在更新..',
       icon: 'loading',
@@ -266,6 +337,7 @@ Page({
     console.log('go to update resource' + that.data.latitude)
     var tel = that.data.contactTel
     const reqdata = {
+      filePaths: picturePaths,
       productId: that.data.productId,
       title: e.detail.value.title,
       kuCun: e.detail.value.count,
@@ -287,6 +359,21 @@ Page({
       })
       that.flushData(that.data.productId)
     })
+  },
+
+
+  //BTN按钮点击事件
+  releaseProduct(e) {
+    if (this.data.arrimg == '') {
+      wx.showToast({
+        title: '至少给一张图',
+        icon: 'success',
+        duration: 10000
+      })
+      return false
+    }
+    this.foreachUploada(e)
+
   },
 
 })

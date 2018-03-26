@@ -3,6 +3,9 @@ import Request from '../../utils/request.js'
 var app = getApp();
 Page({
   data: {
+    showModalStatus: false,
+    nowPartyId:'',
+    tarjeta:'',
     myProductList: [],
     touchStartTime: '',
     touchEndTime: ''
@@ -10,6 +13,60 @@ Page({
   onLoad: function (options) {
     this.runderList()
   },
+  powerDrawer: function (e) {
+    var currentStatu = e.currentTarget.dataset.statu;
+    this.util(currentStatu)
+  },
+  util: function (currentStatu) {
+    /* 动画部分 */
+    // 第1步：创建动画实例   
+    var animation = wx.createAnimation({
+      duration: 200,  //动画时长  
+      timingFunction: "linear", //线性  
+      delay: 0  //0则不延迟  
+    });
+
+    // 第2步：这个动画实例赋给当前的动画实例  
+    this.animation = animation;
+
+    // 第3步：执行第一组动画  
+    animation.opacity(0).rotateX(-100).step();
+
+    // 第4步：导出动画对象赋给数据对象储存  
+    this.setData({
+      animationData: animation.export()
+    })
+
+    // 第5步：设置定时器到指定时候后，执行第二组动画  
+    setTimeout(function () {
+      // 执行第二组动画  
+      animation.opacity(1).rotateX(0).step();
+      // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象  
+      this.setData({
+        animationData: animation
+      })
+
+      //关闭  
+      if (currentStatu == "close") {
+        this.setData(
+          {
+            showModalStatus: false
+          }
+        );
+      }
+    }.bind(this), 200)
+
+    // 显示  
+    if (currentStatu == "open") {
+      this.setData(
+        {
+          showModalStatus: true
+        }
+      );
+    }
+  } ,
+
+  //编辑
   editProduct:function(e){
     if (this.data.touchEndTime - this.data.touchStartTime < 350) {
     var productid = e.currentTarget.dataset.productid
@@ -61,6 +118,47 @@ Page({
     })
     //doRemoveProductFromCategory
   },
+  onShareAppMessage: function (e) {
+    console.log(JSON.stringify(e))
+    let that = this
+    var productid = e.target.dataset.productid
+    var shareName = e.target.dataset.sharename  
+    var payToPartyId = e.target.dataset.paytopartyid
+    var nowPartyId = this.data.nowPartyId
+    var tarjeta = this.data.tarjeta
+
+    console.log('productid=' + productid)
+    console.log('shareName=' + shareName)
+    console.log('payToPartyId=' + payToPartyId)
+    console.log('nowPartyId=' + nowPartyId)
+    console.log('tarjeta=' + tarjeta)
+
+    return {
+      title: shareName,
+      path: '/pages/previewreadResource/previewreadResource?' + 'productid=' + productid + '&paytopartyid=' + payToPartyId + '&spm=' + nowPartyId,
+      success: function (res) {
+        console.log('on share success')
+        that.onShare(productid, payToPartyId, tarjeta)
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
+  },
+  onShare(productid,paytopartyid,tarjeta) {
+    const data = {
+      productId: productid, 
+      payToPartyId: paytopartyid,
+      tarjeta: tarjeta
+    }
+    Request.postRequest('https://www.yo-pe.com/api/common/shareInformation', data).then
+      (
+      function (data) {
+        console.log('share over data = ' + JSON.stringify(data))
+      }
+      )
+  },
+
   salesDiscontinuation:function(e){
     var that  = this
     console.log('salesDiscontinuation=>')
@@ -86,7 +184,9 @@ Page({
     Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
       console.log('=>>>>'+JSON.stringify(data))
       that.setData({
-        myProductList: data.productList
+        myProductList: data.productList,
+        tarjeta: data.tarjeta,
+        nowPartyId: data.nowPartyId
       })
     })
   }

@@ -11,20 +11,58 @@
 </scroll-view> -->
 
 <view>
-<text class='tips'>Tips:长按图片可以永久移除,点击可以编辑。</text>
+  <text class='tips'>Tips:长按图片可以永久移除,点击可以编辑。</text>
   <view>
     <scroll-view class="scroll" scroll-top="{{scrollTop}}" style="height:580px;" scroll-y="true" bindscroll="scrll" bindscrolltolower="loadMore">
-    
-      <view  class="block" wx:for="{{myProductList}}" wx:for-item="item"> 
-        <image bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd"  bindtap='editProduct' data-productid="{{item.productId}}" src="https://{{item.detailImageUrl}}" class="img"></image>
-        
-        <text class='productName'>{{item.productName}}</text><text class='inventoryQuantity'>库存:5件</text>
-         
+
+      <view class="block" wx:for="{{myProductList}}" wx:for-item="item">
+        <image bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtap='editProduct' data-productid="{{item.productId}}" src="https://{{item.detailImageUrl}}" class="img"></image>
+
+        <text class='productName'>{{item.productName}}</text>
+        <text class='inventoryQuantity'>库存:5件</text>
+
         <view class='donBox'>
-        <button class='leftBtn' data-productid="{{item.productId}}" bindtap='salesDiscontinuation'>下架</button><button class='rightBtn' open-type="share">转发</button>
+          <button class='leftBtn' data-productid="{{item.productId}}" bindtap='salesDiscontinuation'>下架</button>
+          <button data-productid="{{item.productId}}" data-paytopartyid="{{item.payToPartyId}}" data-sharename="{{item.productName}}" class='rightBtn' open-type="share">转发</button>
         </view>
       </view>
     </scroll-view>
   </view>
-  <view class="top" hidden="{{hidden}}" catchtap="goTop">故</view>
+  <view class="top2"  hidden="{{hidden}}" bindtap="powerDrawer" data-statu="open">下</view>
+
+
+  <!-- 下架的商品模态框 -->
+  <!--mask-->
+  <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+
 </view>
+
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+  <!--drawer content-->
+  <view class="drawer_title">下架的资源</view>
+  <view class="drawer_content">
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="mobile" value="110"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="phone" value="拒绝伸手党"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">标题</label>
+      <input class="input_base input_h30 col-1" name="Email" value="仅供学习使用"></input>
+    </view>
+    <view class="top bottom grid">
+      <label class="title col-0">备注</label>
+      <input class="input_base input_h30 col-1" name="bz"></input>
+    </view>
+  </view>
+  <!-- <view class="btn_ok" bindtap="powerDrawer" data-statu="close">确定</view> -->
+  </view>

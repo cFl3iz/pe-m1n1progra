@@ -36,18 +36,25 @@ App({
     }) 
 
 
-    console.log('START-APP')
-    wx.onUserCaptureScreen(function (res) {
-      wx.showModal({
-        title: '提示',
-        content: '你截屏想给谁看?要我帮你打开分享吗?',
-        success: function (res) {
-          if (res.confirm) { 
-          } else if (res.cancel) { 
-          }
-        }
-      })
-    })
+     console.log('START-APP')
+
+    
+
+      // wx.onUserCaptureScreen(function (res) {
+      //   wx.showModal({
+      //     title: '提示',
+      //     content: '你截屏想给谁看?要我帮你打开分享吗?',
+      //     success: function (res) {
+      //       if (res.confirm) {
+      //       } else if (res.cancel) {
+      //       }
+      //     }
+      //   })
+      // })
+ 
+
+
+    
    
     //LOGIN->GET USER INFO -> GET UNIO_ID
     this.weChatLogin().then(

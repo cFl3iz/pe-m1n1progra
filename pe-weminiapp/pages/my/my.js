@@ -6,9 +6,15 @@ Page({
   },
   onLoad: function () {
     const that = this
-    wx.showLoading({
-      title: '加载中',
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    wx.showToast({
+      title: '正在处理',
+      icon: 'loading',
+      duration: 2500
     })
+
     // app.getUserInfo(function (data) { })
       that.setData({
         userInfo: app.globalData.userInfo

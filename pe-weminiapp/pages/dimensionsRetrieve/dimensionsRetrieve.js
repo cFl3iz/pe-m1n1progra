@@ -21,9 +21,15 @@ Page({
   onLoad: function (options) {
     const that = this
 
-    wx.showLoading({
-      title: '加载中',
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    wx.showToast({
+      title: '正在处理',
+      icon: 'loading',
+      duration: 2500
     })
+
     // app.weChatLogin().then(function (data) { 
     //   // app.getUserInfo()
     //   that.getUnionId(data) 
@@ -34,7 +40,7 @@ Page({
 
     setTimeout(function () {
       that.get_data(app.globalData.unicodeId);
-    },2500);
+    },3500);
    
 
 //

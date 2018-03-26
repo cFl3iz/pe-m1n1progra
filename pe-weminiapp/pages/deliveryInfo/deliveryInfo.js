@@ -21,9 +21,15 @@ Page({
    */
 
   onLoad: function (options) {
-    wx.showLoading({
-      title: '加载中',
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    wx.showToast({
+      title: '正在处理',
+      icon: 'loading',
+      duration: 2500
     })
+
 
     console.log(options.username, options.password)
     console.log('*物流信息 option.orderId=' + options.orderId)

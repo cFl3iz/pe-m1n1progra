@@ -53,9 +53,15 @@ Page({
    */
   onLoad: function (options) {
     
-    wx.showLoading({
-      title: '加载中',
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    wx.showToast({
+      title: '正在处理',
+      icon: 'loading',
+      duration: 2500
     })
+
     var spm = options.spm 
     page = this;
     for (var i = 0; i < items.length; ++i) {
@@ -119,12 +125,12 @@ Page({
 
     console.log('unicodeId=>' + unicodeId)
 
-    if (unicodeId == null) {
+  
       app.weChatLogin().then(function (data) {
         app.getUnionId(data)
-        // app.getUserInfo()
+      
       })
-    }
+
     unicodeId = app.globalData.unicodeId
 
     console.log(' after unicodeId=>' + unicodeId)
@@ -149,7 +155,8 @@ Page({
           relationList: data.resourceDetail.returnRelationsList,
           salerName: data.resourceDetail.user.firstName
         });
-        wx.hideLoading() 
+        // wx.hideLoading() 
+        wx.hideToast();
       }
     )
 
