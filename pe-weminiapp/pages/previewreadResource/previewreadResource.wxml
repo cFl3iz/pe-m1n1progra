@@ -51,13 +51,14 @@
     </navigator>
     <view class="wx-view_adF7Mw" data-c_e_id="wx_view82711cd4">
       <view class="wx-view_2gazUr" data-c_e_id="wx_viewae9690d7">
-        <view class="wx-view_DKe6UT" catchtap="likeIt" data-c_e_id="wx_view906d3a43"> 
+      <!-- 原 点赞功能 -->
+        <!-- <view class="wx-view_DKe6UT" catchtap="likeIt" data-c_e_id="wx_view906d3a43"> 
           <view class="inline-box" data-bookid="{{bookInfo.bookId}}">
             <image style="width: 15px; height: 15px;" wx:if="{{bookInfo.is_like == 'false'}}" mode="aspectFit" src="../../images/icon/thumb_up_default_icon@3x.png"></image>
             <image style="width: 15px; height: 15px;" wx:if="{{bookInfo.is_like == 'true'}}" mode="aspectFit" src="../../images/icon/thumb_up_selected@3x.png"></image>
           </view>
           <text class="c-block wx-text_id0VJj" data-c_e_id="wx_texteafc1cf3">{{bookInfo.like_count}}</text>
-        </view>
+        </view> -->
 
         <view bindtap='palyComment' class="wx-view_DKe6UT" data-c_e_id="wx_view22d98107">
           <image class="wx-image_6E2A1o" data-c_e_id="wx_image56efbc65" mode="aspectFit" src="http://qty83k.creatby.com/materials/origin/0564a45ab780222757935674e13d6919_origin.png" style="background-size: contain; background-position: center center; background-repeat: no-repeat; background-image: url(http://qty83k.creatby.com/materials/origin/0564a45ab780222757935674e13d6919_origin.png); "

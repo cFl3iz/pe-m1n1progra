@@ -9,7 +9,12 @@ var navlist = [
   { id: "goodsStorePrice", title: "已完成", icon: "../../images/pop_select_pray.png" },
 ];
 Page({
-  data: { 
+  data: {
+    touchStartTime: '',
+    touchEndTime: '',
+    selectOrderId:null,
+    partyId:null,
+    unioId:null, 
     scanCode:null,
     showModal: false,
     winWidth: 0,
@@ -82,6 +87,59 @@ Page({
       })
     }
   },  
+  //长按
+  longTap: function (e) {
+    console.log("long tap")
+    var that = this
+    let orderid = e.currentTarget.dataset.orderid
+  
+    wx.showModal({
+      title: '提示',
+      content: '取消订单?',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+          const url = ServiceUrl.platformManager + 'orderCancel'
+
+          const data = {
+            orderId: orderid 
+          }
+          Request.postRequest(url, data).then(function (data) {
+            
+
+            const { code: code } = data
+            if (code === '200') {
+              wx.showToast({
+                title: '订单已取消',
+                icon: 'success',
+                duration: 2000
+              })
+              //刷销售单列表
+              that.getSalesOrder(that.data.unioId)
+            } else {
+              wx.showToast({
+                title: '失败',
+                icon: 'success',
+                duration: 2000
+              })
+            }
+          })
+
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+  /// 按钮触摸开始
+  touchStart: function (e) {
+    this.data.touchStartTime = e.timeStamp
+  },
+
+  /// 按钮触摸结束触发的事件
+  touchEnd: function (e) {
+    this.data.touchEndTime = e.timeStamp
+  },
   onShow:function(unioId){
     wx.showToast({
       title: '加载中',
@@ -119,18 +177,57 @@ Page({
     })
   },
   //发货
-  orderShipment:function(){
+  orderShipment:function(e){
+    var that = this
+    let orderid = e.currentTarget.dataset.orderid
+    let partyId = e.currentTarget.dataset.partyid
+    this.setData({
+      partyId: partyId,
+      selectOrderId:orderid
+    })
     this.showDialogBtn();
    
   },
   //确认收款
-  orderPayment:function(){
+  orderPayment:function(e){
+    var that = this
+    let orderid = e.currentTarget.dataset.orderid
+    let partyId = e.currentTarget.dataset.partyid
+    console.log('orderId='+orderid)
+    console.log('partyId=' + partyId)
     wx.showModal({
       title: '提示',
       content: '确认收到款吗?',
       showCancel: true,
       success: function (res) {
         if (res.confirm) {
+          const url = ServiceUrl.platformManager + 'orderPaymentReceived'
+          
+          const data = {
+            orderId: orderid,
+            partyId: partyId
+          }
+          Request.postRequest(url, data).then(function (data) {
+            console.log("确认收款:" + JSON.stringify(data))
+
+            const { code: code } = data
+            if (code === '200') {
+              wx.showToast({
+                title: '已确认',
+                icon: 'success',
+                duration: 2000
+              })
+              //刷销售单列表
+              that.getSalesOrder(that.data.unioId)
+            }else{
+              wx.showToast({
+                title: '失败',
+                icon: 'success',
+                duration: 2000
+              })
+            }
+          })
+
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
@@ -170,6 +267,9 @@ Page({
     // wx.showLoading({
     //   title: '加载中',
     // })
+    this.setData({
+      unioId: options.unioId
+    })
     this.getCollectProduct(options.unioId)
     this.getSalesOrder(options.unioId)
   },
@@ -207,10 +307,65 @@ Page({
     });
   },
   /**
-   * 对话框取消按钮点击事件
+   * 对话框 自己配送 按钮点击事件
    */
-  onCancel: function () {
+  faHuo: function (orderid, partyId, sinceTheSend, code, carrierCode, name){
+    const url = ServiceUrl.platformManager + 'updateShipGroupShipInfoForWeChat'
+    let that = this
+    const data = {
+      orderId: orderid,
+      partyId: partyId,
+      sinceTheSend: sinceTheSend,
+      code: code,
+      carrierCode: carrierCode,
+      contactMechId: '',
+      shipmentMethodId: '',
+      name: name
+    }
+    Request.postRequest(url, data).then(function (data) {
+      console.log("确认发货:" + JSON.stringify(data)) 
+      
+      if (data.code === '200') {
+        wx.showToast({
+          title: '发货成功',
+          icon: 'success',
+          duration: 3000
+        })
+        that.getSalesOrder(that.data.unioId)
+      } else {
+        wx.showToast({
+          title: '失败,再试一次?',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+    })
+  },
+
+  onCancel: function (e) {
+    var that  = this
     this.hideModal();
+    let orderid = this.data.selectOrderId
+    let partyId = this.data.partyId
+    wx.showModal({
+      title: '确认',
+      content: '好的,请再确认一次',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+          that.faHuo(orderid,partyId,'1','','','') 
+          //刷销售单列表
+          //that.getSalesOrder(that.data.unioId)
+        } else if (res.cancel) {
+          wx.showToast({
+            title: '您取消了操作',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+      }
+    })
+    
   },
   /**
    * 对话框确认按钮点击事件
@@ -219,7 +374,19 @@ Page({
     this.hideModal();
     this.scan();
   },
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+
+    this.getCollectProduct(this.data.unioId)
+    this.getSalesOrder(this.data.unioId)
+ 
+    
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+ 
+  },
   scan() {
+    var that = this
     wx.scanCode({
       scanType:'barCode',
       success: (res) => {
@@ -228,22 +395,29 @@ Page({
         this.setData({
           scanCode: res.result
         })
-        wx.showModal({
-          title: '提示',
-          content: res.result+'确认发货吗?',
-          showCancel: true,
-          success: function (res) {
-            if (res.confirm) {
-              wx.showToast({
-                title: '已发货',
-                icon: 'success',
-                duration: 3999
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
+        const url = ServiceUrl.platformManager + 'queryExpressInfo'
+
+        const data = {
+          code: res.result
+        }
+        Request.postRequest(url, data).then(function (data) {
+          wx.showModal({
+            title: '提示',
+            content: data.name+':'+res.result + '确认发货吗?',
+            showCancel: true,
+            success: function (res) {
+              if (res.confirm) {
+                that.faHuo(that.data.selectOrderId, that.data.partyId, '0', res.result, data.carrierCode, 'EXPRESS');
+                //刷销售单列表
+               
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
             }
-          }
-        })
+          })
+        });
+         
+        
 
       },
       fail: (res) => {

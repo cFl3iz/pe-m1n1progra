@@ -95,15 +95,15 @@
 /*顶部view整体样式*/
 
 .headerView {
-  z-index: 1;
+  /* z-index: 1; */
   top: 0;
-  position: fixed;
+  /* position: fixed; */
   background: #fff;
   width: 100%;
   height: 72rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: row;
+  align-items: center;  */
 }
 
 .top-bar-item {
@@ -132,7 +132,8 @@
 /*内容会被修剪，并且其余内容是不可见的。*/
 
 .scrollview-list {
-  margin-top: 72rpx;
+  
+  /* margin-top: 72rpx; */
 }
 
 
@@ -146,7 +147,8 @@
     width: 100%;  
     border-bottom: 2rpx solid #777777;  
     text-align: center;  
-    line-height: 80rpx;}  
+    line-height: 60rpx;
+    }  
 .swiper-tab-list{  font-size: 30rpx;  
     display: inline-block;  
     width: 33.33%;  
@@ -159,12 +161,16 @@
 .swiper-box view{  
     text-align: center;  
 }  
+ 
 
-
-
+.blockBox{
+  margin-top:200px;
+  margin-bottom: 200px;
+}
 
 /**sales**/
 .serviceCategoryListCell-container {
+  
   width: 100%;
   height: 98px;
   display: flex;
@@ -172,6 +178,7 @@
   background-color: #fff;
   border-bottom: 1px solid #efefef;
   vertical-align: middle;
+  
 }
 
 .left-container {
