@@ -5,6 +5,7 @@
 }
 .tips{
   color:#ee735c;
+  font-size: 35rpx;
   margin: 0;
   padding: 0;
 }

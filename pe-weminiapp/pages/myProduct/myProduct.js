@@ -3,6 +3,7 @@ import Request from '../../utils/request.js'
 var app = getApp();
 Page({
   data: {
+    showTips:true,
     showModalStatus: false,
     nowPartyId: '',
     tarjeta: '',
@@ -12,7 +13,15 @@ Page({
     overdueResourceList: []
   },
   onLoad: function (options) {
-    this.runderList()
+    var that = this
+    this.runderList();
+    setTimeout(
+      function(){
+        that.setData({
+          showTips:false
+        })
+      },2000
+    );
   },
   getOverDueResourceList: function () {
     const that = this
@@ -46,7 +55,7 @@ Page({
             productId: productid
           }
           Request.postRequest('https://www.yo-pe.com/api/common/recoveResource', data).then(function (data) {
-            console.log('recoveResource >>>> ' + JSON.stringify(data)) 
+            console.log('recoveResource >>>> ' + JSON.stringify(data))
             wx.showToast({
               title: '已上架!',
               icon: 'success',
@@ -54,7 +63,7 @@ Page({
             })
             that.setData(
               {
-                showModalStatus:false
+                showModalStatus: false
               }
             )
             that.runderList()
@@ -177,7 +186,7 @@ Page({
     console.log("long tap")
     wx.showModal({
       title: '提示',
-      content: '永久删除?',
+      content: '永久删除后不可恢复,确定吗?',
       showCancel: true,
       success: function (res) {
         if (res.confirm) {
@@ -233,18 +242,30 @@ Page({
 
   salesDiscontinuation: function (e) {
     var that = this
-    console.log('salesDiscontinuation=>')
-    var productid = e.currentTarget.dataset.productid
-    const data = {
-      productId: productid
-    }
-    Request.postRequest('https://www.yo-pe.com/api/common/salesDiscontinuation', data).then(function (data) {
-      wx.showToast({
-        title: '下架完毕',
-        icon: 'success',
-        duration: 2000
-      })
-      that.runderList()
+
+    wx.showModal({
+      title: '提示',
+      content: '确定要下架吗?',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+          console.log('salesDiscontinuation=>')
+          var productid = e.currentTarget.dataset.productid
+          const data = {
+            productId: productid
+          }
+          Request.postRequest('https://www.yo-pe.com/api/common/salesDiscontinuation', data).then(function (data) {
+            wx.showToast({
+              title: '下架完毕',
+              icon: 'success',
+              duration: 2000
+            })
+            that.runderList()
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   },
   runderList: function () {

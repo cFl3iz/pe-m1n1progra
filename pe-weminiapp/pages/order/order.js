@@ -10,6 +10,8 @@ var navlist = [
 ];
 Page({
   data: { 
+    scanCode:null,
+    showModal: false,
     winWidth: 0,
     winHeight: 0,   
     currentTab: 0,  
@@ -116,6 +118,25 @@ Page({
       }
     })
   },
+  //发货
+  orderShipment:function(){
+    this.showDialogBtn();
+   
+  },
+  //确认收款
+  orderPayment:function(){
+    wx.showModal({
+      title: '提示',
+      content: '确认收到款吗?',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
   getSalesOrder: function (reqScopeOpenId) {
     const that = this
 
@@ -160,4 +181,74 @@ Page({
       url: '../orderDetail/orderDetail?orderId=' + orderid
     })
   },
+
+
+
+
+  /**
+    * 弹窗
+    */
+  showDialogBtn: function () {
+    this.setData({
+      showModal: true
+    })
+  },
+  /**
+   * 弹出框蒙层截断touchmove事件
+   */
+  preventTouchMove: function () {
+  },
+  /**
+   * 隐藏模态对话框
+   */
+  hideModal: function () {
+    this.setData({
+      showModal: false
+    });
+  },
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    this.hideModal();
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function () {
+    this.hideModal();
+    this.scan();
+  },
+  scan() {
+    wx.scanCode({
+      scanType:'barCode',
+      success: (res) => {
+        console.log("扫码结果");
+        console.log(res); 
+        this.setData({
+          scanCode: res.result
+        })
+        wx.showModal({
+          title: '提示',
+          content: res.result+'确认发货吗?',
+          showCancel: true,
+          success: function (res) {
+            if (res.confirm) {
+              wx.showToast({
+                title: '已发货',
+                icon: 'success',
+                duration: 3999
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+
+      },
+      fail: (res) => {
+        console.log(res);
+      }
+    })
+  }  
 })

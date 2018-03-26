@@ -11,7 +11,7 @@
 </scroll-view> -->
 
 <view>
-  <text class='tips'>Tips:长按图片可以永久移除,点击可以编辑。</text>
+  <text wx:if="{{showTips}}" class='tips'>Tips:长按图片可以永久移除,点击可以编辑。</text>
   <view>
     <scroll-view class="scroll" scroll-top="{{scrollTop}}" style="height:580px;" scroll-y="true" bindscroll="scrll" bindscrolltolower="loadMore">
 

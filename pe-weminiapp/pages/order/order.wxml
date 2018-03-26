@@ -49,22 +49,25 @@
       </view>
       <!--scrollview-->
       <scroll-view scroll-y="true" class="scrollview-list" bindscrolltolower="bindscrolltolower" style="height:750px">
-        <block wx:for-items="{{salesList}}" wx:key='item.orderId' wx:for-item="item">
-          <!-- item-->
-          <view data-orderId="{{item.orderId}}" bindtap="viewOrderItem" class="topContainsView">
-            <image class="goodsImage" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
-            <view class="topRightView">
-              <text class="topRightName">{{item.productName}}  {{item.createdDate}}</text>
-              <text class="topRightTime">￥{{item.unitPrice * item.quantity }}/{{item.currencyUom}} - {{item.quantity}}个</text>
-              <!--销量和评价-->
-              <view class="saleAndcom">
-                <text class="saletext">{{item.quantity}}件-{{item.personAddressInfoMap.contactAddress}}</text>
-                <!-- <text class="saleRightText"></text> -->
+        <view wx:for-items="{{salesList}}" wx:key='item.orderId' wx:for-item="item" class="serviceCategoryListCell-container" >
+          <view class="left-container">
+          <image class="left-image" src="https://{{item.detailImageUrl}}" mode='scaleToFill' />
+             
+          </view>
+          <view class="right-container">
+            <view class="serviceTitle">{{item.productName}}-订单时间:{{item.orderDate.month}}月{{item.orderDate.date}}日</view>
+            <view class="right-bottom-container">
+              <view class="bottomTitle">￥{{item.unitPrice * item.quantity }}/{{item.currencyUom}}-{{item.quantity}}个
               </view>
-              <text class="orderTime">订单时间:{{item.orderDate.month}}月{{item.orderDate.date}}日 状态:{{item.orderPayStatus}}/{{item.orderShipment}}</text>
+              <view class="bottomTitle">
+              状态:{{item.orderPayStatus}}/{{item.orderShipment}}
+              </view>
+              <image bindtap='orderShipment' class="vip" src="../../images/mine/icon_already_shipped.png"></image>
+              <image bindtap='orderPayment' class="call" src="../../images/mine/bianmin.png"></image>
             </view>
           </view>
-        </block>
+        </view>
+
       </scroll-view>
     </view>
   </swiper-item>
@@ -72,3 +75,16 @@
 </swiper>
 
 <!-- 整体 -->
+
+<!-- 模态框 -->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modal-dialog" wx:if="{{showModal}}">
+  <view class="modal-title">Shipment</view>
+  <view class="modal-content">
+     请选择一种货运方式...
+  </view>
+  <view class="modal-footer">
+    <view class="btn-cancel" bindtap="onCancel" data-status="cancel">自己配送</view>
+    <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">快递发货</view>
+  </view>
+</view>
