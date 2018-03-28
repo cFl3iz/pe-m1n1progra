@@ -3,10 +3,10 @@ import Request from '../../utils/request.js'
 var app = getApp();
 var id = '';
 var navlist = [
-  { id: "all", title: "全部", icon: "" },
-  { id: "shaixuan", title: "待发货", icon: "../../images/list_sx.png" },
-  { id: "salenum", title: "未完成", icon: "" },
-  { id: "goodsStorePrice", title: "已完成", icon: "../../images/pop_select_pray.png" },
+  { id: "ALL", title: "全部", icon: "" },
+  { id: "PAYMENT", title: "已付款", icon: "" },
+  { id: "SHIPMENT", title: "已发货", icon: "" },
+  { id: "CANCEL", title: "已取消", icon: "" },
 ];
 Page({
   data: {
@@ -53,7 +53,20 @@ Page({
   //   })
      
   // },
-  //切换TAB
+  //切换采购订单
+  onTapTagBuyOrder:function(e){
+    var that = this;
+    var tab = e.currentTarget.id;
+    var index = e.currentTarget.dataset.index;
+    that.setData({
+      activeIndex: index,
+      tab: tab,
+      pageNo: 1
+    })
+    console.log(index, tab)
+    that.getCollectProduct(that.data.unioId, tab)
+  },
+  //切换销售订单
   onTapTag: function (e) {
     var that = this;
     var tab = e.currentTarget.id;
@@ -64,6 +77,11 @@ Page({
       pageNo: 1
     })
     console.log(index, tab)
+
+    //刷销售单列表
+    that.getSalesOrder(that.data.unioId, tab)
+
+
     // if (tab == 'shaixuan') {    //筛选跳转到specValue
     //   wx.navigateTo({
     //     url: '../specValue/specValue',    //加参数
@@ -115,7 +133,7 @@ Page({
                 duration: 2000
               })
               //刷销售单列表
-              that.getSalesOrder(that.data.unioId)
+              that.getSalesOrder(that.data.unioId,"ALL")
             } else {
               wx.showToast({
                 title: '失败',
@@ -149,10 +167,10 @@ Page({
     // wx.showLoading({
     //   title: '加载中',
     // })
-    this.getCollectProduct(unioId) 
+    this.getCollectProduct(unioId,"ALL") 
   },
   //获取订单数据
-  getCollectProduct: function (reqScopeOpenId) {
+  getCollectProduct: function (reqScopeOpenId, orderStatus) {
     const that = this
   
     const url = ServiceUrl.platformManager + 'queryMyOrder'
@@ -161,7 +179,8 @@ Page({
       openId = reqScopeOpenId
     }
     const data = {
-      unioId: openId
+      unioId: openId,
+      orderStatus: orderStatus
     }
     Request.postRequest(url, data).then(function (data) {
       // console.log("我的订单=>:" + JSON.stringify(data))
@@ -218,7 +237,7 @@ Page({
                 duration: 2000
               })
               //刷销售单列表
-              that.getSalesOrder(that.data.unioId)
+              that.getSalesOrder(that.data.unioId,"ALL")
             }else{
               wx.showToast({
                 title: '失败',
@@ -234,7 +253,7 @@ Page({
       }
     })
   },
-  getSalesOrder: function (reqScopeOpenId) {
+  getSalesOrder: function (reqScopeOpenId, orderStatus) {
     const that = this
 
     const url = ServiceUrl.platformManager + 'queryMyResourceOrderFromWeChat'
@@ -243,7 +262,8 @@ Page({
       openId = reqScopeOpenId
     }
     const data = {
-      unioId: openId
+      unioId: openId,
+      orderStatus: orderStatus
     }
     Request.postRequest(url, data).then(function (data) {
       console.log("我的销售订单=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>:" + JSON.stringify(data))
@@ -270,8 +290,8 @@ Page({
     this.setData({
       unioId: options.unioId
     })
-    this.getCollectProduct(options.unioId)
-    this.getSalesOrder(options.unioId)
+    this.getCollectProduct(options.unioId,"ALL")
+    this.getSalesOrder(options.unioId,"ALL")
   },
   viewOrderItem(e) {
     let orderid = e.currentTarget.dataset.orderid
@@ -331,7 +351,7 @@ Page({
           icon: 'success',
           duration: 3000
         })
-        that.getSalesOrder(that.data.unioId)
+        that.getSalesOrder(that.data.unioId,"ALL")
       } else {
         wx.showToast({
           title: '失败,再试一次?',
@@ -377,8 +397,8 @@ Page({
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
 
-    this.getCollectProduct(this.data.unioId)
-    this.getSalesOrder(this.data.unioId)
+    this.getCollectProduct(this.data.unioId,"ALL")
+    this.getSalesOrder(this.data.unioId,"ALL")
  
     
       wx.hideNavigationBarLoading() //完成停止加载

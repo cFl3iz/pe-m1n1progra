@@ -276,7 +276,7 @@ Page({
       isDiscontinuation: '0'
     }
     Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
-      console.log('queryMyProduct=>>>>')
+      console.log('queryMyProduct=>>>>' + JSON.stringify(data))
       that.setData({
         myProductList: data.productList,
         tarjeta: data.tarjeta,

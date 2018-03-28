@@ -19,7 +19,8 @@ var datalist = {
   upLoadCount: 0,
   latitude: '',
   longitude: '',
-  tel: ''
+  tel: '',
+  grantPermission:false
 }
 
 Page({
@@ -43,6 +44,9 @@ Page({
   },
   getPhoneNumber: function (e) {
     var that = this
+    that.setData({
+      grantPermission:true
+    })
     console.log(e.detail.errMsg)
     console.log(e.detail.iv)
     console.log(e.detail.encryptedData)

@@ -10,7 +10,7 @@
       <!-- 顶部导航栏 -->
       <view class="headerView">
         <block wx:for="{{navList}}" wx:key='item.id' wx:for-item="item">
-          <view catchtap="onTapTag" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
+          <view catchtap="onTapTagBuyOrder" data-index="{{index}}" id="{{item.id}}" class="top-bar-item {{index == activeIndex ? 'top-bar-active' : ''}}">
             {{item.title}}
           </view>
         </block>

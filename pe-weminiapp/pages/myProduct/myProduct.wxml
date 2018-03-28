@@ -19,7 +19,7 @@
         <image bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtap='editProduct' data-productid="{{item.productId}}" src="https://{{item.detailImageUrl}}" class="img"></image>
 
         <text class='productName'>{{item.productName}}</text>
-        <text class='inventoryQuantity'>库存:5件</text>
+        <text class='inventoryQuantity'>库存:{{item.availableToPromiseTotal}}件</text>
 
         <view class='donBox'>
           <button class='leftBtn' data-productid="{{item.productId}}" bindtap='salesDiscontinuation'>下架</button>

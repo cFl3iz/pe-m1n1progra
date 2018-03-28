@@ -1,8 +1,8 @@
 <view class="weui-form-preview">
-  <view class="weui-form-preview__hd">
+  <view style='border:0px;' class="weui-form-preview__hd">
     <view class="weui-form-preview__item">
       <view class="weui-form-preview__label">订单总价</view>
-      <view class="weui-form-preview__value_in-hd">¥ {{ orderDetail.unitPrice }}</view>
+      <view class="weui-form-preview__value_in-hd">¥ {{ orderDetail.unitPrice * orderDetail.quantity}}</view>
     </view>
   </view>
   <view class="weui-form-preview__bd">
@@ -12,8 +12,9 @@
     </view>
   </view>
   <view class="weui-form-preview__ft">
-    <navigator class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active" data-productid="{{orderDetail.productId}}" data-paytopartyid="{{orderDetail.payToPartyId}}" data-partyid="{{orderDetail.partyId}}" bindtap="goChatView">联系商家</navigator>
-    <navigator class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" data-orderId="{{orderDetail.orderId}}" data-internalCode="{{orderDetail.internalCode}}" bindtap="viewDeliveryInfo">物流信息</navigator>
+    <!-- <navigator class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active" data-productid="{{orderDetail.productId}}" data-paytopartyid="{{orderDetail.payToPartyId}}" data-partyid="{{orderDetail.partyId}}" bindtap="goChatView">联系商家</navigator> -->
+    <navigator class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active" data-productid="{{orderDetail.productId}}" data-paytopartyid="{{orderDetail.payToPartyId}}" data-partyid="{{orderDetail.partyId}}" bindtap="contactB">联系商家</navigator>
+    <navigator   wx:if="{{orderDetail.personInfoMap.internalCode != null}}"  class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" data-orderId="{{orderDetail.orderId}}" data-internalCode="{{orderDetail.internalCode}}" bindtap="viewDeliveryInfo">物流信息</navigator>
   </view>
 </view>
 
@@ -24,10 +25,11 @@
             <view class="weui-media-box__desc">送达时间：尽快送达</view>
         </view> -->
     <view class="weui-media-box weui-media-box_text">
-      <view class="weui-media-box__desc">收货地址：{{orderDetail.personAddressInfoMap.contactAddress}}</view>
+      <view class="weui-media-box__desc">收货地址：{{orderDetail.personAddressInfoMap.address1}}-{{orderDetail.personInfoMap.firstName}}</view>
     </view>
     <view class="weui-media-box weui-media-box_text">
-      <view class="weui-media-box__desc">配送方式：商家配送</view>
+      <view wx:if="{{orderDetail.personInfoMap.internalCode != null}}" class="weui-media-box__desc">配送方式：{{orderDetail.personInfoMap.internalCode}}        </view>
+      <view wx:if="{{orderDetail.personInfoMap.internalCode == null}}" class="weui-media-box__desc">配送方式：未发货 </view>
     </view>
   </view>
 </view>
@@ -42,7 +44,7 @@
       <view class="weui-media-box__desc">支付状态：{{orderDetail.orderPayStatus}}</view>
     </view>
     <view class="weui-media-box weui-media-box_text">
-      <view class="weui-media-box__desc">下单时间：{{ orderDetail.orderDate.month }}月{{ orderDetail.orderDate.day }}日</view>
+      <view class="weui-media-box__desc">下单时间：{{ orderDetail.createdDate}}</view>
     </view>
 
 
@@ -50,9 +52,10 @@
       <view class="weui-panel__hd">产品信息</view>
       <view class="weui-media-box weui-media-box_text">
         <view class="weui-media-box__desc">产品名称：{{orderDetail.productName}}</view>
-        <view class="weui-media-box__desc"></view>
+        <view class="weui-media-box__desc">产品单价:{{orderDetail.unitPrice}}元</view>
         <view class="weui-media-box__desc">
-          <image bindtap="clickImage" style="width: 100px; height: 100px;" src="https://{{orderDetail.detailImageUrl}}" mode="aspectFill" />
+          <!-- <image bindtap="clickImage" style="width: 100px; height: 100px;" src="https://{{orderDetail.detailImageUrl}}" mode="aspectFill" /> -->
+           购买数量:{{orderDetail.quantity}}个
         </view>
       </view>
     </view>

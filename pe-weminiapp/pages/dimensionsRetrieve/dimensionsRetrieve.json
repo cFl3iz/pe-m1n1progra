@@ -4,5 +4,5 @@
   "navigationBarTitleText": "YO-PE.COM",
   "backgroundColor": "#f7f7f7",
   "backgroundTextStyle": "dark",
-  "enablePullDownRefresh": false 
+  "enablePullDownRefresh": true
 }

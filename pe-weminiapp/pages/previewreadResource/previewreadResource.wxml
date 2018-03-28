@@ -1,5 +1,5 @@
-<view class="container">
-
+<view wx:if="{{salesDiscontinuationDate == null && bookInfo != null }}">
+<view  class="container">
   <view>
     <swiper class="swiper_box" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
       <block wx:for="{{bookInfo.morePicture}}">
@@ -152,6 +152,8 @@
 </action-sheet>
 
 
+</view>
 
-
- 
+ <view style='font-size:50rpx;' wx:if="{{salesDiscontinuationDate != null || bookInfo == null }}" class="container">
+ 资源已下架或删除
+ </view>

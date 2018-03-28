@@ -79,6 +79,16 @@ Page({
 
     
   },
+  onPullDownRefresh: function () {
+
+    wx.showNavigationBarLoading() //在标题栏中显示加载 
+   
+    this.get_data(app.globalData.unicodeId);
+    
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
+
+  },
   cleanDataList(data) {
     var that = this
     return new Promise(
@@ -108,8 +118,12 @@ Page({
   },
 
   get_data(unioId) {
-
+    if (unioId != null && unioId != undefined){
     console.log('get_data unnioId = ' + unioId)
+    this.setData({
+      unioId: unioId
+    })
+    }
     let str = '{"total":-1,"resourcesList":[{"productId":209,"user_id":3,"productName":"我的Java教程资源。包含从初级到高级的全套9400课，共670090课时","pics":[],"created_at":"2018-01-18 22:59:18","view_count":0,"source":"doc","source_id":37,"user":{"id":3,"firstName":"金樽对月","title":"云档小白","headPortrait":"https://wx.qlogo.cn/mmopen/vi_32/hbu8MniciaFlu8hunwK13htjL9qWKkQQgZ2pLIhEKW6waFwFnDvBib847RlhyMTDrtLxy8eib2FMO62BG2cpwH8JbA/0"},"created":"18小时前","morePicture":[],"pics_type":3,"reply_count":0,"source_info":{"id":37,"title":"龙熙的转发","desc":"微信小程序（weixinxiaochengxu），简称小程序，缩写XCX，英文名mini program，是一种不需要下载安装即可使用的应用，它实现了应用“触手可及”的梦想，用户扫一扫或搜一下即可打开应用。 全面开放申请后，主体类型为企业、政府、媒体、其他组织或个人的开发者，均可申请注册小程序。小程序、订阅号、服务号、企业号是并行的体系。","cover":"image/Group 5.png","h_cover":"image/Group.png","page_id":0,"cover_url":"http://cloud-doc-img.leyix.com/image/Group 5.png!225x300","h_cover_url":"http://cloud-doc-img.leyix.com/image/Group.png!540x300.jpg"}},{"productId":203,"user_id":2844,"productName":"转手一本React Native丛书,我已精读!","pics":["question/pbufTezS0bcn5Kw03mc1gH6t8t1HuSOWlXyZj4Gn.jpeg"],"created_at":"2017-12-15 10:40:45","view_count":0,"source":"doc","source_id":37,"user":{"id":2844,"firstName":"龙熙","title":"云档小白","headPortrait":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIfsScXYWcuJ9iaIwiawPejxNEFBurDfavlYntzw9Fqfr8QH1846HM3J1DM1JHcrXglUcYicwGPp1lxg/0"},"created":"1个月前","morePicture":[{"drObjectInfo":"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3694062258,786431746&fm=27&gp=0.jpg","path":"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3694062258,786431746&fm=27&gp=0.jpg"}],"pics_type":1, "reply_count":0, "source_info":{ "id":37, "title":"龙熙的发布", "cover":"image/Group 5.png", "h_cover":"image/Group.png", "page_id":0, "cover_url":"http://cloud-doc-img.leyix.com/image/Group 5.png!225x300", "h_cover_url":"http://cloud-doc-img.leyix.com/image/Group.png!540x300.jpg" }},{"productId":190,"user_id":2897,"productName":"有谁认识导游,我想去这个地方玩!","pics":["question/lb3Xy5dWVBnwxhyyt79rwiT3Znwxo1FAZpFIxjUr.jpeg","question/EXpUTB4RoNXhYep9amrfM2F88TNJAWoI88wvb0tz.jpeg"],"created_at":"2017-10-31 00:15:29","view_count":0,"source":"doc","source_id":37,"user":{"id":2897,"firstName":"董梦洁","title":"云档小白","headPortrait":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKiaiaiadhG1DibbvZnKyallLFjovCrXM6GWD77ovqwbngdMnU4kE7HnD55cz6u9JvHPqhxgzzzb6W35A/0"},"created":"2个月前","morePicture":[{"drObjectInfo":"http://cloud-doc-img.leyix.com/question/lb3Xy5dWVBnwxhyyt79rwiT3Znwxo1FAZpFIxjUr.jpeg!200x200","path":"http://cloud-doc-img.leyix.com/question/lb3Xy5dWVBnwxhyyt79rwiT3Znwxo1FAZpFIxjUr.jpeg"},{"drObjectInfo":"http://cloud-doc-img.leyix.com/question/EXpUTB4RoNXhYep9amrfM2F88TNJAWoI88wvb0tz.jpeg!200x200","path":"http://cloud-doc-img.leyix.com/question/EXpUTB4RoNXhYep9amrfM2F88TNJAWoI88wvb0tz.jpeg"}],"pics_type":2,"reply_count":0,"source_info":{"id":37,"title":"冯浩的转发","desc":"微信小程序（weixinxiaochengxu），简称小程序，缩写XCX，英文名mini program，是一种不需要下载安装即可使用的应用，它实现了应用“触手可及”的梦想，用户扫一扫或搜一下即可打开应用。 全面开放申请后，主体类型为企业、政府、媒体、其他组织或个人的开发者，均可申请注册小程序。小程序、订阅号、服务号、企业号是并行的体系。","cover":"image/Group 5.png","h_cover":"image/Group.png","page_id":0,"cover_url":"http://cloud-doc-img.leyix.com/image/Group 5.png!225x300","h_cover_url":"http://cloud-doc-img.leyix.com/image/Group.png!540x300.jpg"}}]}';
     this.setData({
       is_load: true,
@@ -279,14 +293,14 @@ Page({
       })
     }
   },
-  onPullDownRefresh: function () {
-    this.setData({
-      page: 1,
-      more: false,
-      no_more: false
-    })
-    this.get_data()
-  },
+  // onPullDownRefresh: function () {
+  //   this.setData({
+  //     page: 1,
+  //     more: false,
+  //     no_more: false
+  //   })
+  //   this.get_data()
+  // },
   onReachBottom: function () {
     console.log('this.data.more =' + this.data.more)
     console.log('this.data.ls_load =' + this.data.ls_load)

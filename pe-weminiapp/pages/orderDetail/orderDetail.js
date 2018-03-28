@@ -5,6 +5,7 @@ Page({
     data: {
         order: {
             item: {},
+            contactTel:null
         },
     },
     onLoad(option) {
@@ -51,6 +52,19 @@ Page({
       })
 
     },
+    contactB: function () {
+      if (this.data.contactTel==null){
+        wx.showToast({
+          title: '这人没提供联系电话',
+          icon: 'success',
+          duration: 2000
+        });
+          return false;
+      }
+      wx.makePhoneCall({
+        phoneNumber: this.data.contactTel 
+      })
+    },
     onShow() {
         this.getOrderDetail(this.data.orderId)
     },
@@ -80,7 +94,8 @@ Page({
         if (code === '200') {
           console.log("我的订单详情:" + JSON.stringify(data))
           that.setData({
-            orderDetail: orderDetail
+            orderDetail: orderDetail,
+            contactTel: orderDetail.contactNumber
           })
           wx.hideLoading()
         }

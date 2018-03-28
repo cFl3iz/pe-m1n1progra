@@ -69,7 +69,7 @@
     <label>手机
     </label>
     <input  style="width:480rpx;" data-name="tel" name="tel" type='digit' placeholder='点击右侧按钮或手填(非必填)' confirm-type='done' value='{{tel}}'></input>
-    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+    <button wx:if="{{!grantPermission}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
     </button>
   </view>
 

@@ -33,7 +33,8 @@ Page({
     commentPageNum: 1, // 评论页码
     comments: [], //评论数量
     isComment: 1, // 是否有评论，0 有， 1 无
-    showComment: false // 输入评论, 
+    showComment: false, // 输入评论, 
+    salesDiscontinuationDate:null //终止销售时间
   },
   actionSheetTap: function (e) {
     console.log(this);
@@ -186,6 +187,19 @@ Page({
       minusStatus: minusStatus
     });
   },
+  onPullDownRefresh: function () {
+
+    wx.showNavigationBarLoading() //在标题栏中显示加载 
+
+    this.flushData(that.data.productid)
+    
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
+
+  },
+
+
+
   /* 点击加号 */
   bindPlus: function () {
     var num = this.data.num;
@@ -456,8 +470,12 @@ Page({
         function (data) {
           console.log('return data = ' + JSON.stringify(data))
           // console.log('data.resourceDetail=' + data)
-          if (data.resourceDetail == undefined) {
+          if (data.resourceDetail  == null ||data.resourceDetail == undefined) {
             // that.setDemoData()
+            that.setData({
+              bookInfo:null
+            })
+            wx.hideLoading()
           } else {
             console.log('return data = ' + JSON.stringify(data))
             var cover_url = data.resourceDetail.cover_url
@@ -467,6 +485,7 @@ Page({
             data.resourceDetail.morePicture.unshift(map)
             resolve(data)
             that.setData({
+              salesDiscontinuationDate: data.resourceDetail.salesDiscontinuationDate,
               nowPartyId: data.nowPartyId,
               bookInfo: data.resourceDetail,
               shareName: data.resourceDetail.title,
