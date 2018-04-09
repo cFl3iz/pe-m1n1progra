@@ -9,7 +9,7 @@ var navlist = [
   { id: "CANCEL", title: "已取消", icon: "" },
 ];
 Page({
-  data: {
+  data: { 
     touchStartTime: '',
     touchEndTime: '',
     selectOrderId:null,
@@ -63,7 +63,9 @@ Page({
       tab: tab,
       pageNo: 1
     })
+    app.globalData.orderStatus = tab
     console.log(index, tab)
+
     that.getCollectProduct(that.data.unioId, tab)
   },
   //切换销售订单
@@ -74,10 +76,10 @@ Page({
     that.setData({
       activeIndex: index,
       tab: tab,
-      pageNo: 1
+      pageNo: 1 
     })
     console.log(index, tab)
-
+    app.globalData.orderStatus = tab
     //刷销售单列表
     that.getSalesOrder(that.data.unioId, tab)
 
@@ -167,7 +169,8 @@ Page({
     // wx.showLoading({
     //   title: '加载中',
     // })
-    this.getCollectProduct(unioId,"ALL") 
+    this.getCollectProduct(unioId, app.globalData.orderStatus) 
+    this.getSalesOrder(unioId, app.globalData.orderStatus)
   },
   //获取订单数据
   getCollectProduct: function (reqScopeOpenId, orderStatus) {
@@ -279,25 +282,60 @@ Page({
     })
   },
   onLoad: function (options) {
+    var that = this
     wx.showToast({
       title: '加载中',
       icon: 'success',
       duration: 9999
     })
+
+    console.log(' -> app.globalData.orderStatus=' + app.globalData.orderStatus)
+
     // wx.showLoading({
     //   title: '加载中',
     // })
-    this.setData({
-      unioId: options.unioId
+    if (null == options.unioId || options.unioId == "" || options.unioId == undefined){
+      that.setData({
+        unioId: options.unioId
+      })
+      that.getCollectProduct(options.unioId, app.globalData.orderStatus)
+      that.getSalesOrder(options.unioId, app.globalData.orderStatus)
+    }else{
+      
+      app.weChatLogin().then(function (data) {
+        that.getUnionId(data) 
+      })
+      that.getCollectProduct(that.data.unioId, app.globalData.orderStatus)
+      that.getSalesOrder(that.data.options.unioId, app.globalData.orderStatus)
+    }
+    
+
+  },
+  getUnionId: function (code) {
+    console.log('IN ORDER ->获取unicodeId' + code)
+    const that = this
+    const url = ServiceUrl.platformManager + 'jscode2session'
+    const data = {
+      code: code
+    }
+    Request.postRequest(url, data).then(function (data) {
+      console.log('*jscode2session Global Data unio_Id = ' + data.unionid)
+      const unicodeId = data.unionid
+      const openId = data.openId
+      app.globalData.openId = openId
+      app.globalData.unicodeId = unicodeId //设置全局unicodeId
+      that.setData({
+        unioId: unicodeId
+      })
+      return unicodeId
+    }).then(function (data) {
+      that.getCollectProduct(data)
     })
-    this.getCollectProduct(options.unioId,"ALL")
-    this.getSalesOrder(options.unioId,"ALL")
   },
   viewOrderItem(e) {
-    let orderid = e.currentTarget.dataset.orderid
-     
-
-    wx.navigateTo({
+    let orderid = e.currentTarget.dataset.orderid 
+    wx.navigateTo
+    ({
       url: '../orderDetail/orderDetail?orderId=' + orderid
     })
   },
@@ -397,8 +435,8 @@ Page({
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
 
-    this.getCollectProduct(this.data.unioId,"ALL")
-    this.getSalesOrder(this.data.unioId,"ALL")
+    this.getCollectProduct(this.data.unioId, app.globalData.orderStatus)
+    this.getSalesOrder(this.data.unioId, app.globalData.orderStatus)
  
     
       wx.hideNavigationBarLoading() //完成停止加载

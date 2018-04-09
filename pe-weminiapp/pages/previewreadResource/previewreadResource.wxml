@@ -156,4 +156,4 @@
 
  <view style='font-size:50rpx;' wx:if="{{salesDiscontinuationDate != null || bookInfo == null }}" class="container">
  资源已下架或删除
- </view>
+ </view> 

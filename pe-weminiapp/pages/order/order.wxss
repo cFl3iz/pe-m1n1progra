@@ -1,6 +1,6 @@
 /*头部整体样式*/
 
-.topContainsView {
+.topContainsView { 
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -85,6 +85,7 @@
 /*整体view样式*/
 
 .containsView {
+  overflow-y: auto; 
   box-sizing: border-box;
   height: 100%;
   width: 100%;
@@ -133,7 +134,7 @@
 
 .scrollview-list {
   
-  /* margin-top: 72rpx; */
+  overflow:scroll;
 }
 
 

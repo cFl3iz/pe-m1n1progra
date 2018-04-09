@@ -256,9 +256,12 @@ Page({
     }
     console.log('index page request data = ' + JSON.stringify(data))
     Request.postRequest(url, data).then(function (data) {
-      console.log('设置全局unicodeId = ' + JSON.stringify(data))
-      const unicodeId = data
+      
+      console.log('*jscode2session Global Data unio_Id = ' + data.unionid)
+      const unicodeId = data.unionid 
       app.globalData.unicodeId = unicodeId //设置全局unicodeId
+      const openId = data.openId
+      app.globalData.openId = openId 
       return unicodeId
     }).then(function (data) {
       that.get_data(data)

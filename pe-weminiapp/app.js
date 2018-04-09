@@ -127,10 +127,13 @@ App({
       avatarUrl: that.globalData.userInfo.avatarUrl
     }
     Request.postRequest(url, data).then(function (data) {
-      console.log('Global Data unio_Id = ' + data)
-      const unicodeId = data
-      that.globalData.unicodeId = unicodeId  
-    
+      console.log('*jscode2session Global Data unio_Id = ' + data.unionid)
+      const unicodeId = data.unionid
+      const openId = data.openId
+      that.globalData.openId = openId 
+      console.log('*jscode2session Global Data openId = ' + data.openId)
+      that.globalData.unicodeId = unicodeId   
+     
       //查询用户联系手机、邮政地址。
        that.findUserContactInfo(unicodeId) 
     })
@@ -174,6 +177,8 @@ App({
   },
   //全局变量
   globalData: {
+    orderStatus: 'ALL',
+    openId: null,
     userInfo: null,
     code: null,
     unicodeId: null,

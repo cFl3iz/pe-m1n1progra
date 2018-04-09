@@ -14,7 +14,7 @@ Page({
    */
   data: {
     salerName: null,
-    relationList:null,
+    relationList: null,
     num: 1,
     minusStatus: 'disabled',
     actionSheetHidden: true,
@@ -34,7 +34,7 @@ Page({
     comments: [], //评论数量
     isComment: 1, // 是否有评论，0 有， 1 无
     showComment: false, // 输入评论, 
-    salesDiscontinuationDate:null //终止销售时间
+    salesDiscontinuationDate: null //终止销售时间
   },
   actionSheetTap: function (e) {
     console.log(this);
@@ -53,7 +53,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
     // wx.showLoading({
     //   title: '加载中',
     // })
@@ -63,7 +63,7 @@ Page({
       duration: 2500
     })
 
-    var spm = options.spm 
+    var spm = options.spm
     page = this;
     for (var i = 0; i < items.length; ++i) {
       (function (relation) {
@@ -78,17 +78,17 @@ Page({
             });
           } else {
             // 增加关联
-            const url = ServiceUrl.platformManager + 'addPartyRelationShip' 
-          
+            const url = ServiceUrl.platformManager + 'addPartyRelationShip'
+
 
             const reqdata = {
               partyIdTo: this.data.payToPartyId,
               tarjeta: this.data.bookInfo.tarjeta,
               partyRelationshipTypeId: selectRelation.id
-            } 
+            }
             var that = this
             Request.postRequest(url, reqdata).then(function (data) {
-               
+
               if (data.code === '200') {
                 wx.showToast({
                   title: '关联成功!',
@@ -98,13 +98,13 @@ Page({
                 that.flushData(that.data.productid).then(
                   (data) => {
                     console.log('data=' + JSON.stringify(data))
-                     
+
                     that.setData({
                       actionSheetItems: data.resourceDetail.returnPersonalRelationsTypeList,
                       relationList: data.resourceDetail.returnRelationsList,
                       salerName: data.resourceDetail.user.firstName
                     });
-                   
+
                   }
                 )
 
@@ -113,7 +113,7 @@ Page({
           }
 
           this.setData({
-            actionSheetHidden:true
+            actionSheetHidden: true
           })
 
 
@@ -126,11 +126,11 @@ Page({
 
     console.log('unicodeId=>' + unicodeId)
 
-  
-      app.weChatLogin().then(function (data) {
-        app.getUnionId(data)
-      
-      })
+
+    app.weChatLogin().then(function (data) {
+      app.getUnionId(data)
+
+    })
 
     unicodeId = app.globalData.unicodeId
 
@@ -149,7 +149,7 @@ Page({
 
     that.flushData(options.productid).then(
       (data) => {
-        console.log('data='+JSON.stringify(data))
+        console.log('data=' + JSON.stringify(data))
         this.receivedInformation(spm, options.paytopartyid)
         this.setData({
           actionSheetItems: data.resourceDetail.returnPersonalRelationsTypeList,
@@ -170,7 +170,7 @@ Page({
     });
 
     // that.getCollectProduct();
-    
+
   },
   /* 点击减号 */
   bindMinus: function () {
@@ -192,7 +192,7 @@ Page({
     wx.showNavigationBarLoading() //在标题栏中显示加载 
 
     this.flushData(that.data.productid)
-    
+
     wx.hideNavigationBarLoading() //完成停止加载
     wx.stopPullDownRefresh() //停止下拉刷新
 
@@ -354,10 +354,13 @@ Page({
               icon: 'success',
               duration: 2000
             });
+            var orderId = data.orderId
             that.selectAddress(data.orderId).then(
               (data) => {
                 console.log('select address result = ' + JSON.stringify(data))
-                that.goOrderPage(app.globalData.unicodeId)
+                that.goPaymentOrder(app.globalData.unicodeId, orderId,Number(that.data.num * that.data.bookInfo.price), that.data.bookInfo.title)
+                //原先流程是跳转到订单页面
+                // that.goOrderPage(app.globalData.unicodeId)
               }
             );
           }
@@ -395,12 +398,12 @@ Page({
           }
           Request.postRequest('https://www.yo-pe.com/api/common/createPersonPartyPostalAddress', createShipAddressdata).then
             (
-            function (data) {
+              function (data) {
               resolve(data)
 
 
-            }
-            )
+              }
+              )
 
 
         },
@@ -412,6 +415,45 @@ Page({
 
     });
 
+  },
+  goPaymentOrder: function (unioId, orderId, price, productDesc) {
+
+
+
+    console.log('unioId=' + unioId)
+    console.log('orderId=' + orderId)
+    console.log('price=' + price)
+    console.log('productDesc=' + productDesc)
+
+    const signPayConfigMap = {
+      openId: app.globalData.openId,
+      total_fee:parseFloat(price*100),
+      wx_body:'友评订单:'+productDesc,
+      orderId: orderId
+    }
+    Request.postRequest('https://www.yo-pe.com/api/common/signPayConfig', signPayConfigMap).then
+      (
+      function (data) { 
+        console.log('data = ' +JSON.stringify(data[0]))
+
+        wx.requestPayment({
+          timeStamp: data[0].timeStamp,
+          nonceStr: data[0].nonceStr,
+          package: data[0].package,
+          signType: 'MD5',
+          paySign: data[0].paySign,
+          'success': function (rs) {
+            goOrderPage(unioId);
+          },
+          'fail': function (rs) {
+            goOrderPage(unioId);
+          }
+        })
+
+        }
+      )
+
+    
   },
   goOrderPage: function (unioId) {
     wx.showToast({
@@ -470,10 +512,10 @@ Page({
         function (data) {
           console.log('return data = ' + JSON.stringify(data))
           // console.log('data.resourceDetail=' + data)
-          if (data.resourceDetail  == null ||data.resourceDetail == undefined) {
+          if (data.resourceDetail == null || data.resourceDetail == undefined) {
             // that.setDemoData()
             that.setData({
-              bookInfo:null
+              bookInfo: null
             })
             wx.hideLoading()
           } else {

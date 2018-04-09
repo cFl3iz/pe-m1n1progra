@@ -70,7 +70,10 @@ Page({
       code: code
     }
     Request.postRequest(url, data).then(function (data) {
-      const unicodeId = data
+      console.log('*jscode2session Global Data unio_Id = ' + data.unionid)
+      const unicodeId = data.unionid
+      const openId = data.openId
+      app.globalData.openId = openId 
       app.globalData.unicodeId = unicodeId //设置全局unicodeId
       return unicodeId
     }).then(function (data) {

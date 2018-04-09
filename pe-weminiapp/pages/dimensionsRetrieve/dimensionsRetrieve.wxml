@@ -21,7 +21,7 @@
            item.juLi
           }}  
           </view>
-          <view class='km'>Km</view>
+          <view class='km'>KM</view>
         </view>
       </view>
       <view class="q-right">
