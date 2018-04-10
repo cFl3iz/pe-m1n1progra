@@ -2,25 +2,22 @@ import ServiceUrl from './utils/serviceUrl'
 import Request from './utils/request.js'
 const Towxml = require('/towxml/main');
 const User = require('/utils/user');
-const Pages = require('/utils/pages'); 
+const Pages = require('/utils/pages');
 App({
   //Initial App
   onLaunch: function () {
     var that = this
-
-    
-
     wx.getLocation({
       type: 'wgs84',
       success: function (res) {
         var latitude = res.latitude
         var longitude = res.longitude
         var speed = res.speed
-        var accuracy = res.accuracy 
+        var accuracy = res.accuracy
         that.globalData.latitude = latitude;
         that.globalData.longitude = longitude;
       },
-      fail:function(){
+      fail: function () {
         wx.getLocation({
           type: 'wgs84',
           success: function (res) {
@@ -30,43 +27,35 @@ App({
             var accuracy = res.accuracy
             that.globalData.latitude = latitude;
             that.globalData.longitude = longitude;
-          } 
-        }) 
+          }
+        })
       }
-    }) 
+    })
+    console.log('START-APP')
 
+    // wx.onUserCaptureScreen(function (res) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '你截屏想给谁看?要我帮你打开分享吗?',
+    //     success: function (res) {
+    //       if (res.confirm) {
+    //       } else if (res.cancel) {
+    //       }
+    //     }
+    //   })
+    // })
 
-     console.log('START-APP')
-
-    
-
-      // wx.onUserCaptureScreen(function (res) {
-      //   wx.showModal({
-      //     title: '提示',
-      //     content: '你截屏想给谁看?要我帮你打开分享吗?',
-      //     success: function (res) {
-      //       if (res.confirm) {
-      //       } else if (res.cancel) {
-      //       }
-      //     }
-      //   })
-      // })
- 
-
-
-    
-   
     //LOGIN->GET USER INFO -> GET UNIO_ID
     this.weChatLogin().then(
-      function(){ 
+      function () {
         that.getUserInfo().then(
-          function(){  
+          function () {
             that.getUnionId(that.globalData.code)
           }
         );
       }
-    ); 
- 
+    );
+
   },
   towxml: new Towxml(),
   user: new User(),
@@ -116,7 +105,7 @@ App({
     })
   },
   //Get Unio Id
-  getUnionId: function (code) { 
+  getUnionId: function (code) {
     const that = this
     const url = ServiceUrl.platformManager + 'jscode2session'
     const data = {
@@ -130,16 +119,16 @@ App({
       console.log('*jscode2session Global Data unio_Id = ' + data.unionid)
       const unicodeId = data.unionid
       const openId = data.openId
-      that.globalData.openId = openId 
+      that.globalData.openId = openId
       console.log('*jscode2session Global Data openId = ' + data.openId)
-      that.globalData.unicodeId = unicodeId   
-     
+      that.globalData.unicodeId = unicodeId
+
       //查询用户联系手机、邮政地址。
-       that.findUserContactInfo(unicodeId) 
+      that.findUserContactInfo(unicodeId)
     })
-    
+
   },
-  findUserContactInfo:function(unioId){
+  findUserContactInfo: function (unioId) {
     var that = this
     const data = {
       unioId: unioId
@@ -152,19 +141,19 @@ App({
         console.log('data=' + JSON.stringify(data))
 
         if (data.code == 200) {
-          that.globalData.contactInfo = data.contactInfo 
+          that.globalData.contactInfo = data.contactInfo
         } else {
 
         }
 
       }
-      ) 
+      )
   },
   //获取用户信息
   getUserInfo: function (cb) {
     const that = this
-    return new Promise(function (resolve, reject){
-      console.log('获取用户信息') 
+    return new Promise(function (resolve, reject) {
+      console.log('获取用户信息')
       wx.getUserInfo({
         success: function (res) {
           that.globalData.userInfo = res.userInfo
@@ -173,7 +162,7 @@ App({
         }
       })
     })
-  
+
   },
   //全局变量
   globalData: {
@@ -183,8 +172,8 @@ App({
     code: null,
     unicodeId: null,
     collectProduct: null,
-    latitude:null,
-    longitude:null,
-    contactInfo:null
+    latitude: null,
+    longitude: null,
+    contactInfo: null
   }
 })

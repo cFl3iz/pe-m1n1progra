@@ -1,6 +1,7 @@
 {
   "pages": [ 
-     "pages/dimensionsRetrieve/dimensionsRetrieve",
+    "pages/home/home",
+    "pages/dimensionsRetrieve/dimensionsRetrieve",
     "pages/addimages/addimages",
     "pages/previewreadResource/previewreadResource", 
     "pages/setting/setting", 
@@ -21,33 +22,6 @@
     "navigationBarBackgroundColor": "#4395ff",
     "backgroundColor": "#F2f2f2",
     "enablePullDownRefresh": false
-  },
-  "tabBar": {
-    "color": "#969696",
-    "selectedColor": "#6495ED",
-    "borderStyle": "white",
-    "fontSize": "16",
-    "list": [
-      {
-        "pagePath": "pages/dimensionsRetrieve/dimensionsRetrieve",
-        "iconPath": "images/mine/classify_nomal.png",
-        "selectedIconPath": "images/mine/classify_pressed.png",
-        "text": "资源圈"
-      },
-      {
-        "pagePath": "pages/order/order",
-        "iconPath": "images/tabs/order.png",
-        "selectedIconPath": "images/tabs/order_active.png",
-        "text": "订单"
-      }, 
-
-      { 
-        "pagePath": "pages/my/my",
-        "iconPath": "images/tabs/my.png",
-        "selectedIconPath": "images/tabs/my_active.png",
-        "text": "我的所有"
-      }
-    ]
   },
   "debug": true
 }

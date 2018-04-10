@@ -1,28 +1,59 @@
+var app = getApp();
 import ServiceUrl from '../../utils/serviceUrl.js'
 import Request from '../../utils/request.js'
-var app = getApp();
 Page({
   data: {
-    showTips:true,
+    showTips: true,
     showModalStatus: false,
     nowPartyId: '',
     tarjeta: '',
     myProductList: [],
     touchStartTime: '',
     touchEndTime: '',
-    overdueResourceList: []
+    overdueResourceList: [],
+    tabs: ["上架资源", "下架资源"],
+    activeIndex: 0,
+    sliderOffset: 78,
+    sliderLeft: 0
   },
+  //切换下架资源和上架资源
+  tabClick: function (e) {
+    console.log(e.currentTarget.offsetLeft)
+    this.setData({
+      sliderOffset: e.currentTarget.offsetLeft + 78,
+      activeIndex: e.currentTarget.id
+    });
+  },
+  //页面初始化加载
   onLoad: function (options) {
     var that = this
     this.runderList();
     setTimeout(
-      function(){
+      function () {
         that.setData({
-          showTips:false
+          showTips: false
         })
-      },2000
+      }, 2000
     );
   },
+  //查询我的上架资源
+  runderList: function () {
+    const that = this
+    const data = {
+      unioId: app.globalData.unicodeId,
+      isDiscontinuation: '0'
+    }
+    console.log(data)
+    Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
+      console.log('queryMyProduct=>>>>' + JSON.stringify(data))
+      that.setData({
+        myProductList: data.productList,
+        tarjeta: data.tarjeta,
+        nowPartyId: data.nowPartyId
+      })
+    })
+  },
+  //我的下架资源
   getOverDueResourceList: function () {
     const that = this
     return new Promise(function (resolve, reject) {
@@ -32,7 +63,6 @@ Page({
       }
       Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
         console.log('getOverDueResourceList >>>> ' + JSON.stringify(data))
-
         that.setData({
           overdueResourceList: data.productList
         })
@@ -67,7 +97,6 @@ Page({
               }
             )
             that.runderList()
-
           })
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -90,13 +119,10 @@ Page({
           })
           return false;
         }
-
         var currentStatu = e.currentTarget.dataset.statu;
         that.util(currentStatu)
       }
     )
-
-
   },
   util: function (currentStatu) {
     /* 动画部分 */
@@ -242,7 +268,6 @@ Page({
 
   salesDiscontinuation: function (e) {
     var that = this
-
     wx.showModal({
       title: '提示',
       content: '确定要下架吗?',
@@ -268,20 +293,4 @@ Page({
       }
     })
   },
-  runderList: function () {
-    console.log('=>app.globalData.unicodeId=' + app.globalData.unicodeId)
-    const that = this
-    const data = {
-      unioId: app.globalData.unicodeId,
-      isDiscontinuation: '0'
-    }
-    Request.postRequest('https://www.yo-pe.com/api/common/queryMyProduct', data).then(function (data) {
-      console.log('queryMyProduct=>>>>' + JSON.stringify(data))
-      that.setData({
-        myProductList: data.productList,
-        tarjeta: data.tarjeta,
-        nowPartyId: data.nowPartyId
-      })
-    })
-  }
 })

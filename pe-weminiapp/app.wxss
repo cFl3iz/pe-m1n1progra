@@ -1,6 +1,6 @@
 /**app.wxss**/
 @import "./style/layout.wxss";
-@import 'assets/styles/weui.wxss';
+@import 'dist/style/weui.wxss';
 /* @import 'assets/styles/prompt.wxss';
 @import 'assets/styles/skyvow.wxss';  */
 /**

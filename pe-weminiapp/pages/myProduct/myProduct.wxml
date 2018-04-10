@@ -1,59 +1,38 @@
-<!-- <scroll-view scroll-y="true" style="height:600px" bindscrolltolower="lower">
-<block wx:for="{{myProductList}}">
-<view style="clear:both;">
-<image src="https://{{item.detailImageUrl}}" class="img"></image>
-<view class="description">
-<text>{{item.productName}}</text>
-<view style="margin-top:20rpx">{{item.time}}</view>
-</view>
-</view> 
-</block>
-</scroll-view> -->
-
-<view>
-  <text wx:if="{{showTips}}" class='tips'>Tips:长按图片可以永久移除,点击可以编辑。</text>
-  <view>
-    <scroll-view class="scroll" scroll-top="{{scrollTop}}" style="height:580px;" scroll-y="true" bindscroll="scrll" bindscrolltolower="loadMore">
-
-      <view class="block" wx:for="{{myProductList}}" wx:for-item="item">
-        <image bindlongtap="longTap" bindtouchstart="touchStart" bindtouchend="touchEnd" bindtap='editProduct' data-productid="{{item.productId}}" src="https://{{item.detailImageUrl}}" class="img"></image>
-
-        <text class='productName'>{{item.productName}}</text>
-        <text class='inventoryQuantity'>库存:{{item.availableToPromiseTotal}}件</text>
-
-        <view class='donBox'>
-          <button class='leftBtn' data-productid="{{item.productId}}" bindtap='salesDiscontinuation'>下架</button>
-          <button data-productid="{{item.productId}}" data-paytopartyid="{{item.payToPartyId}}" data-sharename="{{item.productName}}" class='rightBtn' open-type="share">转发</button>
-        </view>
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
       </view>
-    </scroll-view>
-  </view>
-  <view class="top2"  hidden="{{hidden}}" bindtap="powerDrawer" data-statu="open">下</view>
-
-
-  <!-- 下架的商品模态框 -->
-  <!--mask-->
-  <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
-
-</view>
-
-<!--content-->
-<!--使用animation属性指定需要执行的动画-->
-<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
-  <!--drawer content-->
-  <view class="drawer_title">已下架的</view>
-  <view class="drawer_content" >
-    <view class="top grid" wx:for="{{overdueResourceList}}" wx:for-item="item">
-       <image style="width: 50px; height: 50px;margin-left:10rpx;"    data-productid="{{item.productId}}" src="https://{{item.detailImageUrl}}" ></image>
-       <label class="title col-0">{{item.productName}}/{{item.price}}￥
-       </label>
-      
-       <label class="title col-1">
-      <view class="btn_ok" style='justify-content:center;align-items:center;background-color:green;color:white;margin-left:15rpx;margin-botton:30rpx;' data-productid="{{item.productId}}" data-name="{{item.productName}}" bindtap="recoveResource" data-statu="close">恢复</view> 
-       </label> 
-      <!-- <input class="input_base input_h30 col-1" name="rName" value="可自行定义内容"></input> -->
+      <view class="weui-tab__panel">
+        <view class="weui-tab__content" hidden="{{activeIndex != 0}}" wx:for="{{myProductList}}" wx:key="*this" wx:item='item'>
+          <view class="weui-panel__bd">
+            <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="https://{{item.detailImageUrl}}" />
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{item.productName}}</view>
+                <view class="weui-media-box__desc">商品详情:{{item.description}}</view>
+                <view class="weui-media-box__info">
+                  <view class="weui-media-box__info__meta">
+                    <text style='font-size: 18;font-weight:bold;color:#000000'>¥ 98</text>
+                  </view>
+                  <view class="weui-media-box__info__meta">客户:{{10}}</view>
+                  <view class="weui-media-box__info__meta">浏览:{{20}}</view>
+                  <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">转发:{{30}}</view>
+                </view>
+              </view>
+            </navigator>
+          </view>
+        </view>
+        <view class="weui-tab__content" hidden="{{activeIndex != 1}}">选项二的内容</view>
+      </view>
     </view>
-     
   </view>
-  <!-- <view class="btn_ok" bindtap="powerDrawer" data-statu="close">确定</view> -->
-  </view>
+</view>
