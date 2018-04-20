@@ -1,0 +1,12 @@
+/* pages/notice/notice.wxss */
+.notice-empty-container {
+  padding-top: 60rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.notice-empty-text {
+  color: #757575;
+}

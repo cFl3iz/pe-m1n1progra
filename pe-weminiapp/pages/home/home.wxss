@@ -1,70 +1,7 @@
-/*loading*/
-
-::-webkit-scrollbar {
+/*首页*/
+.main {
   width: 0;
   height: 0;
   color: transparent;
 }
 
-.tips {
-  margin-top: 50px;
-  color: gray;
-  text-align: center;
-}
-
-/*list*/
-
-.list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20rpx;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.list image {
-  width: 100%;
-}
-
-.text-item {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  position: relative;
-}
-
-.text-item .left {
-  flex:3;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-}
-.text-item .right {
-  flex:1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-  justify-content:center;
-  align-items: center;
-}
-
-/*产品发布这头像*/
-
-.avatar {
-  width: 100rpx !important;
-  height: 100rpx;
-  border-radius: 100rpx;
-}
-
-.message {
-  color: gray;
-  padding: 20rpx;
-}
-
-/*点击效果*/
-
-.view-hover {
-  opacity: 0.5;
-}

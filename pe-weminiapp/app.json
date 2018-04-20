@@ -1,27 +1,23 @@
 {
-  "pages": [ 
+  "pages": [
     "pages/home/home",
-    "pages/dimensionsRetrieve/dimensionsRetrieve",
-    "pages/addimages/addimages",
-    "pages/previewreadResource/previewreadResource", 
-    "pages/setting/setting", 
     "pages/order/order",
-    "pages/releaseResource/releaseResource",
-    "pages/orderDetail/orderDetail",
-    "pages/my/my",
-    "pages/chatView/chatView",
-    "pages/addressAdd/addressAdd",
     "pages/deliveryInfo/deliveryInfo",
     "pages/myProduct/myProduct",
-    "pages/editProduct/editProduct"
+    "pages/editProduct/editProduct",
+    "pages/companyProduct/companyProduct",
+    "pages/recruiting/recruiting",
+    "pages/productDetail/productDetail",
+    "pages/componyOrder/componyOrder",
+    "pages/notice/notice",
+    "pages/releaseProduct/releaseProduct"
   ],
   "window": {
-    "backgroundTextStyle": "white",
-    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "友评交易",
-    "navigationBarBackgroundColor": "#4395ff",
-    "backgroundColor": "#F2f2f2",
-    "enablePullDownRefresh": false
+    "navigationBarBackgroundColor": "#212121",
+    "navigationBarTextStyle": "#ffffff",
+    "backgroundColor": "#eeeeee",
+    "backgroundTextStyle": "light"
   },
   "debug": true
 }

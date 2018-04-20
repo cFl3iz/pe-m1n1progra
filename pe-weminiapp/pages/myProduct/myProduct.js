@@ -16,25 +16,26 @@ Page({
     sliderOffset: 78,
     sliderLeft: 0
   },
-  //切换下架资源和上架资源
-  tabClick: function (e) {
-    console.log(e.currentTarget.offsetLeft)
-    this.setData({
-      sliderOffset: e.currentTarget.offsetLeft + 78,
-      activeIndex: e.currentTarget.id
+  //
+  onLoad: function () {
+    this.runderList();
+    this.getOverDueResourceList()
+    var that = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
     });
   },
-  //页面初始化加载
-  onLoad: function (options) {
-    var that = this
-    this.runderList();
-    setTimeout(
-      function () {
-        that.setData({
-          showTips: false
-        })
-      }, 2000
-    );
+  //切换TAB
+  tabClick: function (e) {
+    this.setData({
+      sliderOffset: e.currentTarget.offsetLeft+78,
+      activeIndex: e.currentTarget.id
+    });
   },
   //查询我的上架资源
   runderList: function () {
@@ -68,6 +69,12 @@ Page({
         })
         resolve(that.data.overdueResourceList)
       })
+    })
+  },
+  //发布资源
+  releaseResource:function(){
+    wx.navigateTo({
+      url: '../releaseProduct/releaseProduct'
     })
   },
   //恢复上架

@@ -1,0 +1,25 @@
+<!--pages/notice/notice.wxml-->
+<view class="container">
+  <view wx:for="{{noticeData}}" wx:key="{{item.messageId}}" style='display:flex;flex-direction:column;background-color:#ffffff;padding:20rpx;margin-bottom:20rpx'>
+    <view style='display:flex;flex-direction:row;align-items:center;border-bottom: 1rpx #e0e0e0 solid;'>
+      <image style='width:93rpx;height:96rpx;padding:0 40rpx 20rpx 20rpx' 
+      src='{{item.messageLogTypeId==="ORDER"?orderImage:shareImage}}' />
+      <view style='display:flex;flex-direction:column;padding-bottom:20rpx;width:75%'>
+        <text style='font-size:32rpx;color:#212121'>{{item.messageLogTypeId==='ORDER'?'您有新的订单生成!':'有人帮您转发了'}}</text>
+        <text style='font-size:28rpx;color:#757575'>{{item.content}}</text>
+      </view>
+    </view>
+    <view style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:20rpx 20rpx 0 20rpx'>
+      <text style='font-size:26rpx;color:#212121'>{{item.time}}</text>
+      <image style='width:38rpx;height:38rpx' src='{{deleteImage}}' data-messageId='{{item.messageId}}' bindtap='deleteMessage'/>
+    </view>
+  </view>
+
+  <!--没有订单时，显示空页面  -->
+  <view class='notice-empty-container' wx:if="{{noticeData.length===0}}">
+    <image src='../../images/order/lesslist@3x.png' />
+    <text class='notice-empty-text'>
+      没有消息产生
+    </text>
+  </view>
+</view>

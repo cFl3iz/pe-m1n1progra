@@ -1,0 +1,24 @@
+<view class="page" style='background-color:#ffffff'>
+  <view class="page__bd">
+    <view style='text-align:center;height:88rpx;line-height:88rpx;'>
+      <text style='color:#212121;font-size:36rpx'>{{total}}</text>
+      <text style='font-size:30rpx'> 件商品</text>
+    </view>
+    <view class="container">
+      <view class='product-item' wx:for="{{productData}}" wx:key="*this" wx:item='item'>
+        <navigator url="/pages/productDetail/productDetail?productId={{item.productId}}" hover-class="navigator-hover">
+          <image class='product-image' src="http://{{item.detailImageUrl}}"/>
+        </navigator>
+        <view class='product-detail-block'>
+          <view>
+            <text class='product-price'>¥ {{item.price}}</text>
+          </view>
+          <view class="product-text-container">
+            <text class='product-name'>{{item.productName}}</text>
+          </view>
+          <view class="product-divider"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

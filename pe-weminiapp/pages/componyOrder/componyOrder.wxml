@@ -1,0 +1,58 @@
+<import src="/zanui/tab/index.wxml" />
+<import src="/zanui/actionsheet/index.wxml" />
+
+<view class="container">
+  <view>
+    <view>
+      <button class="zan-btn" bindtap="toggleActionsheet">
+        <view style='display:flex;flex-direction:row;justify-content:center;align-items:center'>
+          <text>{{orderType}}</text>
+          <image class='order-type-icon' src='../../images/order/35_向下箭头.png' />
+        </view>
+      </button>
+    </view>
+    <view>
+      <template is="zan-actionsheet" data="{{ ...baseActionsheet }}"></template>
+      <template is="zan-tab" data="{{ ...tab1, componentId: 'tab1' }}"></template>
+    </view>
+  </view>
+
+  <!--订单详情  -->
+  <scroll-view scroll-y style='height:83vh' wx:if="{{orderData.length>0}}">
+    <view wx:for="{{orderData}}" wx:index='{{idx}}' wx:key="{{idx}}" class="order-item">
+      <view class="order-title">
+        <text class='order-id'>订单号：{{item.orderId}}</text>
+        <text class='order-status'>{{item.orderPayStatus}}</text>
+      </view>
+      <view class='order-detail'>
+        <image class='order-image' src="https://{{item.detailImageUrl}}" />
+        <view class='order-detail-main'>
+        <view>
+          <text class='order-price'>¥ {{item.unitPrice}}</text>
+          <text class='order-feature'>x {{item.quantity}}</text>
+        </view>
+        
+          <text class='order-name'>{{item.productName}}</text>
+          <text class='order-feature'>{{item.featuresList[0]}} {{item.featuresList[1]}}</text>
+          <text wx:if='{{orderType==="销售订单"}}' class='order-number'>买家昵称: {{item.custPersonInfoMap.firstName}}</text>
+           <text wx:if='{{orderType!=="销售订单"}}' class='order-number'>销售代表: {{item.salesPersonInfoMap.firstName}}</text>
+        </view>
+      </view>
+      <view class='order-detail-footer'>
+        <view class='order-date'>{{item.orderDate}}</view>
+        <view>
+          <button class="weui-btn mini-btn order-btn-pay" size="mini">付款</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+
+  <!--没有订单时，显示空页面  -->
+  <view class='order-empty-container' wx:if="{{orderData.length===0}}">
+    <image src='../../images/order/lesslist@3x.png' />
+    <text class='order-empty-text'>
+    {{orderType==="销售订单"?'您还没有订单哦，快去转发吧':'您还没有订单哦,快去下单吧'}}
+    </text>
+  </view>
+</view>

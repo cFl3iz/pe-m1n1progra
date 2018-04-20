@@ -1,37 +1,68 @@
 <view class="page">
-  <view class="page__bd">
-    <view class="weui-tab">
-      <view class="weui-navbar">
-        <block wx:for="{{tabs}}" wx:key="*this">
-          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-            <view class="weui-navbar__title">{{item}}</view>
+  <view class="page__bd page__bd_spacing">
+    <view class="weui-flex" style='flex-direction:column;height:100vh'>
+      <view class="weui-flex__item">
+        <view class="weui-tab">
+          <view class="weui-navbar">
+            <block wx:for="{{tabs}}" wx:key="*this">
+              <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+                <view class="weui-navbar__title">{{item}}</view>
+              </view>
+            </block>
+            <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
           </view>
-        </block>
-        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
-      </view>
-      <view class="weui-tab__panel">
-        <view class="weui-tab__content" hidden="{{activeIndex != 0}}" wx:for="{{myProductList}}" wx:key="*this" wx:item='item'>
-          <view class="weui-panel__bd">
-            <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                <image class="weui-media-box__thumb" src="https://{{item.detailImageUrl}}" />
-              </view>
-              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                <view class="weui-media-box__title">{{item.productName}}</view>
-                <view class="weui-media-box__desc">商品详情:{{item.description}}</view>
-                <view class="weui-media-box__info">
-                  <view class="weui-media-box__info__meta">
-                    <text style='font-size: 18;font-weight:bold;color:#000000'>¥ 98</text>
+          <view class="weui-tab__panel">
+            <!--上架资源  -->
+            <view class="weui-tab__content" hidden="{{activeIndex != 0}}" wx:for="{{myProductList}}" wx:key="*this" wx:item='item'>
+              <view class="weui-panel__bd">
+                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                  <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                    <image class="weui-media-box__thumb" src="https://{{item.detailImageUrl}}" />
                   </view>
-                  <view class="weui-media-box__info__meta">客户:{{10}}</view>
-                  <view class="weui-media-box__info__meta">浏览:{{20}}</view>
-                  <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">转发:{{30}}</view>
-                </view>
+                  <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                    <view class="weui-media-box__title">{{item.productName}}</view>
+                    <view class="weui-media-box__desc">商品详情:{{item.description}}</view>
+                    <view class="weui-media-box__info">
+                      <view class="weui-media-box__info__meta">
+                        <text style='font-size: 18;font-weight:bold;color:#000000'>¥ 98</text>
+                      </view>
+                      <view class="weui-media-box__info__meta">客户:{{10}}</view>
+                      <view class="weui-media-box__info__meta">浏览:{{20}}</view>
+                      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">转发:{{30}}</view>
+                    </view>
+                  </view>
+                </navigator>
               </view>
-            </navigator>
+            </view>
+            <!--下架资源  -->
+            <view class="weui-tab__content" hidden="{{activeIndex != 1}}" wx:for="{{overdueResourceList}}" wx:key="*this" wx:item='item'>
+              <view class="weui-panel__bd">
+                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                  <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                    <image class="weui-media-box__thumb" src="https://{{item.detailImageUrl}}" />
+                  </view>
+                  <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                    <view class="weui-media-box__title">{{item.productName}}</view>
+                    <view class="weui-media-box__desc">商品详情:{{item.description}}</view>
+                    <view class="weui-media-box__info">
+                      <view class="weui-media-box__info__meta">
+                        <text style='color:#000000'>¥ 98</text>
+                      </view>
+                      <view class="weui-media-box__info__meta">客户:{{10}}</view>
+                      <view class="weui-media-box__info__meta">浏览:{{20}}</view>
+                      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">转发:{{30}}</view>
+                    </view>
+                  </view>
+                </navigator>
+              </view>
+            </view>
           </view>
         </view>
-        <view class="weui-tab__content" hidden="{{activeIndex != 1}}">选项二的内容</view>
+      </view>
+      <view class="page__bd page__bd_spacing">
+        <view class="weui-btn-area">
+          <button class="weui-btn" type="primary" style='background-color:#000000' bindtap="releaseResource">发布商品</button>
+        </view>
       </view>
     </view>
   </view>
