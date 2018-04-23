@@ -41,7 +41,7 @@ Page({
   runderList: function () {
     const that = this
     const data = {
-      unioId: app.globalData.unicodeId,
+      openId: app.globalData.openId,
       isDiscontinuation: '0'
     }
     console.log(data)

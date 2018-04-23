@@ -44,7 +44,7 @@ export default class Login {
         nickName: app.globalData.userInfo.nickName,
         gender: app.globalData.userInfo.gender,
         language: app.globalData.userInfo.language,
-        avatarUrl: app.globalData.userInfo.avatarUrl
+        avatarUrl: app.globalData.userInfo.avatarUrl,
       }
       console.log(data)
       Request.postRequest(url, data).then(function (data) {
@@ -61,11 +61,12 @@ export default class Login {
     })
   }
   //查询我的已加入的公司信息
-  static queryProductStoreList(code) {
+  static queryProductStoreAndRole(code) {
     const that = this
-    const url = ServiceUrl.platformManager + 'queryProductStoreList'
+    const url = ServiceUrl.platformManager + 'queryProductStoreAndRole'
     const data = {
       openId: app.globalData.openId,
+      appid :'wx299644ef4c9afbde'
     }
     console.log(data)
     return new Promise(function (resolve, reject) {
