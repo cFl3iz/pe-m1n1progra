@@ -59,7 +59,16 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    this.queryCatalogProduct()
+    //判断是否登录
+    let AuthToken = wx.getStorageSync('AuthToken')
+    if (AuthToken == '' || AuthToken == null) {
+      Login.userLogin().then(function () {
+        this.queryCatalogProduct()
+      })
+    } else {
+      this.queryCatalogProduct()
+    }
+   
   },
 
   /**

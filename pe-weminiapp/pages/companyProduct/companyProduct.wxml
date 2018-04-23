@@ -1,5 +1,5 @@
 <view class="page" style='background-color:#ffffff'>
-  <view class="page__bd">
+  <scroll-view class="page__bd">
     <view style='text-align:center;height:88rpx;line-height:88rpx;'>
       <text style='color:#212121;font-size:36rpx'>{{total}}</text>
       <text style='font-size:30rpx'> 件商品</text>
@@ -7,7 +7,7 @@
     <view class="container">
       <view class='product-item' wx:for="{{productData}}" wx:key="*this" wx:item='item'>
         <navigator url="/pages/productDetail/productDetail?productId={{item.productId}}" hover-class="navigator-hover">
-          <image class='product-image' src="http://{{item.detailImageUrl}}"/>
+          <image lazy-load='true' class='product-image' src="http://{{item.detailImageUrl}}" />
         </navigator>
         <view class='product-detail-block'>
           <view>
@@ -20,5 +20,5 @@
         </view>
       </view>
     </view>
-  </view>
+  </scroll-view> 
 </view>
