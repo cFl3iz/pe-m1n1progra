@@ -24,7 +24,8 @@
       <button class="zan-btn zan-btn--danger" style='background-color:#212121' bindtap="toggleBottomPopup">
         下单
       </button>
-      <button class="zan-btn zan-btn--danger" style='background-color:#212121' open-type="share">{{productStoreId==null?'转发':"帮他转发"}}</button>
+      <button class="zan-btn zan-btn--danger" style='background-color:#212121' open-type="share">
+      {{isShare?'帮他转发':"转发"}} </button>
     </view>
   </view>
 

@@ -5,19 +5,26 @@ import { formatTime } from '../../utils/util'
 import Login from '../../utils/login.js'
 
 //个人用户
-const individualUser = [
-  { type: '我的', url: '../../images/home/me@3x.png', backgroundColor: '#f78259', router: '/pages/myProduct/myProduct' },
-  {
-    type: '好友', url: '../../images/home/friends@3x.png', backgroundColor: '#73bbf7', router: '/pages/dimensionsRetrieve/dimensionsRetrieve'
-  },
-  { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/componyOrder/componyOrder' },
-  { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
-]
-//企业用户
-const companyUser = [
+// const individualUser = [
+//   { type: '我的', url: '../../images/home/me@3x.png', backgroundColor: '#f78259', router: '/pages/myProduct/myProduct' },
+//   {
+//     type: '好友', url: '../../images/home/friends@3x.png', backgroundColor: '#73bbf7', router: '/pages/dimensionsRetrieve/dimensionsRetrieve'
+//   },
+//   { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/componyOrder/componyOrder' },
+//   { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
+// ]
+//是销售员
+const isSalesman = [
   { type: '产品', url: '../../images/home/chanpin@3x.png', backgroundColor: '#ffffff', router: '/pages/companyProduct/companyProduct' },
   { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/componyOrder/componyOrder' },
   { type: '招募', url: '../../images/home/zhaomu@3x.png', backgroundColor: '#ffffff', router: '/pages/recruiting/recruiting' },
+  { type: '统计', url: '../../images/home/统计@3x.png', backgroundColor: '#ffffff', router: '/pages/statistics/statistics'  },
+  { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
+]
+//不是销售员
+const notSalesman = [
+  { type: '产品', url: '../../images/home/chanpin@3x.png', backgroundColor: '#ffffff', router: '/pages/companyProduct/companyProduct' },
+  { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/componyOrder/componyOrder' },
   { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
 ]
 Page({
@@ -25,7 +32,7 @@ Page({
  * 页面的初始数据
  */
   data: {
-    grids: companyUser,
+    grids: null,
   },
 
   /**
@@ -37,20 +44,17 @@ Page({
       title: '加载中',
     })
     Login.userLogin().then(function () {
-      console.log('是不是销售代表：'+app.globalData.isSalesRep)
-      if (app.globalData.isSalesRep!=='true') {
-        console.log('是销售代表>>>>>>>>')
+      console.log('是不是销售代表：' + app.globalData.isSalesRep)
+      if (app.globalData.isSalesRep==='true'){
         that.setData({
-          grids: companyUser
+          grids: isSalesman
         })
-      } else {
-        console.log('不是销售代表>>>>>>>')
+      }else{
         that.setData({
-          grids: individualUser
+          grids: notSalesman
         })
       }
     })
-
   },
 
   /**

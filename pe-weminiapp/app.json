@@ -10,7 +10,8 @@
     "pages/productDetail/productDetail",
     "pages/componyOrder/componyOrder",
     "pages/notice/notice",
-    "pages/releaseProduct/releaseProduct"
+    "pages/releaseProduct/releaseProduct",
+    "pages/statistics/statistics"
   ],
   "window": {
     "navigationBarTitleText": "友评交易",

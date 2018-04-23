@@ -2,3 +2,10 @@
 .zhaomu-btn{
   opacity: 0.5;
 }
+
+
+/*去掉按钮边框*/
+button[class="con_listbox"]::after {
+  border: 0;
+} 
+

@@ -22,10 +22,11 @@ App({
     userInfo: null,
     code: null,
     unicodeId: null,
-    storeList: null,
+    isSalesRep: null,//是否时销售代表
+    productStoreId: null,//d
     prodCatalogId: null,//产品分类ID
     tarjeta:null,
     partyId: null,
-    isSalesRep:null//是否时销售代表
+    
   }
 })

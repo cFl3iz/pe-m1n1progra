@@ -94,6 +94,7 @@
 .order-btn-pay {
   background-color: #454545;
   color: #fff;
+  margin-right: 10rpx
 }
 
 .order-empty-container {

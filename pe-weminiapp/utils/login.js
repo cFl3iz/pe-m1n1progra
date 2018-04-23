@@ -66,16 +66,16 @@ export default class Login {
     const url = ServiceUrl.platformManager + 'queryProductStoreAndRole'
     const data = {
       openId: app.globalData.openId,
-      appid :'wx299644ef4c9afbde'
+      appId :'wx299644ef4c9afbde'
     }
     console.log(data)
     return new Promise(function (resolve, reject) {
       Request.postRequest(url, data).then(function (data) {
         console.log('查询我的已加入的公司信息=>>>>>>>>' + JSON.stringify(data))
-        const { storeList, isSalesRep } = data
-        app.globalData.storeList = storeList
-        if (storeList[0]) {
-          app.globalData.prodCatalogId = storeList[0].prodCatalogId
+        const { isSalesRep, productStoreId, prodCatalogId,code} = data
+        if (code==='200') {
+          app.globalData.prodCatalogId = prodCatalogId
+          app.globalData.productStoreId = productStoreId
           app.globalData.isSalesRep = isSalesRep
         }
         resolve()
@@ -93,7 +93,7 @@ export default class Login {
             function () {
               that.getUnionId().then(
                 function () {
-                  that.queryProductStoreList().then(function(){
+                  that.queryProductStoreAndRole().then(function(){
                     resolve()
                   })
                 })

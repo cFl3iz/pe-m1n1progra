@@ -18,8 +18,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    productData: productData,
-    total:7//总产品数
+    productData: null,
+    total:0//总产品数
   },
 
   //查询公司的商品

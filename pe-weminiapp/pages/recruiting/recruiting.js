@@ -4,7 +4,6 @@ import ServiceUrl from '../../utils/serviceUrl'
 import Request from '../../utils/request.js'
 import Login from '../../utils/login.js'
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -12,10 +11,10 @@ Page({
     tel: null,
     codeText: null,//验证码
     captcha: '获取验证码',//验证码按钮,
+    name:null,//真实姓名
     storeId: null,
-    hasStore:false,//是否有店铺
-    isShare:false,   //当前是否是分享页面
-    isSalesRep: null
+    isShare: false,   //当前是否是分享页面
+    isSalesRep: null,//是否是销售代表
   },
 
   //设置手机号码
@@ -29,6 +28,13 @@ Page({
   setCodeText: function (e) {
     this.setData({
       codeText: e.detail.value
+    })
+  },
+
+  //设置真实性命
+  setName:function(e){
+    this.setData({
+      name: e.detail.value
     })
   },
 
@@ -80,14 +86,15 @@ Page({
       const data = {
         teleNumber: this.data.tel,
         captcha: this.data.codeText,
+        userName: this.data.name,
         openId: app.globalData.openId,
         storeId: this.data.storeId
       }
       console.log(data)
       Request.postRequest(url, data).then(function (data) {
         console.log('接受招募' + JSON.stringify(data))
-        const {code}=data;
-        if(code==='200'){
+        const { code } = data;
+        if (code === '200') {
           //招募成功回首页
           wx.showModal({
             content: '恭喜您已加入素然服饰，快去转发你的产品赚钱吧！',
@@ -110,7 +117,7 @@ Page({
       })
     }
   },
- 
+
   //转发
   onShareAppMessage: function (res) {
     console.log(this.data.storeId)
@@ -132,20 +139,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const that=this
+    console.log(options)
+    const that = this
     //判断是否登录
     let AuthToken = wx.getStorageSync('AuthToken')
     console.log(AuthToken)
     const { isShare, storeId } = options
     if (AuthToken == '' || AuthToken == null) {
-      Login.userLogin().then(function(){
-        if (app.globalData.storeList.length > 0) {
+      Login.userLogin().then(function () {
           that.setData({
-            storeId: app.globalData.storeList[0].productStoreId,
-            hasStore: true,
+            storeId: app.globalData.productStoreId,
             isSalesRep: app.globalData.isSalesRep
           })
-        }
         if (isShare) {
           that.setData({
             isShare: true,
@@ -154,13 +159,10 @@ Page({
         }
       })
     } else {
-      if (app.globalData.storeList.length > 0) {
-        that.setData({
-          storeId: app.globalData.storeList[0].productStoreId,
-          hasStore: true,
-          isSalesRep: app.globalData.isSalesRep
-        })
-      }
+      that.setData({
+        storeId: app.globalData.productStoreId,
+        isSalesRep: app.globalData.isSalesRep
+      })
       if (isShare) {
         that.setData({
           isShare: true,
@@ -168,7 +170,7 @@ Page({
         })
       }
     }
-    
+
   },
 
   /**

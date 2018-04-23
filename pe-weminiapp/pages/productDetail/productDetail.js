@@ -29,6 +29,7 @@ Page(Object.assign({}, Zan.Stepper, {
     address: null,//收货地址
     salesRepId: null,//销售代表ID
     productStoreId: null,//店家ID
+    isShare: false//判断页面shi fou
   },
 
   //修改购买数量
@@ -96,7 +97,7 @@ Page(Object.assign({}, Zan.Stepper, {
   onShareAppMessage: function (res) {
     return {
       title: this.data.productDetailData.internalName,
-      path: 'pages/productDetail/productDetail?productId=' + this.data.productDetailData.productId + "&productStoreId=" + app.globalData.storeList[0].productStoreId + "&salesRepId=" + this.data.salesRepId,
+      path: 'pages/productDetail/productDetail?productId=' + this.data.productDetailData.productId + "&salesRepId=" + this.data.salesRepId + '&isShare=true',
       success: function (res) {
         // 转发成功
         console.log('转发成功')
@@ -165,7 +166,7 @@ Page(Object.assign({}, Zan.Stepper, {
           if (Object.keys(a)[0] === 'COLOR_DESC') {
             colorArray.push(Object.values(a)[0])
           } else if (Object.keys(a)[0] === 'SIZE') {
-              sizeArray.push(Object.values(a)[0])
+            sizeArray.push(Object.values(a)[0])
           }
         }
         featureArray.push({ type: '颜色', value: colorArray })
@@ -209,7 +210,7 @@ Page(Object.assign({}, Zan.Stepper, {
       productId: this.data.productId,
       amount: this.data.stepper1.stepper,
       prodCatalogId: app.globalData.prodCatalogId,
-      productStoreId: this.data.productStoreId || app.globalData.storeList[0].productStoreId,
+      productStoreId: app.globalData.productStoreId,
       feature: `COLOR_DESC=${this.data.selectColor},SIZE=${this.data.selectSize}`,
       tarjeta: app.globalData.tarjeta,
       remark: '不想添加备注',
@@ -272,49 +273,39 @@ Page(Object.assign({}, Zan.Stepper, {
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const that=this
+    const that = this
     wx.showLoading({
       title: '加载中',
     })
-    const { productId, productStoreId, salesRepId } = options
-    console.log('产品详情页面参数productStoreId>>>>>>' + productStoreId + 'salesRepId>>>>>>' + salesRepId)
+    //查看传递参数
+    const { productId, salesRepId, isShare } = options
+    console.log('产品详情页面参数productId>>>>>>' + productId + 'isShare>>>>>>' + isShare)
     this.setData({
       productId: productId
     })
+    //判断是否是分享页面
+    if (isShare) {
+      this.setData({
+        isShare: true
+      })
+    }
     //判断是否登录
     let AuthToken = wx.getStorageSync('AuthToken')
-    if (AuthToken == '' || AuthToken==null) {
-      Login.userLogin().then(function(){
+    if (AuthToken == '' || AuthToken == null) {
+      Login.userLogin().then(function () {
         that.queryCatalogProductDetail()//查询产品详情
       })
-    }else{
+    } else {
       that.queryCatalogProductDetail()//查询产品详情
     }
-    //判断是否已经是销售代表
-    if (app.globalData.isSalesRep){
-      //是销售代表
-      console.log('是销售代表')
-      this.setData({
-        productStoreId: app.globalData.productStoreId
-      })
-    }else{
-      //不是销售代表  参数中存在productStoreId
-      console.log('不是销售代表')
-      if (productStoreId) {
-        this.addPlacingCustRoleToStore(productStoreId)//添加当前访问者角色
-        this.setData({
-          productStoreId: productStoreId
-        })
-      } 
-    }
     //这个是为了下单时下到转发的第一个销售代表中
-    if (salesRepId) {
+    if (salesRepId == null) {
       this.setData({
-        salesRepId: salesRepId
+        salesRepId: app.globalData.openId
       })
     } else {
       this.setData({
-        salesRepId: app.globalData.openId
+        salesRepId: salesRepId
       })
     }
   },
@@ -323,6 +314,6 @@ Page(Object.assign({}, Zan.Stepper, {
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-   
+
   },
 }));
