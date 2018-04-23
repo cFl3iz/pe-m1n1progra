@@ -1,2 +1,55 @@
 <!--pages/statistics/statistics.wxml-->
-<text>pages/statistics/statistics.wxml</text>
+<view class="container">
+  <view style='display:flex;flex-direction:column;background-color:#ffffff;padding:20rpx 10rpx 0rpx 20rpx;margin-bottom:20rpx'>
+    <view style='display:flex;flex-direction:row;align-items:center;border-bottom: 1rpx #e0e0e0 solid;'>
+      <image style='width:200rpx;height:267rpx;padding:0 20rpx 20rpx 20rpx' src="https://img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg" />
+      <view style='display:flex;flex-direction:column;width:75%'>
+        <view style='display:flex;flex:1;flex-direction:column'>
+          <text style='font-size:50rpx;color:#212121'>力蓬松喇叭裤</text>
+          <text style='font-size:32rpx;color:#757575'>￥3580</text>
+        </view>
+
+        <view style='display:flex;flex-direction:row;justify-content:space-between;padding-top:20rpx'>
+          <view>
+            <text style='font-size:28rpx;color:#757575;'>销量:</text>
+            <text style='font-size:28rpx;color:#212121;'>200</text>
+          </view>
+          <view>
+            <text style='font-size:28rpx;color:#757575;'>浏览:</text>
+            <text style='font-size:28rpx;color:#212121;'>200</text>
+          </view>
+          <view>
+            <text style='font-size:28rpx;color:#757575;'>转发:</text>
+            <text style='font-size:28rpx;color:#212121;'>200</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+   <view style='display:flex;flex-direction:column;background-color:#ffffff;padding:20rpx 10rpx 0rpx 20rpx;margin-bottom:20rpx'>
+    <view style='display:flex;flex-direction:row;align-items:center;border-bottom: 1rpx #e0e0e0 solid;'>
+      <image style='width:200rpx;height:267rpx;padding:0 20rpx 20rpx 20rpx' src="https://img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg" />
+      <view style='display:flex;flex-direction:column;width:75%'>
+        <view style='display:flex;flex:1;flex-direction:column'>
+          <text style='font-size:50rpx;color:#212121'>力蓬松喇叭裤</text>
+          <text style='font-size:32rpx;color:#757575'>￥3580</text>
+        </view>
+
+        <view style='display:flex;flex-direction:row;justify-content:space-between;padding-top:20rpx'>
+          <view>
+            <text style='font-size:28rpx;color:#757575;'>销量:</text>
+            <text style='font-size:28rpx;color:#212121;'>200</text>
+          </view>
+          <view>
+            <text style='font-size:28rpx;color:#757575;'>浏览:</text>
+            <text style='font-size:28rpx;color:#212121;'>200</text>
+          </view>
+          <view>
+            <text style='font-size:28rpx;color:#757575;'>转发:</text>
+            <text style='font-size:28rpx;color:#212121;'>200</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
