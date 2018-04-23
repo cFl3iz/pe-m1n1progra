@@ -1,1 +1,4 @@
 /* pages/recruiting/recruiting.wxss */
+.zhaomu-btn{
+  opacity: 0.5;
+}

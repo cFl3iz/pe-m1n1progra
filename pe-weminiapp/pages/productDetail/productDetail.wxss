@@ -62,5 +62,5 @@
 
 .feature-btn-selected {
   background-color: white;
-  color:#000000
+  color:#000000;
 }

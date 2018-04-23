@@ -38,7 +38,7 @@ Page({
     })
     Login.userLogin().then(function () {
       console.log('是不是销售代表：'+app.globalData.isSalesRep)
-      if (app.globalData.isSalesRep==='true') {
+      if (app.globalData.isSalesRep!=='true') {
         console.log('是销售代表>>>>>>>>')
         that.setData({
           grids: companyUser

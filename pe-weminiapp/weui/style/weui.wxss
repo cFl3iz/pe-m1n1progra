@@ -62,8 +62,10 @@ icon {
 }
 
 .weui-cell {
-  padding: 10px 15px;
+  padding: 10px 0px;
   position: relative;
+  margin: 0px 8px 10px;
+  border: 1rpx solid #d9d9d9;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -79,7 +81,6 @@ icon {
   top: 0;
   right: 0;
   height: 1px;
-  border-top: 1rpx solid #d9d9d9;
   color: #d9d9d9;
   left: 15px;
 }
@@ -637,6 +638,11 @@ icon {
   margin-top: 15px;
 }
 
+.weui-btn_reciulting {
+  margin-top: 15px;
+  
+}
+
 .weui-btn:first-child {
   margin-top: 0;
 }
@@ -653,6 +659,16 @@ icon {
 
 .weui-agree__text {
   color: #999;
+}
+.weui-perfer__text {
+  color: #999;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.weui-perfer__text_message {
+  color: #999;
+  font-size: 28rpx;
 }
 
 .weui-agree__link {
