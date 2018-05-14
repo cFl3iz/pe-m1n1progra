@@ -1,3 +1,7 @@
 {
-  
+  "navigationBarTitleText": "招募销售",
+  "navigationBarBackgroundColor": "#212121",
+  "navigationBarTextStyle": "#ffffff",
+  "backgroundColor": "#eeeeee",
+  "backgroundTextStyle": "light"
 }

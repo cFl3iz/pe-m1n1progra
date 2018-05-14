@@ -18,7 +18,18 @@
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 10rpx;
+  border-bottom: 1rpx #e0e0e0 solid;
 }
+
+.order-pay-time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 38rpx;
+  padding-top: 20rpx;
+}
+
+
 
 .order-id {
   font-size: 30rpx;
@@ -33,10 +44,18 @@
 .order-detail {
   display: flex;
   flex-direction: row;
-  border-top: 1rpx #e0e0e0 solid;
   border-bottom: 1rpx #e0e0e0 solid;
   padding-top: 20rpx;
   padding-bottom: 20rpx;
+  position: relative
+}
+
+.order-delete {
+  width: 38rpx;
+  height: 38rpx;
+  position: absolute;
+  top:20rpx;
+  right: 0
 }
 
 .order-image {
@@ -55,9 +74,8 @@
 .order-price {
   font-size: 44rpx;
   color: #212121;
-  padding-top: 50rpx;
   font-weight: bold;
-  margin-right:20rpx
+  margin-right: 20rpx;
 }
 
 .order-name {
@@ -94,7 +112,7 @@
 .order-btn-pay {
   background-color: #454545;
   color: #fff;
-  margin-right: 10rpx
+  margin-right: 10rpx;
 }
 
 .order-empty-container {

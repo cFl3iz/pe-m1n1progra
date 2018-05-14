@@ -1,1 +1,7 @@
-{}
+{
+  "navigationBarTitleText": "在售商品",
+  "navigationBarBackgroundColor": "#212121",
+  "navigationBarTextStyle": "#ffffff",
+  "backgroundColor": "#eeeeee",
+  "backgroundTextStyle": "light"
+}

@@ -1,0 +1,85 @@
+/* pages/forwardChain/forwardChain.wxss */
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.chain-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: #fff;
+}
+
+.chain-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chain-item-title {
+  text-align: center;
+  font-size: 48rpx;
+  font-weight: bold;
+}
+
+.chain-item-content {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1rpx #eee solid;
+  position: relative;
+}
+
+.share-text {
+  text-align: right;
+  padding: 10rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #353535;
+}
+
+.share-person {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sline-left {
+  flex: 1;
+  height: 4rpx;
+  background-color: #fff;
+}
+
+.sline-right {
+  flex: 1;
+  height: 4rpx;
+}
+
+.share-head {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 72rpx;
+}
+
+.share-name {
+  text-align: center;
+  padding: 10rpx;
+  font-size: 26rpx;
+  color: #757575;
+}
+
+.share-empty {
+  width: 100%;
+  height: 100%;
+}
+
+.isBuy {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+}

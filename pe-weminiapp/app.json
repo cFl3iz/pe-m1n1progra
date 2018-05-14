@@ -11,10 +11,15 @@
     "pages/componyOrder/componyOrder",
     "pages/notice/notice",
     "pages/releaseProduct/releaseProduct",
-    "pages/statistics/statistics"
+    "pages/statistics/statistics",
+    "pages/forwardChain/forwardChain",
+    "pages/commission/commission",
+    "pages/terms/terms",
+    "pages/my/my",
+    "pages/deputyHome/deputyHome"
   ],
   "window": {
-    "navigationBarTitleText": "友评交易",
+    "navigationBarTitleText": "AnKoRau",
     "navigationBarBackgroundColor": "#212121",
     "navigationBarTextStyle": "#ffffff",
     "backgroundColor": "#eeeeee",

@@ -1,0 +1,13 @@
+<template name="forwardChain">
+  <view style='text-align:right;padding:10rpx;font-size:30rpx;font-weight:bold;color:#353535'>转发({{item.addressCount}})</view>
+  <view style='display:flex;flex-direction:row;align-items:center'>
+    <view style='flex:1;height:4rpx;background-color:#ffffff'></view>
+    <image style='width:128rpx;height:128rpx;border-radius:72rpx;border:{{item.selected?"4rpx #212121 solid":"4rpx #e0e0e0 solid"}}' src='https://{{item.user.headPortrait}}' bindtap='selectPerson' data-id='{{item.rowParty}}' data-level='1' />
+    <view style='flex:1;height:4rpx;background-color:{{item.selected?"#212121":"#ffffff"}}'></view>
+  </view>
+  <view style='text-align:center;padding:10rpx;font-size:26rpx;color:#757575'>
+    {{item.user.firstName}}
+  </view>
+  <!--是否购买  -->
+  <image wx:if="{{index%2===0}}" style='width:50rpx;height:50rpx;position:absolute;bottom:20rpx;right:20rpx' src='../../images/tongji/buy@3x.png' />
+</template>

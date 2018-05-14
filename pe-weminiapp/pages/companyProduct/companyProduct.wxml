@@ -1,8 +1,10 @@
-<view class="page" style='background-color:#ffffff'>
+<import src="../../templates/tabBar.wxml" />
+<template is="tabBar" data="{{tabBar: tabBar}}" wx:if='{{isSalesRep==="false"}}' />
+<view class="page" style='background-color:#ffffff;padding-bottom:80rpx'>
   <scroll-view class="page__bd">
-    <view style='text-align:center;height:88rpx;line-height:88rpx;'>
-      <text style='color:#212121;font-size:36rpx'>{{total}}</text>
-      <text style='font-size:30rpx'> 件商品</text>
+    <view class='product-total-container'>
+      <text class='product-total'>{{total}}</text>
+      <text class='product-total-left'> 件商品</text>
     </view>
     <view class="container">
       <view class='product-item' wx:for="{{productData}}" wx:key="*this" wx:item='item'>
@@ -10,15 +12,11 @@
           <image lazy-load='true' class='product-image' src="http://{{item.detailImageUrl}}" />
         </navigator>
         <view class='product-detail-block'>
-          <view>
-            <text class='product-price'>¥ {{item.price}}</text>
-          </view>
-          <view class="product-text-container">
             <text class='product-name'>{{item.productName}}</text>
-          </view>
-          <view class="product-divider"></view>
+            <text class='product-price'>¥ {{item.price}}</text>
+          <!-- <view class="product-divider"></view> -->
         </view>
       </view>
     </view>
-  </scroll-view> 
+  </scroll-view>
 </view>

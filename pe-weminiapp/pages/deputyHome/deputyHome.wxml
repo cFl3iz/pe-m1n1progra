@@ -1,0 +1,29 @@
+<!--pages/deputyHome/deputyHome.wxml-->
+<import src="../../templates/tabBar.wxml" />
+<template is="tabBar" data="{{tabBar: tabBar}}" wx:if='{{isSalesRep==="false"}}' />
+<navigator url='/pages/companyProduct/companyProduct' class="page">
+  <view class='deputy-container'>
+    <image class='Introduction' src='../../images/home/picture_top@3x.png'></image>
+    <view class='deputy-images-container'>
+      <view class='deputy-feature'>
+        <image class='deputy-other-image' src='../../images/home/qinglianghua.gif'></image>
+        <text>轻量化</text>
+      </view>
+
+      <view class='deputy-feature'>
+        <image class='deputy-other-image' src='../../images/home/kangUV.gif'></image>
+        <text>抗UV</text>
+      </view>
+
+      <view class='deputy-feature'>
+        <image class='deputy-other-image' src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/fangshui.GIF'></image>
+        <text>防水</text>
+      </view>
+
+      <view class='deputy-feature'>
+        <image class='deputy-other-image' src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/kuaigan.GIF'></image>
+        <text>快干</text>
+      </view>
+    </view>
+  </view>
+</navigator> 

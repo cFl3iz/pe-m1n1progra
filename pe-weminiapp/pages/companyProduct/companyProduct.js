@@ -2,6 +2,7 @@
 var app = getApp();
 import ServiceUrl from '../../utils/serviceUrl.js'
 import Request from '../../utils/request.js'
+import Login from '../../utils/login.js'
 const productData=[
   { id: 1, detailImageUrl: 'img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg', productName:'ZUCZUG/素然手语系列 环保棉内搭衬衫T S161BL01',price:3000},
   { id: 2, detailImageUrl: 'img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg', productName: 'ZUCZUG/素然手语系列 环保棉内搭衬衫T S161BL01', price: 3000},
@@ -19,7 +20,8 @@ Page({
    */
   data: {
     productData: null,
-    total:0//总产品数
+    total:0,//总产品数
+    isSalesRep: 'false'
   },
 
   //查询公司的商品
@@ -34,11 +36,11 @@ Page({
     console.log(data)
     Request.postRequest(url, data).then(function (data) {
       console.log('查询公司的商品=>>>>' + JSON.stringify(data))
-      const { productList, last_page,code}=data
+      const { productList, total,code}=data
       if(code==='200'){
         that.setData({
           productData: productList,
-          total: last_page
+          total: total
         })
         wx.hideLoading()
       }
@@ -56,6 +58,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    app.editTabBar();//添加tabBar数据  
+    this.setData({
+      isSalesRep: app.globalData.isSalesRep
+    })
     wx.showLoading({
       title: '加载中',
     })
@@ -68,7 +74,6 @@ Page({
     } else {
       this.queryCatalogProduct()
     }
-   
   },
 
   /**

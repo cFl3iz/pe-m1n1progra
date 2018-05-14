@@ -1,1 +1,7 @@
-{}
+{
+  "navigationBarTitleText": "消息通知",
+  "navigationBarBackgroundColor": "#212121",
+  "navigationBarTextStyle": "#ffffff",
+  "backgroundColor": "#eeeeee",
+  "backgroundTextStyle": "light"
+}

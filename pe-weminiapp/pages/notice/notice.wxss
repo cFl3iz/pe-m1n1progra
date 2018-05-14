@@ -1,4 +1,5 @@
 /* pages/notice/notice.wxss */
+
 .notice-empty-container {
   padding-top: 60rpx;
   display: flex;
@@ -9,4 +10,60 @@
 
 .notice-empty-text {
   color: #757575;
+}
+
+.notice-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.notice-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1rpx #e0e0e0 solid;
+}
+
+.notice-image {
+  width: 93rpx;
+  height: 96rpx;
+  padding: 0 40rpx 20rpx 20rpx;
+}
+
+.notice-text-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20rpx;
+  width: 75%;
+}
+
+.notive-type {
+  font-size: 32rpx;
+  color: #212121;
+}
+
+.notice-detail {
+  font-size: 28rpx;
+  color: #757575;
+}
+
+.notice-time {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 20rpx 0 20rpx;
+}
+
+.notice-time-text {
+  font-size: 26rpx;
+  color: #212121;
+}
+
+.delete-icon {
+  width: 38rpx;
+  height: 38rpx;
 }

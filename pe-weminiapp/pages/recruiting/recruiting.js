@@ -14,7 +14,8 @@ Page({
     name:null,//真实姓名
     storeId: null,
     isShare: false,   //当前是否是分享页面
-    isSalesRep: null,//是否是销售代表
+    isSalesRep: 'false',//是否是销售代表
+    isAgree:false//是否同意相关条款
   },
 
   //设置手机号码
@@ -41,7 +42,7 @@ Page({
   //验证码倒计时
   getCode: function (options) {
     let that = this;
-    let currentTime = 20
+    let currentTime = 60
     let interval = setInterval(function () {
       currentTime--;
       that.setData({
@@ -78,9 +79,28 @@ Page({
     }
   },
 
+  //同意条款
+  bindAgreeChange: function (e) {
+    this.setData({
+      isAgree: !!e.detail.value.length
+    });
+  },
+
   //接受招募
   recruitingPartyToParty: function () {
-    if (this.data.tel && this.data.codeText) {
+    if (!this.data.tel || !this.data.codeText) {
+      wx.showModal({
+        title: '提示',
+        content: '手机号码或验证码输入错误',
+        showCancel: false,
+      })
+    } else if (!this.data.isAgree){
+      wx.showModal({
+        title: '提示',
+        content: '需要同意相关条款',
+        showCancel: false,
+      })
+    }else {
       const that = this
       const url = 'https://www.yo-pe.com/api/common/recruitingPartyToParty'
       const data = {
@@ -97,7 +117,7 @@ Page({
         if (code === '200') {
           //招募成功回首页
           wx.showModal({
-            content: '恭喜您已加入素然服饰，快去转发你的产品赚钱吧！',
+            content: '恭喜您已加入素然服饰！',
             showCancel: false,
             success: function (res) {
               if (res.confirm) {
@@ -107,13 +127,17 @@ Page({
               }
             }
           });
+        }else{
+          wx.showModal({
+            content: '手机号或验证码输入错误',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                
+              }
+            }
+          });
         }
-      })
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '手机号码或验证码输入错误',
-        showCancel: false,
       })
     }
   },
@@ -139,11 +163,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     const that = this
     //判断是否登录
     let AuthToken = wx.getStorageSync('AuthToken')
-    console.log(AuthToken)
     const { isShare, storeId } = options
     if (AuthToken == '' || AuthToken == null) {
       Login.userLogin().then(function () {
@@ -170,7 +192,6 @@ Page({
         })
       }
     }
-
   },
 
   /**

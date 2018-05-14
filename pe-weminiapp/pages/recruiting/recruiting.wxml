@@ -3,28 +3,27 @@
   <view class="page__bd page__bd_spacing">
     <view class="weui-flex" style='flex-direction:column;height:100vh'>
       <view class="weui-flex__item">
-        <image style='width:100%;height:662rpx;display:block' src='../../images/zhaomu/zm_bg@3x.png' />
+        <image style='width:100%;height:600rpx;display:block' src='../../images/zhaomu/zm_bg@3x.png' />
       </view>
       <!--如果是销售代表只有一个招募按钮  -->
-      <view style='text-align:center;display:flex;justify-content:center' hover-class='zhaomu-btn' hidden='{{!isSalesRep==="true"}}'>
+      <view style='text-align:center;display:flex;justify-content:center' hover-class='zhaomu-btn' wx:if='{{isSalesRep==="true"}}'>
         <button class='con_listbox' style='background-color:#ffffff' open-type='share'>
           <image style='width:300rpx;height:300rpx;display:block;padding:60rpx' src='../../images/zhaomu/btn_zm@3x.png' />
         </button>
       </view>
       <!--不是销售代表手机验证form  -->
-      <form style='background-color:#ffffff;padding:0rpx 20rpx' hidden='{{isSalesRep==="true"}}'>
+      <form style='background-color:#ffffff;padding:0rpx 20rpx' wx:if='{{isSalesRep==="false"}}'>
         <view class="weui-cell weui-cell_input weui-cell_vcode">
           <view class="weui-cell__hd">
-            <image style='width:60rpx;height:60rpx' src='../../images/zhaomu/手机@3x.png' />
+            <image style='width:60rpx;height:60rpx' src='../../images/zhaomu/phone@3x.png' />
           </view>
           <view class="weui-cell__bd">
             <input class="weui-input" type='number' bindinput='setTel' placeholder="请输入您的手机号" />
           </view>
-
         </view>
         <view class="weui-cell weui-cell_input weui-cell_vcode">
           <view class="weui-cell__hd">
-            <image style='width:60rpx;height:60rpx' src='../../images/zhaomu/验证码@3x.png' />
+            <image style='width:60rpx;height:60rpx' src='../../images/zhaomu/code@3x.png' />
           </view>
           <view class="weui-cell__bd">
             <input class="weui-input" type='number' bindinput='setCodeText' placeholder="请输入验证码" />
@@ -35,7 +34,7 @@
         </view>
         <view class="weui-cell weui-cell_input weui-cell_vcode">
           <view class="weui-cell__hd">
-            <image style='width:60rpx;height:60rpx' src='../../images/zhaomu/姓名.png' />
+            <image style='width:60rpx;height:60rpx' src='../../images/zhaomu/name.png' />
           </view>
           <!--输入用户姓名  -->
           <view class="weui-cell__bd">
@@ -51,7 +50,7 @@
                 <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
               </view>
               阅读并同意
-              <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+              <navigator url="/pages/terms/terms" class="weui-agree__link">《相关条款》</navigator>
             </view>
           </label>
         </checkbox-group>
@@ -63,7 +62,7 @@
       </form>
     </view>
     <!--活动说明  -->
-    <view class="weui-agree" for="weuiAgree" hidden='{{isSalesRep}}'>
+    <view class="weui-agree" for="weuiAgree" wx:if='{{!isSalesRep==="true"}}'>
       <view class="weui-perfer__text">
         活动说明：
       </view>

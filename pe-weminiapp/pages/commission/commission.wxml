@@ -1,0 +1,46 @@
+<import src="/zanui/tab/index.wxml" />
+
+<view class="container">
+  <!--tab区域  -->
+  <view>
+    <template is="zan-tab" data="{{ ...tab2, componentId: 'tab2' }}"></template>
+  </view>
+  <!--账单详情 -->
+  <scroll-view scroll-y class='commission-detail-container' wx:if="{{commissionData.orderCount!=='0'}}">
+    <view>
+      <view class='commission-totle-number'>总条数(共{{commissionData.orderCount}}条)</view>
+      <view class='commission-totle-container'>
+        <text style='font-size:30rpx;font-weight:bold;color:#454545'>出账总额</text>
+        <text style='font-size:60rpx;font-weight:bold;color:#212121'>{{commissionData.allOrderGrandTotal}}
+        </text>
+        <text class='unit'>单位:元</text>
+      </view>
+    </view>
+    <view class='commission-detail-list' wx:for='{{commissionData.orderList}}' wx:key='{{idx}}' wx:for-index="idx" wx:if='{{item.data!=null}}'>
+      <view class='commission-detail-title'>
+        <text style='font-size:24rpx;font-weight:bold;color:#757575;width:100%'>{{idx+1}}月份(共:{{item.data.length}}条)</text>
+        <text style='font-size:24rpx;font-weight:bold;color:#757575;width:100%;text-align:right'>合计：{{item.monthGrandTotal}}</text>
+      </view>
+      <view class='commission-detail-item' wx:for='{{item.data}}' wx:for-item='itemData'>
+        <view style='display:flex;flex-direction:row;align-items: center;'>
+          <image style='width:70rpx;height:70rpx; border-radius: 39rpx;margin-right:20rpx;border:4rpx #a8b0b3 solid;' src='https://{{itemData.orderCustInfo.headPortrait}}' />
+          <view class='commission-detail-item-content'>
+            <text style='font-size:32rpx;font-weight:bold;color:#212121'>{{itemData.productName}}</text>
+            <text style='font-size:24rpx;font-weight:bold;color:#757575'>{{itemData.orderDate}}</text>
+          </view>
+        </view>
+        <view style='font-size:42rpx;color:#454545'>
+          +{{itemData.price}}
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!--没有订单时，显示空页面  -->
+  <view class='order-empty-container' wx:if="{{commissionData.orderCount==='0'}}">
+    <image src='../../images/order/lesslist@3x.png' />
+    <text class='order-empty-text'>
+    没有相关分成账单产生
+    </text>
+  </view>
+</view>

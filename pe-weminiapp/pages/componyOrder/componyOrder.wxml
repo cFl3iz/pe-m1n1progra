@@ -3,11 +3,11 @@
 
 <view class="container">
   <view>
-    <view>
+    <view wx:if="{{isSalesRep==='true'}}">
       <button class="zan-btn" bindtap="toggleActionsheet">
         <view style='display:flex;flex-direction:row;justify-content:center;align-items:center'>
           <text>{{orderType}}</text>
-          <image class='order-type-icon' src='../../images/order/35_向下箭头.png' />
+          <image class='order-type-icon' src='../../images/order/actionSheet.png' />
         </view>
       </button>
     </view>
@@ -18,13 +18,21 @@
   </view>
 
   <!--订单详情  -->
-  <scroll-view scroll-y style='height:83vh' wx:if="{{orderData.length>0}}">
-    <view wx:for="{{orderData}}" wx:index='{{idx}}' wx:key="{{idx}}" class="order-item">
+  <scroll-view scroll-y style='height:83vh' wx:if="{{orderDataShow.length>0}}">
+    <view wx:for="{{orderDataShow}}" wx:index='{{idx}}' wx:key="{{idx}}" class="order-item">
       <view class="order-title">
         <text class='order-id'>订单号：{{item.orderId}}</text>
-        <text class='order-status'>{{item.orderPayStatus}}</text>
+        <text class='order-status'>{{item.orderState}}</text>
+      </view>
+      <view wx:if='{{item.orderState==="待付款"&&orderType==="购买订单"}}' class='order-pay-time'>
+        <image style='width:38rpx;height:38rpx' src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/time%403x.png'></image>
+        <text class='order-id'>支付剩余时间：{{item.interval}}</text>
       </view>
       <view class='order-detail'>
+        <!-- <image class='order-delete'
+      src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/%E5%88%A0%E9%99%A4%403x.png'
+      bindtap="deleteOrder" data-orderId='{{item.orderId}}' 
+      ></image> -->
         <image class='order-image' src="https://{{item.detailImageUrl}}" />
         <view class='order-detail-main'>
           <view>
@@ -35,14 +43,17 @@
           <text class='order-name'>{{item.productName}}</text>
           <text class='order-feature'>{{item.featuresList[0]}} {{item.featuresList[1]}}</text>
           <text wx:if='{{orderType==="销售订单"}}' class='order-number'>买家昵称: {{item.custPersonInfoMap.firstName}}</text>
-          <text wx:if='{{orderType!=="销售订单"}}' class='order-number'>销售代表: {{item.salesPersonInfoMap.firstName}}</text>
+          <text wx:if='{{orderType!=="销售订单"&&item.salesPersonInfoMap.firstName}}' class='order-number'>销售代表: {{item.salesPersonInfoMap.firstName}}</text>
         </view>
       </view>
       <view class='order-detail-footer'>
         <view class='order-date'>{{item.orderDate}}</view>
         <view>
           <button class="weui-btn mini-btn order-btn-pay" open-type='contact' size="mini">客服</button>
-          <button class="weui-btn mini-btn order-btn-pay" size="mini">付款</button>
+          <button wx:if="{{item.orderShipment==='待收货'}}" class="weui-btn mini-btn order-btn-pay" bindtap="goDeliveryInfo" data-internalCode='{{item.internalCode}}' data-contactAddress='{{item.personAddressInfoMap.contactAddress}}' size="mini">物流</button>
+          <button wx:if="{{orderType!=='销售订单'&&item.orderPayStatus==='待付款'}}" class="weui-btn mini-btn order-btn-pay" size="mini" bindtap="goPaymentOrder" data-orderId='{{item.orderId}}' data-productName='{{item.productName}}' data-price='{{item.unitPrice}}' data-quantity='{{item.quantity}}'>
+            付款
+          </button>
         </view>
       </view>
     </view>
@@ -50,10 +61,10 @@
 
 
   <!--没有订单时，显示空页面  -->
-  <view class='order-empty-container' wx:if="{{orderData.length===0}}">
+  <view class='order-empty-container' wx:if="{{orderDataShow.length===0}}">
     <image src='../../images/order/lesslist@3x.png' />
     <text class='order-empty-text'>
-    {{orderType==="销售订单"?'您还没有订单哦，快去转发吧':'您还没有订单哦,快去下单吧'}}
+    {{orderType==="销售订单"?'您还没有相关销售订单':'您还没有相关购买订单'}}
     </text>
   </view>
 </view>

@@ -1,0 +1,75 @@
+<!--pages/forwardChain/forwardChain.wxml-->
+<view class='container'>
+  <view class='chain-container'>
+
+    <!--转发链第一层  -->
+    <view class='chain-item' style='border-right:{{secondChainData.length!=0?"4rpx #212121 solid":"4rpx #d6d6d6 solid"}}'>
+      <view class='chain-item-title' style='color:{{firstChainData.length!=0?"#212121":"#d6d6d6"}}'>
+        LEVEL 1
+      </view>
+      <scroll-view scroll-y style="height: 95vh;" wx:if="{{firstChainData.length!=0}}">
+        <view class='chain-item-content' wx:for="{{firstChainData}}" wx:key="{{item.id}}" wx:index='index'>
+          <view class='share-text'>转发({{item.addressCount}})</view>
+          <view class='share-person'>
+            <view class='sline-left'></view>
+            <image class='share-head' style='border:{{item.selected?"4rpx #212121 solid":"4rpx #e0e0e0 solid"}}' src='https://{{item.user.headPortrait}}' bindtap='selectPerson' data-id='{{item.rowParty}}' data-level='1' data-shareNumber='{{item.addressCount}}' />
+            <view class='sline-right' style='background-color:{{item.selected?"#212121":"#ffffff"}}'></view>
+          </view>
+          <view class='share-name'>
+            {{item.user.firstName}}
+          </view>
+          <!--是否购买  -->
+          <image wx:if="{{item.buyCount&&item.buyCount==='1'}}" class='isBuy' src='../../images/tongji/buy@3x.png' />
+        </view>
+      </scroll-view>
+      <image wx:if="{{firstChainData.length==0}}" class='share-empty' src='../../images/tongji/linkdefault@3x.png' />
+    </view>
+
+    <!--转发链第二层  -->
+    <view class='chain-item' style='border-right:{{thirdChainData.length!=0?"4rpx #212121 solid":"4rpx #d6d6d6 solid"}}'>
+      <view class='chain-item-title' style='color:{{secondChainData.length!=0?"#212121":"#d6d6d6"}}'>
+        LEVEL 2
+      </view>
+      <scroll-view scroll-y style="height: 95vh;" wx:if="{{secondChainData.length!=0}}">
+        <view class='chain-item-content' wx:for="{{secondChainData}}" wx:key="{{item.id}}" wx:index='index'>
+          <view class='share-text'>转发({{item.addressCount}})</view>
+          <view class='share-person'>
+            <view class='sline-left'></view>
+            <image class='share-head' style='border:{{item.selected?"4rpx #212121 solid":"4rpx #e0e0e0 solid"}}' src='https://{{item.user.headPortrait}}' bindtap='selectPerson' data-id='{{item.rowParty}}' data-level='2' data-shareNumber='{{item.addressCount}}'/>
+            <view class='sline-right' style='background-color:{{item.selected?"#212121":"#ffffff"}}'></view>
+          </view>
+          <view class='share-name'>
+            {{item.user.firstName}}
+          </view>
+          <!--是否购买  -->
+          <image wx:if="{{item.buyCount&&item.buyCount==='1'}}" class='isBuy' src='../../images/tongji/buy@3x.png' />
+        </view>
+      </scroll-view>
+      <image wx:if="{{secondChainData.length==0}}" class='share-empty' src='../../images/tongji/linkdefault@3x.png' />
+    </view>
+
+    <!--转发链第三层  -->
+    <view class='chain-item'>
+      <view class='chain-item-title' style='color:{{thirdChainData.length!=0?"#212121":"#d6d6d6"}}'>
+        LEVEL 3
+      </view>
+      <scroll-view scroll-y style="height: 95vh;" wx:if="{{thirdChainData.length!=0}}">
+        <view class='chain-item-content' wx:for="{{thirdChainData}}" wx:key="{{item.id}}" wx:index='index'>
+          <view class='share-text'>转发({{item.addressCount}})</view>
+          <view class='share-person'>
+            <view class='sline-left'></view>
+            <image class='share-head' style='border:{{item.selected?"4rpx #212121 solid":"4rpx #e0e0e0 solid"}}' src='https://{{item.user.headPortrait}}' bindtap='selectPerson' data-id='{{item.rowParty}}' data-level='3' data-shareNumber='{{item.addressCount}}'/>
+            <view class='sline-right' style='background-color:{{item.selected?"#212121":"#ffffff"}}'></view>
+          </view>
+          <view class='share-name'>
+            {{item.user.firstName}}
+          </view>
+          <!--是否购买  -->
+          <image wx:if="{{item.buyCount&&item.buyCount==='1'}}" class='isBuy' src='../../images/tongji/buy@3x.png' />
+        </view>
+      </scroll-view>
+      <image wx:if="{{thirdChainData.length==0}}" class='share-empty' src='../../images/tongji/linkdefault@3x.png' />
+    </view>
+
+  </view>
+</view>

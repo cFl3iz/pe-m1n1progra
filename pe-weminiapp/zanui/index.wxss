@@ -1806,7 +1806,7 @@
 }
 
 .zan-steps--vsteps .zan-steps__step--done {
-  color: #4b0;
+  color: #212121;
 }
 
 .zan-steps--vsteps .zan-steps__line {
@@ -1852,10 +1852,10 @@
 }
 
 .zan-steps--vsteps .zan-steps__step--cur .zan-steps__circle {
-  width: 13px;
-  height: 13px;
-  background: transparent url(https://b.yzcdn.cn/v2/image/wap/success_small@2x.png);
-  background-size: 13px 13px;
+  width: 44rpx;
+  height: 44rpx;
+  background: transparent url(https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/end_yuan%403x.png);
+  background-size: 44rpx 44rpx;
   border-radius: 0;
 }
 
