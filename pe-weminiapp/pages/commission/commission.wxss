@@ -1,75 +1,25 @@
-/* pages/commission/commission.wxss */
-
 .zan-tab__bd--scroll .zan-tab__item {
   min-width: 50%;
 }
 
-.order-empty-container {
-  padding-top: 60rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.order-empty-text {
-  color: #757575;
-}
-
-.commission-detail-container {
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
+scroll-view .flex-column-container bgc-fff{
   margin-top: 20rpx;
-  height: 90vh
+  height: 90vh;
 }
 
-.commission-totle-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/*分成金额  */
+
+.commission-totle {
   position: relative;
   padding: 60rpx;
+  justify-content: center;
+  align-items: center;
 }
 
-.commission-totle-number {
-  padding: 20rpx;
-  border-bottom: 2rpx #e0e0e0 solid;
-  font-size: 30rpx;
-  color: #757575;
-}
+/*单位  */
 
 .unit {
   position: absolute;
   bottom: 80rpx;
   right: 20rpx;
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #757575;
-}
-
-.commission-detail-title {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20rpx;
-  background-color: #f9f9f9;
-  height: 100%
-}
-.commission-detail-list{
-}
-
-.commission-detail-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20rpx;
-  border-bottom: 4rpx #f9f9f9 solid;
-}
-
-.commission-detail-item-content {
-  display: flex;
-  flex-direction: column;
 }

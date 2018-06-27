@@ -1,0 +1,54 @@
+<import src="../../templates/tabBar.wxml" />
+<template is="tabBar" data="{{tabBar: tabBar}}" wx:if='{{isSalesRep==="false"}}' />
+
+<view class="container">
+
+  <!--个人信息简介-->
+  <view class="user flex-wrp">
+    <view class="avatar flex-item">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl?userInfo.avatarUrl:'https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/default_person.png'}}" background-size="cover"></image>
+    </view>
+    <view class="user-info flex-item">
+      {{userInfo.nickName?userInfo.nickName:'匿名'}}
+    </view>
+    <button class="zan-btn" open-type='getUserInfo' wx:if='{{userInfo.nickName==="匿名"}}' bindgetuserinfo="bindGetUserInfo">
+      微信授权
+    </button>
+  </view>
+
+  <!--功能导航列表-->
+  <view class="my">
+    <view class="my-item flex-wrp" catchtap="myOrder">
+      <view class="myitem-icon flex-item">
+        <image src="../../images/my/order.png"></image>
+      </view>
+      <view class="myitem-name flex-item">
+        <text>我的订单</text>
+      </view>
+    </view>
+    <view class="my-item flex-wrp" catchtap="shoppingCart" wx:if='{{hasShoppingCart}}'>
+      <view class="myitem-icon flex-item">
+        <image src="../../images/my/shoppingcar_black.png"></image>
+      </view>
+      <view class="myitem-name flex-item">
+        <text>购物小车</text>
+      </view>
+    </view>
+    <view class="my-item flex-wrp" catchtap="callNumber">
+      <view class="myitem-icon flex-item">
+        <image src="../../images/my/icon_call.png"></image>
+      </view>
+      <view class="myitem-name flex-item">
+        <text>联系我们</text>
+      </view>
+    </view>
+    <view class="my-item flex-wrp" bindtap="addressAdd">
+      <view class="myitem-icon flex-item">
+        <image src="../../images/my/location.png"></image>
+      </view>
+      <view class="myitem-name flex-item">
+        <text>收货地址</text>
+      </view>
+    </view>
+  </view>
+</view>

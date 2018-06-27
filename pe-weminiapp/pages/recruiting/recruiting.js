@@ -9,13 +9,14 @@ Page({
    */
   data: {
     tel: null,
-    codeText: null,//验证码
-    captcha: '获取验证码',//验证码按钮,
-    name:null,//真实姓名
+    codeText: null,                     //验证码
+    captcha: '获取验证码',                //验证码按钮,
+    name: null,                         //真实姓名
     storeId: null,
-    isShare: false,   //当前是否是分享页面
-    isSalesRep: 'false',//是否是销售代表
-    isAgree:false//是否同意相关条款
+    isShare: false,                     //当前是否是分享页面
+    isSalesRep: 'false',                //是否是销售代表
+    isAgree: false,                     //是否同意相关条款
+    recruitingImage: null,              //招募图片
   },
 
   //设置手机号码
@@ -33,7 +34,7 @@ Page({
   },
 
   //设置真实性命
-  setName:function(e){
+  setName: function (e) {
     this.setData({
       name: e.detail.value
     })
@@ -62,7 +63,7 @@ Page({
     if (this.data.tel) {
       this.getCode();
       const that = this
-      const url = 'https://www.yo-pe.com/api/common/getCaptcha'
+      const url = ServiceUrl.platformManager + 'getCaptcha'
       const data = {
         tel: this.data.tel,
       }
@@ -94,15 +95,15 @@ Page({
         content: '手机号码或验证码输入错误',
         showCancel: false,
       })
-    } else if (!this.data.isAgree){
+    } else if (!this.data.isAgree) {
       wx.showModal({
         title: '提示',
         content: '需要同意相关条款',
         showCancel: false,
       })
-    }else {
+    } else {
       const that = this
-      const url = 'https://www.yo-pe.com/api/common/recruitingPartyToParty'
+      const url = ServiceUrl.platformManager + 'recruitingPartyToParty'
       const data = {
         teleNumber: this.data.tel,
         captcha: this.data.codeText,
@@ -117,7 +118,7 @@ Page({
         if (code === '200') {
           //招募成功回首页
           wx.showModal({
-            content: '恭喜您已加入素然服饰！',
+            content: '恭喜您已加入' + app.globalData.appName,
             showCancel: false,
             success: function (res) {
               if (res.confirm) {
@@ -127,13 +128,13 @@ Page({
               }
             }
           });
-        }else{
+        } else {
           wx.showModal({
             content: '手机号或验证码输入错误',
             showCancel: false,
             success: function (res) {
               if (res.confirm) {
-                
+
               }
             }
           });
@@ -146,7 +147,7 @@ Page({
   onShareAppMessage: function (res) {
     console.log(this.data.storeId)
     return {
-      title: '素然服饰招募啦',
+      title: app.globalData.appName + '招募啦',
       path: 'pages/recruiting/recruiting?isShare=true&storeId=' + this.data.storeId,
       success: function (res) {
         // 转发成功
@@ -165,32 +166,38 @@ Page({
   onLoad: function (options) {
     const that = this
     //判断是否登录
-    let AuthToken = wx.getStorageSync('AuthToken')
     const { isShare, storeId } = options
-    if (AuthToken == '' || AuthToken == null) {
+    if (app.globalData.tarjeta == null) {
       Login.userLogin().then(function () {
+        that.setData({
+          storeId: app.globalData.productStoreId,
+          isSalesRep: app.globalData.isSalesRep
+        })
+        //设置招募图片
+        if (app.globalData.appContentDataResource.MINIPROGRAM_RECRUIT) {
           that.setData({
-            storeId: app.globalData.productStoreId,
-            isSalesRep: app.globalData.isSalesRep
-          })
-        if (isShare) {
-          that.setData({
-            isShare: true,
-            storeId: storeId,
+            recruitingImage: app.globalData.appContentDataResource.MINIPROGRAM_RECRUIT[0]
           })
         }
       })
     } else {
       that.setData({
         storeId: app.globalData.productStoreId,
-        isSalesRep: app.globalData.isSalesRep
+        isSalesRep: app.globalData.isSalesRep,
       })
-      if (isShare) {
+      //设置招募图片
+      if (app.globalData.appContentDataResource.MINIPROGRAM_RECRUIT) {
         that.setData({
-          isShare: true,
-          storeId: storeId,
+          recruitingImage: app.globalData.appContentDataResource.MINIPROGRAM_RECRUIT[0]
         })
       }
+    }
+    //判断是否是分享页面
+    if (isShare) {
+      that.setData({
+        isShare: true,
+        storeId: storeId,
+      })
     }
   },
 

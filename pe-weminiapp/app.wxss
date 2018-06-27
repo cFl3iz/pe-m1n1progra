@@ -1,13 +1,20 @@
-/**app.wxss**/
+/**小程序公共css**/
 @import 'weui/style/weui.wxss';
 @import 'zanui/index.wxss';
+@import 'styles/tabbar.wxss';
+@import 'styles/sizeChart.wxss';
+
+/*全局页面容器  */
 
 .container {
-  background: #F9F9F9;
+  background: #f9f9f9;
   overflow: hidden;
   min-height: 100vh;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
+
 .container::before {
   position: fixed;
   top: 0;
@@ -17,143 +24,180 @@
   background-color: #e2e2e2;
   z-index: 5;
 }
-.doc-title {
-  position: relative;
-  padding: 15px 0;
-  margin: 10px 15px;
-  line-height: 25px;
-  font-size: 25px;
-  color: #666;
+
+.flex-row-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-.doc-description {
-  margin: 14px 0;
-  padding: 0 15px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #666;
+
+.flex-column-container {
+  display: flex;
+  flex-direction: column;
 }
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-center{
+  justify-content: center
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+/*隐藏滚动轴  */
+
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
 }
 
-/* 父元素-横向排列（主轴） */
 
-.flex-h {
-  display: box; /* OLD - Android 4.4- */
-  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox; /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Chrome */
-  display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ *//* 09版 */
-  -webkit-box-orient: horizontal;
-  /* 12版 */
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  -ms-flex-direction: row;
-  -o-flex-direction: row;
-  flex-direction: row;
+
+/*全局标题*/
+
+.xxxl-title {
+  font-size: 60rpx;
+  color: #000;
 }
 
-/* 父元素-水平两端对齐（主轴是横向才生效） */
-
-.flex-hsb {
-  /* 09版 */
-  -webkit-box-pack: space-between;
-  /* 12版 */
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
-  -ms-justify-content: space-between;
-  -o-justify-content: space-between;
-  justify-content: space-between;
-  /* 其它取值如下：
-    align-items     主轴原点方向对齐
-    flex-end        主轴延伸方向对齐
-    space-between   等间距排列，首尾不留白
-    space-around    等间距排列，首尾留白
-   */
+.xxl-title {
+  font-size: 40rpx;
+  color: #000;
 }
 
-/* 父元素-水平居中（主轴是横向才生效） */
-
-.flex-hc {
-  /* 09版 */
-  -webkit-box-pack: center;
-  /* 12版 */
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  /* 其它取值如下：
-		align-items	 主轴原点方向对齐
-		flex-end		主轴延伸方向对齐
-		space-between   等间距排列，首尾不留白
-		space-around	等间距排列，首尾留白
-	 */
+.xl-title {
+  font-size: 36rpx;
+  color: #000;
 }
 
-/* 父元素-纵向排列（主轴） */
+.l-title {
+  font-size: 30rpx;
+  color: #000;
+}
 
-.flex-v {
-  display: box; /* OLD - Android 4.4- */
-  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox; /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Chrome */
-  display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ *//* 09版 */
-  -webkit-box-orient: vertical;
-  /* 12版 */
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
+.s-title {
+  font-size: 26rpx;
+  color: #000;
+}
+
+.m-title {
+  font-size: 22rpx;
+  color: #757575;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+/*全局内外边距  */
+
+.padding-20 {
+  padding: 20rpx;
+}
+
+.margin-20 {
+  margin: 20rpx;
+}
+
+/*全局字体颜色  */
+
+.color-000 {
+  color: #000;
+}
+
+.color-75 {
+  color: #757575;
+}
+
+/*全局背景颜色  */
+
+.bgc-000 {
+  background: #000;
+}
+
+.bgc-fff {
+  background-color: #fff;
+}
+
+.bgc-f9 {
+  background-color: #f9f9f9;
+}
+
+/*全局网格列表  */
+
+.flex-wrap-list {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #fff;
+  padding: 10rpx;
+}
+
+.flex-wrap-list-item {
+  width: 50%;
+  display: flex;
+  align-items: center;
   flex-direction: column;
 }
 
-/* 父元素-竖直居中（主轴是横向才生效） */
+/*全局按钮  */
 
-.flex-vc {
-  /* 09版 */
-  -webkit-box-align: center;
-  /* 12版 */
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
+button {
+  margin: 0;
+  padding: 0;
+}
+
+button::after {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+/*全局分割线  */
+
+border-bottom {
+  border-bottom: 2rpx #f0f0f0 solid;
+}
+
+/* 全局空页面显示内容 */
+
+.empty-page-container {
+  padding-top: 60rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-
-/*tabBar*/
-
-.tab-bar {
-  position: fixed;
-  z-index: 99999;
-  width: 100%;
-  height: 100rpx;
-  /*line-height: 100rpx;*/
-  font-size: 22rpx;
-  color: #9b9b9b;
-  background: #fff;
-  text-align: center;
+.empty-page-text {
+  color: #757575;
 }
 
-.tab-bar .menu-item {
-  display: block;
-  flex: 1;
-  /*width: 33.3%;*/
-  height: 100%;
+/*全局图片  */
+
+.head-portrait {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 39rpx;
+  margin-right: 20rpx;
+  border: 4rpx #a8b0b3 solid;
 }
 
-.tab-bar .menu-item image {
-  margin: 10rpx auto 0 auto;
-  display: block;
-  width: 50rpx;
-  height: 50rpx;
-}
 
-.tab-bar .menu-item.active {
-  color: #53df87;
-}

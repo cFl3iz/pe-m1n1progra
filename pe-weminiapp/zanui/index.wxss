@@ -74,11 +74,10 @@
 .zan-badge__count {
   position: absolute;
   top: -16px;
-  right: 0;
   height: 1.6em;
   min-width: 1.6em;
   line-height: 1.6;
-  padding: 0 0.4em;
+  padding: 1em 0.4em;
   font-size: 20px;
   border-radius: 0.8em;
   background: #f44;
@@ -1655,10 +1654,10 @@
   border-color: #e8e8e8;
 }
 
-.zan-stepper--small view {
+ .zan-stepper--small view {
   min-width: 36px;
   line-height: 18px;
-}
+} 
 
 .zan-stepper--small .zan-stepper__text {
   width: 36px;

@@ -1,13 +1,17 @@
 <import src="/zanui/steps/index.wxml" />
 <view class='container'>
+
+  <!--物流信息简介  -->
   <view class='delivery-top-container'>
-    <image style='width:62rpx;height:56rpx;margin-right:30rpx' src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/kuaidi%403x.png' />
-    <view style='display:flex;flex-direction:column;width:85%'>
-      <text style='font-size:32rpx;font-weight:bold;color:#212121'>物流公司: 顺丰快递</text>
-      <text style='font-size:32rpx;font-weight:bold;color:#212121'>货运单号: {{internalCode}}</text>
-      <text style='font-size:32rpx;font-weight:bold;color:#212121;'>收货地址: {{contactAddress}}</text>
+    <image lazy-load='{{true}}'src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/kuaidi%403x.png' />
+    <view class='delivery-info-container'>
+      <text>物流公司: 顺丰快递</text>
+      <text>货运单号: {{internalCode}}</text>
+      <text>收货地址: {{contactAddress}}</text>
     </view>
   </view>
+
+  <!--物流信息列表  -->
   <scroll-view scroll-y="true">
     <view class="zan-panel" style='margin-top:0'>
       <view class="zan-cell zan-cell">

@@ -1,0 +1,20 @@
+<!--尺码表  -->
+<template name="sizeChart">
+  <view class="table">
+      <view class="tr bg-w">
+        <view class="th" wx:for='{{productDetailData.spuSpecTitleList}}' wx:for-item='th' wx:index='idx-th' wx:key="{{idx-th}}">{{th}}</view>
+      </view>
+      <block wx:for="{{productDetailData.spuSpecRowList}}" wx:index='idx' wx:for-item='td' wx:key="{{idx}}">
+        <view class="tr">
+          <view wx:if='{{td.code1}}' class="td">{{td.code1}}</view>
+          <view wx:if='{{td.code2}}' class="td">{{td.code2}}</view>
+          <view wx:if='{{td.code3}}' class="td">{{td.code3}}</view>
+          <view wx:if='{{td.code4}}' class="td">{{td.code4}}</view>
+          <view wx:if='{{td.code5}}' class="td">{{td.code5}}</view>
+          <view wx:if='{{td.code6}}' class="td">{{td.code6}}</view>
+          <view wx:if='{{td.code7}}' class="td">{{td.code7}}</view>
+        </view>
+      </block>
+    </view>
+    <view class='beizhu' wx:if='{{productDetailData.spuSpecTitleList.length>4}}'>测量单位：cm 尺码手工测量会有1-2cm误差，相关数据仅供参考，不做为退换货凭据.</view>
+</template>

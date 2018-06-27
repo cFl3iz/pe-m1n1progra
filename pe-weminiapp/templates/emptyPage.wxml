@@ -1,0 +1,8 @@
+<template name="emptyPage">
+  <view class='empty-page-container'>
+    <image src='../../images/order/lesslist@3x.png' />
+    <text class='empty-page-text'>
+       {{text}}为空
+    </text>
+  </view>
+</template>

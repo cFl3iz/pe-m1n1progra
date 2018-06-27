@@ -1,77 +1,99 @@
-<view class="page">
-  <view class="page__bd">
-    <!--图片上传  -->
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">
-          <view class="weui-uploader">
-            <view class="weui-uploader__hd">
-              <view class="weui-uploader__title">图片上传</view>
-              <view class="weui-uploader__info">{{files.length}}/2</view>
+<view class="container">
+
+  <!--图片上传  -->
+  <view class="weui-cells">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__hd">
+            <view class="weui-uploader__title">图片上传</view>
+            <view class="weui-uploader__info">{{files.length}}/9</view>
+          </view>
+          <view class="weui-uploader__bd">
+            <block wx:for="{{files}}" wx:key="*this" wx:for-index='idx'>
+              <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                <image src='/images/product/delete.png' data-idx='{{idx}}' bindtap='deleteImage' class='delete-image-icon' wx:if='{{showDeleteIcon}}'></image>
+              </view>
+            </block>
+            <view class="weui-uploader__input-box">
+              <view class="weui-uploader__input" bindtap="chooseImage"></view>
             </view>
-            <view class="weui-uploader__bd">
-              <view class="weui-uploader__files" id="uploaderFiles">
-                <block wx:for="{{files}}" wx:key="*this">
-                  <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
-                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-                  </view>
-                </block>
-              </view>
-              <view class="weui-uploader__input-box">
-                <view class="weui-uploader__input" bindtap="chooseImage"></view>
-              </view>
+            <view class="weui-uploader__input-box-delete" wx:if="{{files.length>0}}">
+              <view class="weui-uploader__input" bindtap="showDeleteIcon"></view>
             </view>
           </view>
         </view>
       </view>
     </view>
-    <!--表单部分  -->
-    <form bindsubmit="onSubmit">
-      <view class="page__bd">
-        <view class="weui-cells weui-cells_after-title">
-          <view class="weui-cell weui-cell_input">
-            <view class="weui-cell__bd">
-              <input bindinput='title' name='title' class="weui-input" placeholder="商品标题" />
+  </view>
+
+  <!--表单部分  -->
+  <form bindsubmit="onSubmit">
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input bindinput='title' name='title' class="weui-input" placeholder="商品标题" value='{{title}}' />
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_textarea">
+        <view class="weui-cell__bd">
+          <textarea data-name='desc' name='desc' value='{{desc}}' class="weui-textarea" placeholder="商品详情，如：尺码 颜色 等" style="height: 3.3em" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input data-name='price' name='price' value='{{price}}' type='number' class="weui-input" placeholder="商品价格" />
+        </view>
+      </view>
+    </view>
+
+    <!--上传收款方式  -->
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__hd">
+            <view class="weui-uploader__title">设置或修改微信收款二维码</view>
+          </view>
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__file" bindtap="previewImage" id="{{paymentCode}}" wx:if='{{paymentCode}}'>
+              <image class="weui-uploader__img" src="{{paymentCode}}" mode="aspectFill" />
+            </view>
+            <view class="weui-uploader__input-box">
+              <view class="weui-uploader__input" bindtap="choosePaymentCode"></view>
             </view>
           </view>
         </view>
+      </view>
+    </view>
 
-        <view class="weui-cells weui-cells_after-title">
-          <view class="weui-cell">
-            <view class="weui-cell__bd">
-              <textarea data-name='desc' name='desc' class="weui-textarea" placeholder="商品详情，如：尺码 颜色 等" style="height: 3.3em" />
-              <view class="weui-textarea-counter">0/200</view>
-            </view>
-          </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">高级选项</view>
+        <view class="weui-cell__ft">
+          <switch color='#000000' bindchange="switchChange" />
         </view>
+      </view>
+    </view>
 
-        <view class="weui-cells weui-cells_after-title">
-          <view class="weui-cell weui-cell_input">
-            <view class="weui-cell__bd">
-              <input data-name='price' name='price' type='number' class="weui-input" placeholder="商品价格" />
-            </view>
-          </view>
+    <view class="weui-cells weui-cells_after-title" hidden='{{showTopTips}}'>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input data-name='kuCun' name='kuCun' value='{{kuCun}}' type='number' class="weui-input" placeholder="商品库存" />
         </view>
+      </view>
+    </view>
 
-        <view class="weui-cells weui-cells_after-title">
-          <view class="weui-cell weui-cell_switch">
-            <view class="weui-cell__bd">高级选项</view>
-            <view class="weui-cell__ft">
-              <switch color='#000000' bindchange="switchChange" />
-            </view>
-          </view>
-        </view>
-
-        <view class="weui-cells weui-cells_after-title" hidden='{{showTopTips}}'>
-          <view class="weui-cell weui-cell_input">
-            <view class="weui-cell__bd">
-              <input data-name='kuCun' name='kuCun' type='number' class="weui-input" placeholder="商品库存" />
-            </view>
-          </view>
-        </view>
-
-        <!--同意相关条款  -->
-        <checkbox-group bindchange="bindAgreeChange">
+    <!--同意相关条款  -->
+    <!-- <checkbox-group bindchange="bindAgreeChange">
           <label class="weui-agree" for="weuiAgree">
             <view class="weui-agree__text">
               <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
@@ -82,12 +104,12 @@
               <navigator url="" class="weui-agree__link">《相关条款》</navigator>
             </view>
           </label>
-        </checkbox-group>
+        </checkbox-group> -->
 
-        <view class="weui-btn-area">
-          <button class="weui-btn" form-type='submit' type="primary" style='margin:10px;background-color:#000000'>确定发布</button>
-        </view>
-      </view>
-    </form>
-  </view>
+    <view class="weui-btn-area">
+      <button class="weui-btn" form-type='submit' type="primary" style='margin:10px;background-color:#000000'>
+        {{pageType==='create'?'创建商品':'编辑商品'}}
+      </button>
+    </view>
+  </form>
 </view>

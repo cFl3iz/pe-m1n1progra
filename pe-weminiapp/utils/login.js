@@ -5,16 +5,14 @@ export default class Login {
   constructor() {
 
   }
-  //微信登录
+  //微信登录获取code
   static weChatLogin() {
     const that = this
     return new Promise(function (resolve, reject) {
       wx.login({
         success: function (loginok) {
-          console.log('>Login Over -> ' + JSON.stringify(loginok))
+          console.log('微信登录获取code======>>>> ' + JSON.stringify(loginok))
           var code = loginok.code;
-          // var appid = 'wx1106576d138cd8e6';                 //填写微信小程序appid
-          // var secret = '2bc06469373b6d6b5a5c92cea41ce9da';  //填写微信小程序secret
           resolve(code)
           app.globalData.code = code;
         }
@@ -35,8 +33,8 @@ export default class Login {
     return new Promise(function (resolve, reject) {
       Request.postRequest(url, data).then(function (data) {
         console.log('更新用户信息=>>>>>>>>' + JSON.stringify(data))
-        const {code}=data
-        if(code==='200'){
+        const { code } = data
+        if (code === '200') {
           const userInfo = {};
           userInfo.nickName = name;
           userInfo.avatarUrl = imgPath;
@@ -52,21 +50,21 @@ export default class Login {
       const url = ServiceUrl.platformManager + 'jscode2session'
       const data = {
         code: app.globalData.code,
-        nickName: '未认证用户',
-        gender: '1',
-        language: 'zh_CN',
-        avatarUrl: ' https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/default_person.png ',
+        nickName: app.globalData.userInfo ? app.globalData.userInfo.nickName : '',
+        gender: app.globalData.userInfo ? app.globalData.userInfo.gender : '',
+        language: app.globalData.userInfo ? app.globalData.userInfo.language : '',
+        avatarUrl: app.globalData.userInfo ? app.globalData.userInfo.avatarUrl : '',
         appId: app.globalData.appId
       }
-      //console.log(data)
+      console.log(data)
       Request.postRequest(url, data).then(function (data) {
         console.log('获取UnioID' + JSON.stringify(data))
-        const { unionid, openId, tarjeta, partyId, personInfo} = data
-        if (personInfo.firstName!=='未认证用户'){
-          const userInfo={};
+        const { unionid, openId, tarjeta, partyId, personInfo } = data
+        if (personInfo && personInfo.firstName !== '匿名') {
+          const userInfo = {};
           userInfo.nickName = personInfo.firstName;
           userInfo.avatarUrl = personInfo.headPortrait;
-          wx.setStorageSync('userInfo', userInfo)
+          app.globalData.userInfo = userInfo
         }
         //设置全局unionid，openId
         app.globalData.openId = openId
@@ -75,6 +73,26 @@ export default class Login {
         app.globalData.partyId = partyId
         wx.setStorageSync('AuthToken', tarjeta)
         resolve()
+      })
+    })
+  }
+  //查询小程序服务对象数据(tabbar)
+  static queryMiniAppConfig(code) {
+    const that = this
+    return new Promise(function (resolve, reject) {
+      const url = ServiceUrl.platformManager + 'queryMiniAppConfig'
+      const data = {
+        appId: app.globalData.appId
+      }
+      Request.postRequest(url, data).then(function (data) {
+        console.log('查询小程序服务对象数据=>>>>>>>>' + JSON.stringify(data))
+        const { code, appContentDataResource } = data
+        let tabBar = appContentDataResource.MINIPROGRAM_TBAR ? appContentDataResource.MINIPROGRAM_TBAR[0] : null
+        if (code === '200') {
+          app.globalData.appContentDataResource = appContentDataResource
+          app.globalData.tabBar = tabBar
+          resolve()
+        }
       })
     })
   }
@@ -90,13 +108,20 @@ export default class Login {
     return new Promise(function (resolve, reject) {
       Request.postRequest(url, data).then(function (data) {
         console.log('查询我的已加入的公司信息=>>>>>>>>' + JSON.stringify(data))
-        const { isSalesRep, productStoreId, prodCatalogId, code } = data
+        const { isSalesRep, productStoreId, prodCatalogId, code, qrPath, storePromos, appName, isDemoStore, appServiceType, hasShoppingCart, pay_media} = data
         if (code === '200') {
           app.globalData.prodCatalogId = prodCatalogId
           app.globalData.productStoreId = productStoreId
           app.globalData.isSalesRep = isSalesRep
+          app.globalData.qrPath = qrPath
+          app.globalData.storePromos = storePromos          //促销
+          app.globalData.appName = appName                  //AppName
+          app.globalData.isDemo = isDemoStore === 'false' ? false : true               //是否是DEMO
+          app.globalData.serviceType = appServiceType       //服务2B，2C
+          app.globalData.hasShoppingCart = hasShoppingCart === 'false' ? false : true   //是否需要购物车
+          app.globalData.collectionQrCode = 'https://'+pay_media
+          resolve()
         }
-        resolve(isSalesRep)
         wx.hideLoading()
       })
     })
@@ -109,9 +134,12 @@ export default class Login {
         function () {
           that.getUnionId().then(
             function () {
-              that.queryProductStoreAndRole().then(function () {
-                resolve()
-              })
+              that.queryProductStoreAndRole().then(
+                function () {
+                  that.queryMiniAppConfig().then(function () {
+                    resolve()
+                  })
+                })
             })
         }
       );

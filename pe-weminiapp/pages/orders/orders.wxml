@@ -1,0 +1,35 @@
+<import src="/zanui/tab/index.wxml" />
+<import src="/zanui/actionsheet/index.wxml" />
+<import src="/templates/orderTemplate.wxml" />
+<import src="/templates/emptyPage.wxml" />
+
+<view class="container">
+
+  <!--订单类型切换tab  -->
+  <view wx:if="{{isSalesRep==='true'}}">
+    <button class="zan-btn" bindtap="toggleActionsheet">
+      <view class='flex-row-container'>
+        <text>{{orderType}}</text>
+        <image lazy-load='{{true}}' class='order-type-icon' src='../../images/order/actionSheet.png' />
+      </view>
+    </button>
+  </view>
+
+  <template is="zan-actionsheet" data="{{ ...baseActionsheet }}"></template>
+  <template is="zan-tab" data="{{ ...tab1, componentId: 'tab1' }}"></template>
+
+  <!--订单列表  -->
+  <scroll-view scroll-y style="height:{{isSalesRep==='true'?'85vh':'93vh'}}" wx:if="{{orderDataShow.length>0}}">
+    <view wx:for="{{orderDataShow}}" wx:index='{{idx}}' wx:key="{{idx}}" class="flex-colomn-container padding-20 margin-20 bgc-fff">
+      <template is="{{item.orderItemList.length===1 ? 'singleOrder' : 'multipleOrder'}}" data="{{item,orderType,appServiceType}}"></template>
+    </view>
+  </scroll-view>
+
+  <!--没有订单时，显示空页面  -->
+  <template is="emptyPage" data="{{text:orderType}}" wx:if="{{orderDataShow.length===0}}"></template>
+
+</view>
+
+<!--2C确定发货弹出层 -->
+<dialog id='dialog' title='请填写货运单号' cancelText='取消' confirm='确定' bind:cancelEvent="_cancelEvent" orderId='{{selectOrderId}}' bind:confirmEvent="_confirmEvent"> </dialog>
+

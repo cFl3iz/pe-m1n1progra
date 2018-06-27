@@ -1,69 +1,76 @@
-<!--pages/statistics/statistics.wxml-->
+<import src="/zanui/tab/index.wxml" />
+<import src="/templates/forwardChain.wxml" />
+<import src="/templates/emptyPage.wxml" />
+
 <view class="container">
-  <!--销售人员信息展示  -->
-  <view class='top-container' wx:if="{{shareInfoList.length>0}}">
-    <!-- <view class='userinfo'>
-      <image class='avatar-image' src='{{userInfo.avatarUrl}}'></image>
-      <view class='userinfo-text-container'>
-        <view class='user-name'>{{userInfo.nickName}}</view>
-        <view class='user-lable'>销售代表</view>
-      </view>
-    </view> -->
-    <view class='statistics-info'>
-      <view class='statistics-text'>
-        <text class='number'>{{salesRepCount}}</text>
-        <text class='totle'>销售总计</text>
-      </view>
-      <view>
-        <button class='statistics-btn' bindtap='queryCommission'> 查询分成</button>
-      </view>
-      <view class='statistics-text'>
-        <text class='number'>{{shareCount}}</text>
-        <text class='totle'>转发总计</text>
-      </view>
+  <!--转发链和转发排行切换tabbar  -->
+  <template is="zan-tab" data="{{ ...tab1, componentId: 'tab1' }}"></template>
+
+  <!--转发链条-->
+  <view class='chain-container' wx:if="{{tab1.selectedId==='1'}}">
+
+    <!--转发链第一层  -->
+    <view class='chain-item' style='border-right:{{secondChainData.length!=0?"4rpx #212121 solid":"4rpx #d6d6d6 solid"}}'>
+      <template is="forwardChain" data="{{chainData:firstChainData,text:'一级',level:'1'}}"></template>
+    </view>
+
+    <!--转发链第二层  -->
+    <view class='chain-item' style='border-right:{{thirdChainData.length!=0?"4rpx #212121 solid":"4rpx #d6d6d6 solid"}}'>
+      <template is="forwardChain" data="{{chainData:secondChainData,text:'二级',level:'2'}}"></template>
+    </view>
+
+    <!--转发链第三层  -->
+    <view class='chain-item'>
+      <template is="forwardChain" data="{{chainData:thirdChainData,text:'三级',level:'3'}}"></template>
     </view>
   </view>
-  <!--统计明细列表  -->
-  <view style='padding:0 20rpx;background-color:#fff;border-bottom:1rpx #e0e0e0 solid' wx:if="{{shareInfoList.length>0}}">
-    <text style='color:#f3965e;font-size:26rpx'>{{shareInfoList.length}}</text>
-    <text style='color:#7d7d7d;font-size:26rpx;margin-left:20rpx'>条商品记录</text>
-  </view>
-  <view style='display:flex;flex-direction:column;background-color:#ffffff;padding:20rpx 20rpx 0rpx 20rpx;margin-bottom:20rpx' wx:for="{{shareInfoList}}" wx:key="{{item.productInfo.productId}}">
-    <navigator url="/pages/forwardChain/forwardChain?productId={{item.productInfo.productId}}" hover-class="weui-grid_active">
-      <view style='display:flex;flex-direction:row;align-items:center;border-bottom: 1rpx #e0e0e0 solid'>
-        <view>
-          <image style='width:126rpx;height:168rpx' src="https://{{item.productInfo.detailImageUrl}}" />
-        </view>
-        <view style='display:flex;flex-direction:column;flex:1;padding:0 34rpx'>
-          <view style='display:flex;flex:1;flex-direction:column'>
-            <text style='font-size:32rpx;color:#7d7d7d'>{{item.productInfo.productName}}</text>
-            <text style='font-size:26rpx;color:#a9afb3'>{{item.lastShareDesc}}</text>
-            <view style='display:flex;flex-direction:row'>
-              <image wx:for="{{item.productSharePartys}}" wx:for-item='images' wx:key="{{images.shareParty.headPortrait}}" style='width:50rpx;height:50rpx; border-radius: 29rpx;margin-right:10rpx;border:4rpx #a8b0b3 solid;' 
-              src='https://{{images.shareParty.headPortrait}}' />
-              <view style='width:50rpx;height:50rpx;border-radius: 29rpx;margin-right:10rpx;border:4rpx #a8b0b3 solid;background-color:#e1e4e5;display:flex;align-items:center;justify-content:center'>
-                <text style='color:#a8b0b3;font-size:18rpx'>+{{item.refreCount}}</text>
-              </view>
-            </view>
+
+  <!--转发排行-->
+  <view class='ranking-container' wx:if="{{tab1.selectedId==='2'}}">
+
+    <!--转发前三  -->
+    <view class='top-container' wx:if='{{shareInfoList123.length>0}}'>
+      <view class='top-product' wx:for='{{shareInfoList123}}' wx:for-index='idx' wx:key='{{idx}}' bindtap='statisticsDetail' data-productId='{{item.productId}}' data-dataId='{{item.dataId}}'>
+        <view class='ranking-index'>#{{idx+1}}</view>
+        <view class='product-id'>商品编号</view>
+        <view class='product-id'>{{item.productId}}</view>
+        <image src='http://{{item.detailImageUrl}}' mode='aspectFill'></image>
+        <view class='product-name'>{{item.productName}}</view>
+        <view class='share-number'>转发量：{{item.forwardCount}}</view>
+      </view>
+    </view>
+
+    <!--转发列表  -->
+    <scroll-view scroll-y class='center-container' wx:if='{{shareInfoList123.length>0}}'>
+      <view style='width:100vw'>
+        <view class='center-product' wx:for='{{shareInfoList456}}' wx:for-index='idx' wx:key='{{idx}}' bindtap='statisticsDetail' data-productId='{{item.productId}}' data-dataId='{{item.dataId}}'>
+          <view class='ranking-index'>#{{idx+4}}</view>
+          <image src='http://{{item.detailImageUrl}}' mode='aspectFill'></image>
+          <view>
+            <view class='product-id'>商品编号:{{item.productId}}</view>
+            <view class='product-name'>{{item.productName}}</view>
           </view>
-        </view>
-        <view style='display:flex;flex-direction:column;height:168rpx;justify-content: space-around;margin-right:20rpx'>
-          <view style='font-size:26rpx;color:#9b9b9b'>浏览:{{item.addressCount}}</view>
-          <view style='font-size:26rpx;color:#9b9b9b'>销售:{{item.salesRepOrderCount}}</view>
-        </view>
-        <view style='display:flex;flex-direction:column;justify-content: center;align-items:center'>
-          <text style='font-size:32rpx;color:#9b9b9b'>{{item.productInfo.fromDate.month}}月</text>
-          <text style='font-size:32rpx;color:#9b9b9b;font-weight:bold'>{{item.productInfo.fromDate.day}}</text>
-          <text style='font-size:24rpx;color:#9b9b9b;font-weight:bold'>2018</text>
+          <view class='share-number'>转发量：{{item.forwardCount}}</view>
         </view>
       </view>
-    </navigator>
-  </view>
-  <!--没有订单时，显示空页面  -->
-  <view class='notice-empty-container' wx:if="{{shareInfoList.length===0}}">
-    <image src='../../images/order/lesslist@3x.png' />
-    <text class='notice-empty-text'>
-      没有转发过，快去转发吧
-    </text>
+    </scroll-view>
+
+    <!--底部按钮  -->
+    <view class='bottom-container' wx:if='{{shareInfoList123.length>0}}'>
+      <view>
+        <text style='font-size:24rpx;color:#000;font-weight:bold'>{{forwardCount}}</text>
+        <text style='font-size:24rpx;color:#000;'>转发总量</text>
+      </view>
+      <view>
+        <text style='font-size:24rpx;color:#000;font-weight:bold'>{{salesCount}}</text>
+        <text style='font-size:24rpx;color:#000'>销售总量</text>
+      </view>
+      <view>
+        <button bindtap='queryCommission'>查看分成</button>
+      </view>
+    </view>
+
+    <!--如果没有转发数据  -->
+    <template is="emptyPage" data="{{text:'转发数据'}}" wx:if="{{shareInfoList123.length===0}}"></template>
   </view>
 </view>

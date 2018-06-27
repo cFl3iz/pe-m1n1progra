@@ -1,0 +1,38 @@
+/* pages/qrCode/qrCode.wxss */
+.container{
+  background-color: #ffffff
+}
+.qrCode-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 136rpx;
+}
+image{
+  width: 514rpx;
+  height: 514rpx
+}
+.qrCode-text{
+  width: 480rpx;
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: bold;
+  line-height: 52rpx;
+  padding:48rpx 0 174rpx 0;
+}
+.qrCode-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+button{
+  width: 206rpx;
+  height: 70rpx;
+  background-color: #000000;
+  color: #ffffff;
+  line-height: 70rpx;
+  border-radius: 10rpx;
+  font-size: 26rpx
+}

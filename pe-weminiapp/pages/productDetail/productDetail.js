@@ -2,44 +2,46 @@
 var app = getApp();
 import ServiceUrl from '../../utils/serviceUrl.js'
 import Request from '../../utils/request.js'
+import Forward from '../../utils/forward.js'
 import Zan from '../../zanui/index.js'
 import Login from '../../utils/login.js'
+import Util from '../../utils/util.js'
 Page(Object.assign({}, Zan.Stepper, {
   data: {
-    productId: null,
-    imgUrls: [
-      'http://img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg',
-      'http://img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg',
-      'http://img.alicdn.com/imgextra/i2/2185325717/TB2fTC9cb1YBuNjSszhXXcUsFXa_!!2185325717.jpg_430x430q90.jpg'
-    ],
-    indicatorDots: false,
+    productId: null,          //产品ID
+    indicatorDots: false,     //轮播图的相关属性
     autoplay: false,
     interval: 5000,
     duration: 500,
-    productDetailData: null,
-    showBottomPopup: false,//显示下单弹出页面
-    featureArray: null,//产品特性
-    selectColor: null,//选中的颜色
-    selectSize: null, //选中的尺码
-    stepper1: {    //购买数量
+    productDetailData: null,  //产品详情数据
+    showBottomPopup: false,   //显示下单弹出页面
+    showPopup: false,         //显示2C支付二维码
+    featureArray: null,       //产品特性
+    selectColor: null,        //选中的颜色
+    selectSize: null,         //选中的尺码
+    stepper1: {               //购买数量
       stepper: 1,
       min: 1,
       max: 20
     },
-    address: null,//收货地址
-    salesRepId: '',//当前销售代表ID
-    productStoreId: null,//店家ID
-    isShare: false,//判断页面shi fou
-    placeOrderImage: null,
-    shareFromId: '',//分享来自谁
-    selectSku: null,//选好特征的SKU
-    selectSkuKucun: null,//选好SKU的库存
-    listData: [       //尺码表数据
-      { "code": "2/160/80A", "code1": "100", "code3": "200", 'code4': '300', 'code5': '300', 'code6': '300', 'code2': '300' },
-      { "code": "2/160/80A", "code1": "100", "code3": "200", 'code4': '300', 'code5': '300', 'code6': '300', 'code2': '300' },
-      { "code": "2/160/80A", "code1": "100", "code3": "200", 'code4': '300', 'code5': '300', 'code6': '300', 'code2': '300' },
-    ]
-
+    address: null,            //收货地址
+    salesRepId: '',           //当前销售代表ID
+    productStoreId: null,     //店家ID
+    isShare: false,           //判断页面是否是分享页面f
+    placeOrderImage: null,    //下单选中商品特征的产品图
+    shareFromId: '',          //分享来自谁
+    selectSku: null,          //选好特征的SKU
+    selectSkuKucun: null,     //选好SKU的库存
+    preferential: 0,          //优惠金额
+    discont: 0,               //折扣
+    hasShoppingCart: true,    //是否需要购物车模块
+    addShoppingCart: false,   //是否是添加购物车行为
+    shoppingCartNumber: 0,    //购物车产品数量   
+    prodCatalogId: null,      //当前产品所在店铺分类ID
+    productStoreId: null,     //当前产品所在店铺ID 
+    serviceType: null,        //当前服务类型 
+    validationForm:false,     //是否可以提交表单
+    sessionFrom:{},           //传给客户的参数
   },
 
   //轮播图相关事件
@@ -64,29 +66,93 @@ Page(Object.assign({}, Zan.Stepper, {
     })
   },
 
-  //切换下单弹出层显示隐藏
-  toggleBottomPopup() {
+  //下单弹出层
+  toggleBottomPopup(e) {
+    
     this.setData({
-      showBottomPopup: !this.data.showBottomPopup
+      showBottomPopup: !this.data.showBottomPopup,
+      addShoppingCart: false
+    });
+    //记录formId便于推送
+    // let formId = e.detail.formId;
+    // let data = {
+    //   openId: app.globalData.openId,
+    //   formId: formId
+    // }
+    // console.log('记录formId:' + JSON.stringify(data))
+    // const url = ServiceUrl.platformManager + 'addFormIdToUser'
+    // Request.postRequest(url, data).then(function (data) {
+    //   console.log('记录formId=>>>>>>>>' + JSON.stringify(data))
+    // })
+  },
+
+  //2C支付二维码弹出层
+  togglePopup() {
+    this.setData({
+      showPopup: !this.data.showPopup
+    });
+    wx.downloadFile({
+      url: 'https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/pay_qr_code/' + this.data.productDetailData.media_id +'.png',
+      success: function (res) {
+        console.log(res)
+        wx.authorize({
+          scope: 'scope.writePhotosAlbum',
+          success() {
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success: function (res) {
+                console.log(res)
+                wx.showToast({
+                  title: '保存成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              },
+              fail: function (res) {
+                console.log(res)
+                wx.showToast({
+                  title: '保存失败',
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            })
+          },
+          fail: function () {
+            wx.showToast({
+              title: '获取保存相册权限失败',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
+      },
+      fail: function () {
+        wx.showToast({
+          title: '下载图片失败',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
+  },
+
+  //添加购物车显示隐藏弹出层
+  toggleShoppingCartPopup() {
+    this.setData({
+      showBottomPopup: !this.data.showBottomPopup,
+      addShoppingCart: true
     });
   },
 
   //修改购买数量
   handleZanStepperChange(e) {
-    var componentId = e.componentId;
-    var stepper = e.stepper;
+    let componentId = e.componentId;
+    let stepper = e.stepper;
     this.setData({
-      [`${componentId}.stepper`]: stepper
+      [`${componentId}.stepper`]: stepper,
     });
-  },
-
-  //修改购买数量
-  handleZanStepperChange(e) {
-    var componentId = e.componentId;
-    var stepper = e.stepper;
-    this.setData({
-      [`${componentId}.stepper`]: stepper
-    });
+    this.data.sessionFrom.amount = JSON.stringify(stepper)
   },
 
   //下单选特征
@@ -109,6 +175,13 @@ Page(Object.assign({}, Zan.Stepper, {
     }
   },
 
+  //进入购物车
+  shoppingCart: function () {
+    wx.navigateTo({
+      url: '/pages/shoppingCart/shoppingCart',
+    })
+  },
+
   //选择收货地址
   address: function () {
     const that = this
@@ -126,6 +199,15 @@ Page(Object.assign({}, Zan.Stepper, {
             telNumber: res.telNumber
           }
         })
+        that.data.sessionFrom.address = that.data.address
+        that.data.sessionFrom.salesRepId = that.data.salesRepId
+        console.log(JSON.stringify(that.data.sessionFrom))
+        that.setData({
+          sessionFrom: JSON.stringify(that.data.sessionFrom)
+        })
+        // if (!that.data.addShoppingCart){
+        //   that.validationForm()
+        // }
       },
       fail: function (err) {
         wx.showModal({
@@ -146,16 +228,18 @@ Page(Object.assign({}, Zan.Stepper, {
             }
           }
         })
-      }
+      },
     })
   },
 
   //转发产品
   onShareAppMessage: function (res) {
-    this.shareBProductInformation()
+    const dateKey = Date.parse(new Date());
+    Forward.createForwardChain(app.globalData.tarjeta, this.data.productId, 'PRODUCT', dateKey)//创建转发链
     return {
-      title: this.data.productDetailData.internalName,
-      path: 'pages/productDetail/productDetail?productId=' + this.data.productDetailData.productId + "&salesRepId=" + this.data.salesRepId + '&isShare=true' + '&shareFromId=' + app.globalData.partyId,
+      title: this.data.productDetailData.productName,
+      path: 'pages/productDetail/productDetail?productId=' + this.data.productDetailData.productId + "&dateKey=" + dateKey + '&isShare=true' + '&shareFromId=' + app.globalData.partyId,
+      imageUrl: 'http://' + this.data.productDetailData.imgArray[0],
       success: function (res) {
         // 转发成功
         console.log('转发成功')
@@ -165,38 +249,6 @@ Page(Object.assign({}, Zan.Stepper, {
         console.log('转发失败')
       }
     }
-  },
-
-  //转发发起链条
-  shareBProductInformation: function () {
-    const that = this
-    const data = {
-      tarjeta: app.globalData.tarjeta,
-      productId: this.data.productId,
-      salesRepId: this.data.salesRepId,
-      shareFromId: app.globalData.partyId
-    }
-    console.log('转发发起链条=>>>>>>>>参数' + JSON.stringify(data))
-    const url = ServiceUrl.platformManager + 'shareBProductInformation'
-    Request.postRequest(url, data).then(function (data) {
-      console.log('转发发起链条=>>>>>>>>' + JSON.stringify(data))
-    })
-  },
-
-  //转发记录到转发链条中
-  receivedBProductInformation: function (salesRepId, shareFromId) {
-    const that = this
-    const data = {
-      tarjeta: app.globalData.tarjeta,
-      productId: this.data.productId,
-      shareFromId: shareFromId,
-      salesRepId: salesRepId
-    }
-    console.log('转发记录到转发链条中>>>>参数' + JSON.stringify(data))
-    const url = ServiceUrl.platformManager + 'receivedBProductInformation'
-    Request.postRequest(url, data).then(function (data) {
-      console.log('转发记录到转发链条中=>>>>>>>>' + JSON.stringify(data))
-    })
   },
 
   //查询产品详情
@@ -210,25 +262,52 @@ Page(Object.assign({}, Zan.Stepper, {
     console.log('查询产品详情>>>>参数' + JSON.stringify(data))
     Request.postRequest(url, data).then(function (data) {
       console.log('查询产品详情=>>>>' + JSON.stringify(data))
-      const { productDetail, code } = data
+      const { productDetail, code, productStoreId, prodCatalogId } = data
+      console.log(productStoreId, prodCatalogId)
+      that.data.sessionFrom.prodCatalogId = prodCatalogId
+      that.data.sessionFrom.productStoreId = productStoreId
       if (code === '200') {
-        let featureArray = []
-        let colorArray = [];
-        let sizeArray = [];
-        for (let a of productDetail.features) {
-          if (Object.keys(a)[0] === 'COLOR_DESC') {
-            colorArray.push(Object.values(a)[0])
-          } else if (Object.keys(a)[0] === 'SIZE_DESC') {
-            sizeArray.push(Object.values(a)[0])
+        if (productDetail.features) {
+          let featureArray = []
+          let colorArray = [];
+          let sizeArray = [];
+          for (let a of productDetail.features) {
+            if (Object.keys(a)[0] === 'COLOR_DESC') {
+              colorArray.push(Object.values(a)[0])
+            } else if (Object.keys(a)[0] === 'SIZE_DESC') {
+              sizeArray.push(Object.values(a)[0])
+            }
           }
+          featureArray.push({ type: '颜色', value: colorArray })
+          featureArray.push({ type: '尺码', value: sizeArray })
+          that.setData({
+            featureArray: featureArray,
+          })
         }
-        featureArray.push({ type: '颜色', value: colorArray })
-        featureArray.push({ type: '尺码', value: sizeArray })
+
         that.setData({
           productDetailData: productDetail,
-          featureArray: featureArray,
           placeOrderImage: productDetail.imgArray[0],
+          selectSkuKucun: productDetail.availableToPromiseTotal,
+          productStoreId: productStoreId,
+          prodCatalogId: prodCatalogId
         })
+
+        wx.getImageInfo({// 获取图片信息（此处可不要）  
+          src: 'https://' + productDetail.imgArray[0],
+          success: function (res) {
+            console.log(res)
+            console.log(res.height)
+          }
+        })  
+
+        //设置优惠金额
+        if (app.globalData.storePromos[0]) {
+          const price = parseInt(productDetail.price) * app.globalData.storePromos[0].discount
+          that.setData({
+            preferential: Util.toDecimal(price)
+          })
+        }
         wx.hideLoading()
       } else {
         wx.showToast({
@@ -237,6 +316,33 @@ Page(Object.assign({}, Zan.Stepper, {
           duration: 2000
         })
       }
+    })
+  },
+
+  //查询我的购物车
+  queryShoppingCart: function () {
+    const that = this
+    let data = {
+      openId: app.globalData.openId,
+    }
+    console.log('查询我的购物车参数:' + JSON.stringify(data))
+    return new Promise(function (resolve, reject) {
+      const url = ServiceUrl.platformManager + 'queryShoppingCart'
+      Request.postRequest(url, data).then(function (data) {
+        console.log('查询我的购物车=>>>>>>>>' + JSON.stringify(data))
+        const { code, shoppingCart } = data
+        let num = 0
+        if (code === '200') {
+          if (shoppingCart.length > 0) {
+            for (let a of shoppingCart) {
+              num += parseInt(a.amount)
+            }
+          }
+          that.setData({
+            shoppingCartNumber: num
+          })
+        }
+      })
     })
   },
 
@@ -265,27 +371,85 @@ Page(Object.assign({}, Zan.Stepper, {
     })
   },
 
-  //确定下单
+  //下单或添加购物车
   placeOrder: function () {
     const that = this
-    if (this.data.address == null) {
-      wx.showModal({
-        title: '提示',
-        content: '地址不能为空',
-        success: function (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            that.address()
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+    if (!this.data.addShoppingCart) {
+      if (this.data.address == null) {
+        wx.showModal({
+          title: '提示',
+          content: '地址不能为空',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              that.address()
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
+        })
+        return
+      } else if (this.data.featureArray && (this.data.selectColor == null || this.data.selectSize == null)) {
+        wx.showModal({
+          title: '提示',
+          content: '请选择规格参数',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return
+      } else if (this.data.selectSkuKucun < parseInt(this.data.stepper1.stepper)) {
+        wx.showModal({
+          title: '提示',
+          content: '库存不足',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        return
+      }
+      wx.showLoading({
+        title: '正在提交订单...',
+      })
+      let data = {
+        productId: this.data.selectSku || this.data.productId,
+        amount: that.data.stepper1.stepper,
+        prodCatalogId: that.data.prodCatalogId,
+        productStoreId: that.data.productStoreId,
+        feature: `COLOR_DESC=${that.data.selectColor},SIZE=${that.data.selectSize}`,
+        tarjeta: app.globalData.tarjeta,
+        remark: '不想添加备注',
+        salesRepId: that.data.salesRepId
+      }
+      console.log('下单参数:' + JSON.stringify(data))
+      const url = ServiceUrl.platformManager + 'buyProduct'
+      Request.postRequest(url, data).then(function (data) {
+        console.log('下单=>>>>>>>>' + JSON.stringify(data))
+        const { code, orderId } = data
+        if (code === '200') {
+          that.createPersonPartyPostalAddress(orderId)
         }
       })
-      return
-    } else if (this.data.selectColor == null || this.data.selectSize == null) {
+    } else {
+      this.addShoppingCart()//执行添加购物车
+    }
+  },
+
+  //添加购物车
+  addShoppingCart: function () {
+    const that = this
+    if (this.data.featureArray && (this.data.selectColor == null || this.data.selectSize == null)) {
       wx.showModal({
         title: '提示',
-        content: '却少参数',
+        content: '请选择规格参数',
         success: function (res) {
           if (res.confirm) {
             console.log('用户点击确定')
@@ -310,30 +474,38 @@ Page(Object.assign({}, Zan.Stepper, {
       return
     }
     wx.showLoading({
-      title: '正在提交订单...',
+      title: '添加中...',
     })
     let data = {
-      productId: this.data.selectSku,
+      productId: this.data.selectSku || this.data.productId,
       amount: that.data.stepper1.stepper,
-      prodCatalogId: app.globalData.prodCatalogId,
-      productStoreId: app.globalData.productStoreId,
       feature: `COLOR_DESC=${that.data.selectColor},SIZE=${that.data.selectSize}`,
-      tarjeta: app.globalData.tarjeta,
-      remark: '不想添加备注',
-      salesRepId: that.data.salesRepId
+      openId: app.globalData.openId,
+      productName: this.data.productDetailData.productName,
+      detailImage: this.data.placeOrderImage,
+      price: this.data.productDetailData.price
     }
-    console.log('下单参数:' + JSON.stringify(data))
-    const url = ServiceUrl.platformManager + 'buyProduct'
-    Request.postRequest(url, data).then(function (data) {
-      console.log('下单=>>>>>>>>' + JSON.stringify(data))
-      const { code, orderId } = data
-      if (code === '200') {
-        that.createPersonPartyPostalAddress(orderId)
-      }
+    console.log('添加购物车参数:' + JSON.stringify(data))
+    return new Promise(function (resolve, reject) {
+      const url = ServiceUrl.platformManager + 'addProductToShoppingCart'
+      Request.postRequest(url, data).then(function (data) {
+        console.log('添加购物车=>>>>>>>>' + JSON.stringify(data))
+        const { code } = data
+        if (code === '200') {
+          wx.showToast({
+            title: '添加成功',
+            icon: 'success'
+          })
+          that.setData({
+            showBottomPopup: false
+          })
+          that.queryShoppingCart()
+        }
+      })
     })
   },
 
-  // 设置收货地址
+  //设置收货地址
   createPersonPartyPostalAddress: function (orderId) {
     const that = this
     const data = {
@@ -360,7 +532,13 @@ Page(Object.assign({}, Zan.Stepper, {
           duration: 2000
         })
         that.toggleBottomPopup()
-        that.goPaymentOrder(orderId)
+        if (app.globalData.serviceType === '2B') {
+          that.goPaymentOrder(orderId)
+        } else {
+          that.setData({
+            showPopup: true
+          })
+        }
       }
     })
   },
@@ -377,11 +555,12 @@ Page(Object.assign({}, Zan.Stepper, {
     const that = this
     const data = {
       openId: app.globalData.openId,
-      total_fee: parseFloat(this.data.productDetailData.price * this.data.stepper1.stepper * 100),
+      total_fee: app.globalData.isDemo ? 1 : (this.data.productDetailData.price - this.data.preferential) * this.data.stepper1.stepper * 100,
       wx_body: '友评订单:' + this.data.productDetailData.productName,
       orderId: orderId,
       appId: app.globalData.appId
     }
+    console.log('调用微信支付参数' + JSON.stringify(data))
     const url = ServiceUrl.platformManager + 'signPayConfig'
     Request.postRequest(url, data).then(function (data) {
       console.log('data = ' + JSON.stringify(data[0]))
@@ -405,45 +584,82 @@ Page(Object.assign({}, Zan.Stepper, {
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
     const that = this
     wx.showLoading({
       title: '加载中',
     })
 
     //查看传递参数
-    const { productId, salesRepId, isShare, shareFromId } = options
-    console.log('产品详情页面参数productId>>>>>>' + productId + 'isShare>>>>>>' + isShare)
+    const { productId, salesRepId, isShare, shareFromId, dateKey } = options
+    console.log('产品详情页面参数productId>>>>>>', productId, salesRepId, isShare, shareFromId, dateKey)
+
+    //设置当前页面参数
     this.setData({
       productId: productId,
     })
+    this.data.sessionFrom.productId = productId
+    this.data.sessionFrom.amount='1'
+    this.data.sessionFrom.tarjeta = app.globalData.tarjeta
+    //判断是否为分享页面
+    if (isShare === 'true') {
+      
+      that.setData({
+        isShare: true,
+        shareFromId: shareFromId,
+      })
+    }
 
     //判断是否登录
-    let AuthToken = wx.getStorageSync('AuthToken')
-    console.log('判断是否登录=====>' + AuthToken)
-    if (AuthToken == '' || AuthToken == null) {
-      console.log('未登录的用户')
+    if (app.globalData.tarjeta == null) {
+      //用户登陆
       Login.userLogin().then(function () {
-        console.log('用户授权了' + typeof isShare)
-        //判断是否是分享页面
-        if (isShare === 'true') {
+
+        wx.showToast({
+          title: '谢谢使用',
+          icon: 'success',
+          duration: 2000
+        })
+
+        //设置当前是2B，2C 是否需要购物车模块
+        that.setData({
+          serviceType: app.globalData.serviceType,
+          hasShoppingCart: app.globalData.hasShoppingCart
+        })
+
+        //设置折扣率
+        if (app.globalData.storePromos && app.globalData.storePromos[0]) {
           that.setData({
-            isShare: true,
-            shareFromId: shareFromId
+            discont: (1 - parseFloat(app.globalData.storePromos[0].discount)) * 10
           })
-          that.receivedBProductInformation(salesRepId, shareFromId)
         }
+
+        //当页面是分享页面时进入转发链
+        if (isShare === 'true') {
+          Forward.joinForwardChain(app.globalData.tarjeta, that.data.productId, 'PRODUCT', dateKey, shareFromId, app.globalData.appId)
+        }
+
       })
     } else {
-      console.log('已登录的用户')
-      //判断是否是分享页面
-      if (isShare === 'true') {
+
+      that.setData({
+        serviceType: app.globalData.serviceType,
+        hasShoppingCart: app.globalData.hasShoppingCart
+      })
+
+      //设置当前页面折扣率
+      if (app.globalData.storePromos && app.globalData.storePromos[0]) {
         that.setData({
-          isShare: true,
-          shareFromId: shareFromId
+          discont: (1 - parseFloat(app.globalData.storePromos[0].discount)) * 10
         })
-        that.receivedBProductInformation(salesRepId, shareFromId)
+      }
+
+      //当页面是分享页面时进入转发链
+      if (isShare === 'true'){
+        Forward.joinForwardChain(app.globalData.tarjeta, that.data.productId, 'PRODUCT', dateKey, shareFromId, app.globalData.appId)
       }
     }
+
     that.queryCatalogProductDetail()//查询产品详情
 
     //设置当前页面中的销售代表   如果被转发人是销售代表 使用他的ID 作为销售代表ID，否则使用传递的销售代表ID。
@@ -461,9 +677,19 @@ Page(Object.assign({}, Zan.Stepper, {
   },
 
   /**
+  * 生命周期函数--监听页面显示
+  */
+  onShow: function () {
+    if (app.globalData.hasShoppingCart) {
+      this.queryShoppingCart()        //查询购物车数量
+    }
+  },
+
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
 
   },
+
 }));

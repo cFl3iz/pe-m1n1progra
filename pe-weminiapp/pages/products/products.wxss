@@ -1,0 +1,27 @@
+/* pages/companyProduct/companyProduct.wxss */
+
+.container {
+  background-color: #fff;
+  padding-bottom: 80rpx;
+}
+
+.flex-row-container {
+  height: 88rpx;
+}
+
+.flex-column-container {
+  width: 346rpx;
+}
+
+.flex-wrap-list-item image {
+  width: 346rpx;
+  height: 458rpx;
+}
+
+.s-title {
+  font-size: 24rpx;
+}
+
+.flex-column-container :last-child {
+  margin-bottom: 12rpx;
+}

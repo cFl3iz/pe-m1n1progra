@@ -1,0 +1,259 @@
+/* pages/shoppingCart/shoppingCart.wxss */
+
+/* .product-list{
+  margin-top: 100rpx;
+} */
+
+.container {
+  padding-bottom: 100rpx;
+}
+
+.product-list .product-item {
+  position: relative;
+  width: 100vw;
+  /* border-bottom: 2rpx solid #E9E9E9; */
+  box-sizing: border-box;
+  background: #fff;
+  z-index: 999;
+}
+
+.product-list .product-item movable-area {
+  height: 300rpx;
+  width: calc(100vw - 120rpx);
+}
+
+.product-list .product-item movable-view {
+  height: 300rpx;
+  width: 100vw;
+  background: #fff;
+  z-index: 999;
+}
+
+.product-list .product-item .delete-btn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 120rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 36rpx;
+  color: #fff;
+  line-height: 300rpx;
+  z-index: 1;
+  background: #ff4443;
+  text-align: center;
+}
+
+.product-list .product-item-movable {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8rpx 0 20rpx 20rpx;
+  box-sizing: border-box;
+}
+
+.product-list .product-item-movable .product-delete-icon {
+  flex: 0 0 auto;
+  margin-right: 18rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.product-list .product-item-movable .product-movable-item {
+  flex: 1;
+  overflow: hidden;
+}
+
+.product-list .product-item-movable .product-movable-item-name {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #71747a;
+  line-height: 60rpx;
+  margin-right: 10rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.product-list .product-item-movable .product-movable-item-code {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #969aa3;
+}
+
+.product-list .product-item-movable .product-movable-item-amount {
+  flex: 0 0 auto;
+  padding-right: 80rpx;
+  position: relative;
+}
+
+.product-list .product-item-movable .product-movable-item-amount input {
+  padding: 10rpx;
+  opacity: 0.8;
+  background: #fff;
+  width: 160rpx;
+  border: 2rpx solid #e0e1e3;
+  font-family: PingFangSC-Semibold;
+  font-size: 28rpx;
+  color: #383a3d;
+  line-height: 60rpx;
+}
+
+.product-list .product-item-movable .product-movable-item-amount text {
+  position: absolute;
+  top: 0;
+  right: 30rpx;
+  font-family: PingFangSC-Semibold;
+  font-size: 28rpx;
+  color: #383a3d;
+  line-height: 60rpx;
+}
+
+.shopping-product-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.shopping-product-container image {
+  width: 194rpx;
+  height: 194rpx;
+}
+
+.weui-cell {
+  padding: 30rpx 30rpx;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.show-container {
+  height: 300rpx;
+  padding: 0 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  box-sizing: border-box;
+}
+
+.product-name {
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-inline-box;
+  width: 100%;
+}
+
+.l-title {
+  padding-top: 6rpx;
+}
+
+.s-title {
+  margin-bottom: 15rpx;
+}
+
+.product-text-container {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.price-steper-container {
+  margin-top: 34rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zan-stepper {
+  color: #666;
+}
+
+.zan-stepper view {
+  display: inline-block;
+  line-height: 12px;
+  padding: 5px 0;
+  text-align: center;
+  min-width: 32px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-size: 12px;
+  border: 1rpx solid #999;
+}
+
+.zan-stepper .zan-stepper__minus {
+  border-right: none;
+  border-radius: 2px 0 0 2px;
+}
+
+.zan-stepper .zan-stepper__text {
+  border: 1rpx solid #999;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  height: 22px;
+  width: 32px;
+  min-height: auto;
+  font-size: 12px;
+  line-height: 22px;
+}
+
+.zan-stepper .zan-stepper__plus {
+  border-left: none;
+  border-radius: 0 2px 2px 0;
+}
+
+.zan-stepper .zan-stepper--disabled {
+  background: #f8f8f8;
+  color: #bbb;
+  border-color: #e8e8e8;
+}
+
+.zan-stepper--small view {
+  min-width: 28px;
+  line-height: 10px;
+}
+
+.zan-stepper--small .zan-stepper__text {
+  width: 28px;
+  line-height: 20px;
+  height: 20px;
+}
+
+.weui-check__label:active {
+  background-color: #fff;
+}
+
+/*底部按钮栏  */
+
+.bottom-btn-container {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #fff;
+  border-top: 1rpx solid #000;
+  z-index: 99999;
+}
+
+.bottom-text {
+  width: 70vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20rpx;
+}
+
+.bottom-btn {
+  flex: 1;
+  background-color: #000;
+  border-radius: 0;
+  color: #fff;
+}

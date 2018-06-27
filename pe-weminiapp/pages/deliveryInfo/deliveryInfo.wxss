@@ -4,5 +4,23 @@
   background-color: #fff;
   padding: 30rpx;
   align-items: center;
-  border-bottom: 2rpx #e0e0e0 solid
+  border-bottom: 2rpx #e0e0e0 solid;
+}
+
+.delivery-top-container image {
+  width: 62rpx;
+  height: 56rpx;
+  margin-right: 30rpx;
+}
+
+.delivery-info-container {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+}
+
+.delivery-info-container text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #212121;
 }

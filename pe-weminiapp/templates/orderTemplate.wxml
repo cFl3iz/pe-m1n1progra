@@ -1,0 +1,103 @@
+9
+<!--单一产品订单  -->
+<template name="singleOrder">
+  <!--订单头部  -->
+  <view class="order-title">
+    <text class='order-id'>订单号：{{item.orderId}}</text>
+    <text class='order-status'>{{item.orderState}}</text>
+  </view>
+  <view wx:if='{{appServiceType==="2B"&&item.interval!=null&&item.orderState==="待付款"&&orderType==="购买订单"}}' class='order-pay-time'>
+    <image style='width:30rpx;height:30rpx' src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/time%403x.png'></image>
+    <text class='order-id'>支付剩余时间：{{item.interval}}</text>
+  </view>
+
+  <!--订单中部  -->
+  <view class='order-detail'>
+    <image class='order-image' src="https://{{item.orderItemList[0].detailImageUrl}}" mode='aspectFill' />
+    <view class='order-detail-main'>
+      <text class='order-productId'>商品编号: {{item.orderItemList[0].productId}}</text>
+      <view>
+        <text class='order-productName'>{{item.orderItemList[0].productName}}</text>
+        <text class='order-feature'> x {{item.orderItemList[0].quantity}}</text>
+      </view>
+      <text class='order-feature'>{{item.orderItemList[0].featuresList[0]}} {{item.orderItemList[0].featuresList[1]}}</text>
+      <text wx:if='{{orderType==="销售订单"}}' class='order-feature'>买家昵称: {{item.custPersonInfoMap.firstName}}</text>
+    </view>
+  </view>
+
+  <!--订单底部  -->
+  <view class='order-detail-footer'>
+    <view>{{item.orderDate}}</view>
+    <view> 实付: {{item.grandTotal}}</view>
+  </view>
+  <view class='order-detail-btn-container'>
+    <button bindtap="deleteOrder" data-orderId='{{item.orderId}}' wx:if="{{item.orderState==='已取消'}}" size="mini">
+      删除
+    </button>
+    <button bindtap="cancalOrder" data-orderId='{{item.orderId}}' wx:if="{{orderType!=='销售订单'&&item.orderState==='待付款'}}" size="mini">
+      取消
+    </button>
+    <button wx:if="{{item.orderState==='待收货'}}" bindtap="goDeliveryInfo" data-internalCode='{{item.internalCode}}' data-contactAddress='{{item.personAddressInfoMap.contactAddress}}' size="mini">
+      物流
+    </button>
+    <button wx:if="{{orderType!=='销售订单'&&item.orderPayStatus==='待付款'}}" size="mini" bindtap="{{appServiceType==='2C'?'togglePopup':'goPaymentOrder'}}" data-orderId='{{item.orderId}}' data-productName='{{item.orderItemList[0].productName}}' data-price='{{item.grandTotal}}'
+      data-mediaId='{{item.media_id}}' data-quantity='{{item.quantity}}' size="mini">
+      付款
+    </button>
+    <button wx:if="{{orderType==='销售订单'&&item.orderState==='待付款'&&appServiceType==='2C'}}" data-orderId='{{item.orderId}}' bindtap="orderPaymentReceived2c" size="mini">
+      收款
+    </button>
+    <button wx:if="{{orderType==='销售订单'&&item.orderState==='待发货'&&appServiceType==='2C'}}" data-orderId='{{item.orderId}}' bindtap="showDialog" size="mini">
+      发货
+    </button>
+    <button open-type='contact' size="mini">
+      客服
+    </button>
+  </view>
+</template>
+
+
+<!--多产品订单  -->
+<template name="multipleOrder">
+  <!--订单头部  -->
+  <view class="order-title">
+    <text class='order-id'>订单号：{{item.orderId}}</text>
+    <text class='order-status'>{{item.orderState}}</text>
+  </view>
+  <view wx:if='{{appServiceType==="2B"&&item.interval!=null&&item.orderState==="待付款"&&orderType==="购买订单"}}' class='order-pay-time'>
+    <image style='width:30rpx;height:30rpx' src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/time%403x.png' mode='aspectFill'></image>
+    <text class='order-id'>支付剩余时间：{{item.interval}}</text>
+  </view>
+
+  <!--订单中部  -->
+  <scroll-view scroll-x class='order-row-container' data-custPersonName='{{item.custPersonInfoMap.firstName}}' data-orderItem='{{item.orderItemList}}' bindtap='orderDetail'>
+    <view class='order-images-container' wx:for="{{item.orderItemList}}" wx:key='idx' wx:index='ixd' wx:for-item='images'>
+      <image class='order-image' src="https://{{images.detailImageUrl}}" />
+      <text>x {{images.quantity}}</text>
+    </view>
+  </scroll-view>
+
+  <!--订单底部  -->
+  <view class='order-detail-footer'>
+    <view>{{item.orderDate}}</view>
+    <view> 实付: {{item.grandTotal}}</view>
+  </view>
+  <view class='order-detail-btn-container'>
+    <button bindtap="deleteOrder" data-orderId='{{item.orderId}}' wx:if="{{item.orderState==='已取消'}}" size="mini">
+      删除
+    </button>
+    <button bindtap="cancalOrder" data-orderId='{{item.orderId}}' wx:if="{{orderType!=='销售订单'&&item.orderState==='待付款'}}" size="mini">
+      取消
+    </button>
+    <button wx:if="{{item.orderShipment==='待收货'}}" bindtap="goDeliveryInfo" data-internalCode='{{item.internalCode}}' data-contactAddress='{{item.personAddressInfoMap.contactAddress}}' size="mini">
+      物流
+    </button>
+    <button wx:if="{{orderType!=='销售订单'&&item.orderPayStatus==='待付款'}}" size="mini" bindtap="goPaymentOrder" data-orderId='{{item.orderId}}' data-productName='{{item.orderItemList[0].productName}}' data-price='{{item.grandTotal}}' data-quantity='{{item.quantity}}'
+      size="mini">
+      付款
+    </button>
+    <button open-type='contact' size="mini">
+      客服
+    </button>
+  </view>
+</template>

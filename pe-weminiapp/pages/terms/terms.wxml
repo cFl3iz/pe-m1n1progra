@@ -1,4 +1,4 @@
-<!--pages/terms/terms.wxml-->
+<!--相关条款-->
 
 <view style='padding:20rpx;fond-color:#e0e0e0;font-size:28rpx'>
   <view style='padding:20rpx;fond-color:#e0e0e0;font-size:36rpx;text-align:center'>《相关条款》</view>

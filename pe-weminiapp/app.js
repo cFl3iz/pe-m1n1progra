@@ -1,4 +1,3 @@
-import ServiceUrl from './utils/request.js'
 const User = require('/utils/user')
 const Pages = require('/utils/pages')
 App({
@@ -6,25 +5,26 @@ App({
   onLaunch: function () {
     this.checkForUpdate()
     this.getUserInfo()
-    // var that = this
-    // this.weChatLogin().then(
-    //   function () {
-    //     that.getUserInfo().then(
-    //       function () {
-    //         that.getUnionId(that.globalData.code)
-    //       }
-    //     );
-    //   }
-    // );
   },
   //获取头像和昵称
   getUserInfo(cb) {
-    const that=this
+    console.log('获取头像和昵称')
+    const that = this
     wx.getUserInfo({
       success: function (res) {
-        console.log('获取用户信息:' + res.userInfo)
+        console.log('获取用户信息成功')
         that.globalData.userInfo = res.userInfo
       },
+      fail: function (res) {
+        console.log('获取用户信息失败')
+        const userInfo = {
+          nickName: '匿名',
+          gender: '1',
+          language: 'zh_CN',
+          avatarUrl: 'https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/default_person.png'
+        }
+        that.globalData.userInfo = userInfo
+      }
     })
   },
   //检查小程序是否有新版本
@@ -65,60 +65,42 @@ App({
       _pagePath = '/' + _pagePath;
     }
     var tabBar = this.globalData.tabBar;
-    for (var i = 0; i < tabBar.list.length; i++) {
-      tabBar.list[i].active = false;
-      if (tabBar.list[i].pagePath == _pagePath) {
-        tabBar.list[i].active = true;//根据页面地址设置当前页面状态  
+    if (tabBar){
+      for (var i = 0; i < tabBar.list.length; i++) {
+        tabBar.list[i].active = false;
+        if (tabBar.list[i].pagePath == _pagePath) {
+          tabBar.list[i].active = true;//根据页面地址设置当前页面状态  
+        }
       }
+      _curPage.setData({
+        tabBar: tabBar
+      });
     }
-    _curPage.setData({
-      tabBar: tabBar
-    });
   },
   //全局变量
   globalData: {
+    appId: 'wx299644ef4c9afbde',                        //小程序Id
+    secret: '7ba298224c1ae0f2f00301c8e5b312f7',         //小程序密匙
+    isDemo: false,                                      //是否是demo小程序 demo支付为0.01元
+    serviceType: '2C',                                  //小程序是2B,2C区分
+    appName: null,                                      //小程序名称 首页导航标题
+    hasShoppingCart: null,                              //是否需要购物车
+    hasIntroduction: true,                              //是否需要简介（首页）        
     openId: null,
     userInfo: null,
     code: null,
     unicodeId: null,
-    isSalesRep: 'false',//是否时销售代表
-    productStoreId: null,//d
-    prodCatalogId: null,//产品分类ID
+    isSalesRep: 'false',                                //是否是销售代表
+    productStoreId: null,                               //店铺ID
+    prodCatalogId: null,                                //产品分类ID
     tarjeta: null,
     partyId: null,
-    appId: 'wx299644ef4c9afbde',//小程序Id
-    secret: '7ba298224c1ae0f2f00301c8e5b312f7',//小程序密匙
-    tabBar: {
-      "color": "#9E9E9E",
-      "selectedColor": "#f00",
-      "backgroundColor": "#fff",
-      "borderStyle": "#ccc",
-      "list": [
-        {
-          "pagePath": "/pages/deputyHome/deputyHome",
-          "text": "简介",
-          "iconPath": "/images/tabbar/zero_icon_gray@3x.png",
-          "selectedIconPath": "https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/serviceSales/zero_icon%403x.png",
-          "selectedColor": "#000000",
-          active: false
-        },
-        {
-          "pagePath": "/pages/companyProduct/companyProduct",
-          "text": "商品",
-          "iconPath": "/images/tabbar/shangpin_default.png",
-          "selectedIconPath": "/images/tabbar/shangpin.png",
-          "selectedColor": "#000000",
-          active: false
-        },
-        {
-          "pagePath": "/pages/my/my",
-          "text": "我的",
-          "iconPath": "/images/tabbar/me_default.png",
-          "selectedIconPath": "/images/tabbar/me.png",
-          "selectedColor": "#000000",
-          active: false
-        }
-      ]
-    },
+    qrPath: null,                                       //销售代表二维码
+    storePromos: null,                                  //促销方式
+    tabBar: null,
+    appContentDataResource: null,                       //2B产品图片数据
+    shareTitle:'测试转发',                               //全局分享文字  
+    coverImage: null,
+    collectionQrCode:null,                              //收款二维码
   }
 })

@@ -1,0 +1,27 @@
+<!--pages/statisticsDetail/statisticsDetail.wxml-->
+<import src="/zanui/tab/index.wxml" />
+<import src="/templates/emptyPage.wxml" />
+<view class='container'>
+  <!--商品图片  -->
+  <image src='https://{{productMap.detailImageUrl}}'></image>
+
+  <!--商品详情简介  -->
+  <!-- <view class='flex-column-container'>
+    <text class='weui-article__h3'>{{productMap.productName}}</text>
+    <text class='xl-title'>{{productMap.productId}}</text>
+  </view> -->
+
+  <template is="zan-tab" data="{{ ...tab1, componentId: 'tab1' }}"></template>
+
+  <!--相关人员详情  -->
+  <view class='flex-wrap-list' wx:if="{{detailList.length>0}}">
+    <view class='flex-wrap-list-item' wx:for='{{detailList}}' wx:for-index='idx' wx:key='{{idx}}'>
+      <image class='head-portrait' src='https://{{item.personInfo.headPortrait}}'></image>
+      <view class='m-title'>{{item.personInfo.firstName}}</view>
+    </view>
+  </view>
+
+  <!--如果没有相关人员  -->
+  <template is="emptyPage" data="{{text:'相关人员'}}" wx:if="{{detailList.length===0}}"></template>
+
+</view>

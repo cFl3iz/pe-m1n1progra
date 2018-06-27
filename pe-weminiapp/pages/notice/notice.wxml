@@ -1,5 +1,7 @@
-<!--pages/notice/notice.wxml-->
+<import src="/templates/emptyPage.wxml" />
 <view class="container">
+
+  <!--消息列表  -->
   <view wx:for="{{noticeData}}" wx:key="{{item.messageId}}" class='notice-container'>
     <view class='notice-content'>
       <image class='notice-image' src='{{item.messageLogTypeId==="ORDER"?orderImage:shareImage}}' />
@@ -15,10 +17,5 @@
   </view>
 
   <!--没有订单时，显示空页面  -->
-  <view class='notice-empty-container' wx:if="{{noticeData.length===0}}">
-    <image src='../../images/order/lesslist@3x.png' />
-    <text class='notice-empty-text'>
-      没有消息产生
-    </text>
-  </view>
+  <template is="emptyPage" data="{{text:'消息'}}" wx:if="{{noticeData.length===0}}"></template>
 </view>

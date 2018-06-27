@@ -1,46 +1,40 @@
 <import src="/zanui/tab/index.wxml" />
+<import src="/templates/emptyPage.wxml" />
 
 <view class="container">
-  <!--tab区域  -->
-  <view>
-    <template is="zan-tab" data="{{ ...tab2, componentId: 'tab2' }}"></template>
-  </view>
-  <!--账单详情 -->
-  <scroll-view scroll-y class='commission-detail-container' wx:if="{{commissionData.orderCount!=='0'}}">
-    <view>
-      <view class='commission-totle-number'>总条数(共{{commissionData.orderCount}}条)</view>
-      <view class='commission-totle-container'>
-        <text style='font-size:30rpx;font-weight:bold;color:#454545'>出账总额</text>
-        <text style='font-size:60rpx;font-weight:bold;color:#212121'>{{commissionData.allOrderGrandTotal}}
-        </text>
-        <text class='unit'>单位:元</text>
-      </view>
+  <!--分成类型切换tab  -->
+  <template is="zan-tab" data="{{ ...tab2, componentId: 'tab2' }}"></template>
+
+  <!--账单列表 -->
+  <scroll-view scroll-y class='flex-column-container bgc-fff' wx:if="{{commissionData.orderCount!=='0'}}">
+    <view class='l-title color-75 border-bottom padding-20'>总条数(共{{commissionData.orderCount}}条)</view>
+    <view class='flex-column-container commission-totle'>
+      <text class='l-title bold'>出账总额</text>
+      <text class='xxxl-title bold'>{{commissionData.allOrderGrandTotal}}</text>
+      <text class='unit l-title color-75 bold'>单位:元</text>
     </view>
-    <view class='commission-detail-list' wx:for='{{commissionData.orderList}}' wx:key='{{idx}}' wx:for-index="idx" wx:if='{{item.data!=null}}'>
-      <view class='commission-detail-title'>
-        <text style='font-size:24rpx;font-weight:bold;color:#757575;width:100%'>{{idx+1}}月份(共:{{item.data.length}}条)</text>
-        <text style='font-size:24rpx;font-weight:bold;color:#757575;width:100%;text-align:right'>合计：{{item.monthGrandTotal}}</text>
+    <view wx:for='{{commissionData.orderList}}' wx:key='{{idx}}' wx:for-index="idx" wx:if='{{item.data!=null}}'>
+      <view class='flex-row-container space-between padding-20 bgc-f9'>
+        <text class='m-title'>{{idx+1}}月份(共:{{item.data.length}}条)</text>
+        <text class='m-title'>合计：{{item.monthGrandTotal}}</text>
       </view>
-      <view class='commission-detail-item' wx:for='{{item.data}}' wx:for-item='itemData'>
-        <view style='display:flex;flex-direction:row;align-items: center;'>
-          <image style='width:70rpx;height:70rpx; border-radius: 39rpx;margin-right:20rpx;border:4rpx #a8b0b3 solid;' src='https://{{itemData.orderCustInfo.headPortrait}}' />
-          <view class='commission-detail-item-content'>
-            <text style='font-size:32rpx;font-weight:bold;color:#212121'>{{itemData.productName}}</text>
-            <text style='font-size:24rpx;font-weight:bold;color:#757575'>{{itemData.orderDate}}</text>
+      <view class='flex-row-container space-between padding-20' wx:for='{{item.data}}' wx:for-item='itemData' wx:for-index='idx' wx:key='{{idx}}'>
+        <view class='flex-row-container space-between' style='width:100%'>
+          <view class='flex-row-container'>
+            <image lazy-load='{{true}}' class='head-portrait' src='https://{{itemData.orderCustInfo.headPortrait}}' />
+            <view class='flex-column-container'>
+              <text class='l-title bold'>{{itemData.productName}}</text>
+              <text class='m-title bold'>{{itemData.orderDate}}</text>
+            </view>
           </view>
-        </view>
-        <view style='font-size:42rpx;color:#454545'>
-          +{{itemData.price}}
+          <view class='xl-title'>
+            +{{itemData.price}}
+          </view>
         </view>
       </view>
     </view>
   </scroll-view>
 
-  <!--没有订单时，显示空页面  -->
-  <view class='order-empty-container' wx:if="{{commissionData.orderCount==='0'}}">
-    <image src='../../images/order/lesslist@3x.png' />
-    <text class='order-empty-text'>
-    没有相关分成账单产生
-    </text>
-  </view>
+  <!--没有账单时，显示空页面  -->
+  <template is="emptyPage" data="{{text:'相关账单'}}" wx:if="{{commissionData.orderCount==='0'}}"></template>
 </view>
