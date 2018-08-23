@@ -1,25 +1,13 @@
-<import src="../../templates/tabBar.wxml" />
-
-<!--顾客显示tabbar  -->
-<template is="tabBar" data="{{tabBar: tabBar}}" wx:if='{{isSalesRep==="false"}}' />
-
-<view class="container">
-  <!--产品列表  -->
-  <scroll-view class="page__bd">
-    <view class='flex-row-container'>
-      <text class='l-title'>{{total}}</text>
-      <text class='l-title'> 件商品</text>
-    </view>
-    <view class="flex-wrap-list">
-      <view class='flex-wrap-list-item' wx:for="{{productData}}" wx:key="*this">
-        <navigator url="/pages/productDetail/productDetail?productId={{item.productId}}" hover-class="navigator-hover">
-          <image lazy-load='{{true}}' src="{{arry[index] ? 'http://'+item.detailImageUrl:'/images/loading.jpg'}}" mode='aspectFill' />
-        </navigator>
-        <view class='flex-column-container'>
-          <text class='s-title'>¥ {{item.price}}</text>
-          <text class='s-title'>{{item.productName}}</text>
+<i-panel title='滑动修改'>
+  <view wx:for='{{productData}}' wx:for-index='idx' wx:key='{{idx}}' class="i-swipeout-demo">
+    <i-swipeout i-class="i-swipeout-demo-item" actions="{{actions}}" bindchange="handlerButton" data-productId='{{item.productId}}'>
+      <view slot="content">
+        <image src='http://{{item.detailImageUrl}}'></image>
+        <view class="i-swipeout-des">
+          <view class="i-swipeout-des-h2">{{item.productName}}</view>
+          <view class="i-swipeout-des-detail">{{item.description}}</view>
         </view>
       </view>
-    </view>
-  </scroll-view>
-</view>
+    </i-swipeout>
+  </view>
+</i-panel>

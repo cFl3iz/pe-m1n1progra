@@ -1,5 +1,8 @@
 {
 	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
@@ -8,9 +11,10 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.6.4",
-	"appid": "wx299644ef4c9afbde",
-	"projectname": "%E5%8F%8B%E8%AF%84Plus",
+	"libVersion": "1.9.98",
+	"appid": "wx291879d192f2079b",
+	"projectname": "tuitui",
+	"isGameTourist": false,
 	"condition": {
 		"search": {
 			"current": -1,
@@ -18,6 +22,10 @@
 		},
 		"conversation": {
 			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {

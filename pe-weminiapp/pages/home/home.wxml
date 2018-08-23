@@ -1,19 +1,45 @@
-<view class="container">
-
-  <!--如果是销售代表显示6宫格  -->
-  <view class="page__bd" wx:if='{{isSalesRep==="true"}}'>
-    <view class="weui-flex home-flex-wrap">
-      <view class='home-item' style=' border-right: {{(index+1)%2==0?0: "1rpx solid #d9d9d9"}}' wx:for="{{grids}}" wx:key="*this"  wx:index='index'>
-        <navigator url="{{item.router}}" hover-class="weui-grid_active">
-          <image class="weui-grid__icon" src="{{item.url}}" />
-          <view class="weui-grid__label">
-            <text class='xxl-title'>{{item.type}}</text>
-          </view>
-        </navigator>
-      </view>
+<!--产品列表  -->
+<view wx:if='{{pageTab==="homepage"}}'>
+  <view class='product-list'>
+    <view class='product-item' wx:for='{{productData}}' wx:for-index='idx' wx:key='{{idx}}' bindtap='productDetail' data-productId='{{item.productId}}'>
+      <image src='http://{{item.detailImageUrl}}' mode='aspectFill'></image>
+      <view>{{item.productName}}</view>
+      <view>￥{{item.price}}</view>
     </view>
   </view>
-  
-  <!--非销售代表GIF动画  -->
-  <image style='width:100%;height:100vh' wx:if='{{booting&&isSalesRep==="false"}}' src='https://{{booting}}' bindtap='deputyHome'></image>
+</view>
+
+<!--订单列表  -->
+<view wx:if='{{pageTab==="order"}}' class="order-container">
+  <view wx:for='{{orderData}}' wx:for-index='idx' wx:key='{{idx}}'>
+    <view class='order-item'>
+      <i-card title="{{item.orderName}} x {{item.quantity}}" extra="{{item.orderStatus}}" thumb="{{item.image}}">
+        <view style='color:#2d8cf0' slot="content">{{item.customer}} : {{item.desc}}</view>
+        <view slot="footer">{{item.date}}</view>
+      </i-card>
+      <view class='order-price'>￥{{item.price}}</view>
+    </view>
+  </view>
+</view>
+
+<!--管理页面  -->
+<view wx:if='{{pageTab==="management"}}'>
+  <i-panel title="功能列表:">
+    <i-cell-group>
+      <i-cell title="添加商品" is-link url="/pages/releaseProduct/releaseProduct"></i-cell>
+      <i-cell title="修改商品" is-link url="/pages/products/products"></i-cell>
+      <i-cell title="客户分析" is-link></i-cell>
+      <i-cell title="订单分析" is-link></i-cell>
+      <i-cell title="本店二维码" is-link></i-cell>
+    </i-cell-group>
+  </i-panel>
+</view>
+
+<!--底部tabbar  -->
+<view class='tabbar-container'>
+  <i-tab-bar current="{{ pageTab }}" color="#000" bindchange="tabbarChange">
+    <i-tab-bar-item key="homepage" icon="service" current-icon="service_fill" title="产品"></i-tab-bar-item>
+    <i-tab-bar-item key="order" icon="task" current-icon="task_fill" title="订单"></i-tab-bar-item>
+    <i-tab-bar-item key="management" icon="computer" current-icon="computer_fill" title="管理"></i-tab-bar-item>
+  </i-tab-bar>
 </view>

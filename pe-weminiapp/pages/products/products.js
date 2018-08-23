@@ -1,22 +1,61 @@
-// pages/companyProduct/companyProduct.js
 var app = getApp();
 import ServiceUrl from '../../utils/serviceUrl.js'
 import Request from '../../utils/request.js'
-import Login from '../../utils/login.js'
-
+const { $Message } = require('../../dist/base/index');
+const { $Toast } = require('../../dist/base/index');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    productData: null,
-    total: 0,//总产品数
-    isSalesRep: 'false',
-    arry: []
+    actions: [
+      {
+        name: '删除',
+        color: '#fff',
+        fontsize: '20',
+        width: 100,
+        icon: 'close',
+        background: '#ed3f14'
+      },
+      {
+        name: '编辑',
+        width: 100,
+        color: '#fff',
+        fontsize: '20',
+        icon: 'editor',
+        background: '#5cadff'
+      }
+    ],
+    productData:null
   },
 
-  //查询公司的商品
+  //选择删除或编辑
+  handlerButton:function(e){
+    const { detail, currentTarget}=e
+    const productId = currentTarget.dataset.productid
+    if (detail.index==0){
+      this.doRemoveProductFromCategory(productId)
+    }
+  },
+
+  //调用删除接口
+  doRemoveProductFromCategory: function (productId) {
+    let that = this
+    const url = ServiceUrl.platformManager + 'doRemoveProductFromCategory'
+    const data={
+      productId: productId
+    }
+    Request.postRequest(url, data).then(function (data) {
+      console.log('删除商品=====>>>>' + JSON.stringify(data))
+      const { code } = data
+      if (code === '200') {
+        that.queryCatalogProduct()
+      }
+    })
+  },
+
+  //查询我的产品列表
   queryCatalogProduct: function () {
     const that = this
     const url = ServiceUrl.platformManager + 'queryCatalogProduct'
@@ -25,37 +64,14 @@ Page({
       prodCatalogId: app.globalData.prodCatalogId,
       pageIndex: 0
     }
-    console.log(data)
     Request.postRequest(url, data).then(function (data) {
-      //console.log('查询公司的商品=>>>>' + JSON.stringify(data))
-      const { productList, total, code } = data
+      //console.log('查询我的产品列表=>>>>>>>>' + JSON.stringify(data))
+      const { code, productList } = data
       if (code === '200') {
         that.setData({
-          productData: productList,
-          total: total
+          productData: productList
         })
-        wx.hideLoading()
-        let len = productList.length;
-        let arry = []
-        for (let i = 0; i <= len; i++) {
-          if (i < 4) {
-            arry.push(true)
-          } else {
-            arry.push(false)
-          }
-        }
-        that.setData({
-          arry: arry
-        })
-        console.log(that.data.arry)
       }
-    })
-  },
-
-  //进入产品详情
-  enterProductDetail: function (productId) {
-    wx.navigateTo({
-      url: 'pages/productDetail/productDetail?productId=' + productId
     })
   },
 
@@ -63,96 +79,55 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '加载中',
-    })
-    app.editTabBar();//添加tabBar数据  
-    this.setData({
-      isSalesRep: app.globalData.isSalesRep
-    })
-    //判断是否登录
-    let AuthToken = wx.getStorageSync('AuthToken')
-    if (AuthToken == '' || AuthToken == null) {
-      Login.userLogin().then(function () {
-        this.queryCatalogProduct()
-      })
-    } else {
-      this.queryCatalogProduct()
-    }
-  },
-
-  //监听页面滚动事件
-  onPageScroll: function (res) {
-    var _this = this;
-    var imageHeight = wx.getSystemInfoSync().windowHeight*0.25
-    console.log(res.scrollTop, imageHeight)
-    var str = parseInt(res.scrollTop / imageHeight);
-    console.log(str)
-    _this.data.arry[str + 3] = true;
-    _this.data.arry[str + 4] = true;
-    _this.setData({
-      arry: _this.data.arry
-    })
+    this.queryCatalogProduct()
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+  
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+  
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+  
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+  
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+  
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+  
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-    return {
-      title: app.globalData.shareTitle,
-      path: 'pages/home/home',
-      imageUrl: app.globalData.coverImage,
-      success: function (res) {
-        // 转发成功
-        console.log('转发成功')
-      },
-      fail: function (res) {
-        // 转发失败
-        console.log('转发失败')
-      }
-    }
-  }
+  // onShareAppMessage: function () {
+  
+  // }
 })

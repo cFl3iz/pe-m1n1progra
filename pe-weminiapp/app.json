@@ -1,31 +1,15 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/home/home",
-    "pages/deliveryInfo/deliveryInfo",
-    "pages/products/products",
-    "pages/products_2C/products_2C",
-    "pages/products_2C_circle/products_2C_circle",
-    "pages/recruiting/recruiting",
-    "pages/productDetail/productDetail",
-    "pages/orders/orders",
-    "pages/notice/notice",
     "pages/releaseProduct/releaseProduct",
-    "pages/statistics/statistics",
-    "pages/commission/commission",
-    "pages/terms/terms",
-    "pages/about/about",
-    "pages/deputyHome/deputyHome",
-    "pages/qrCode/qrCode",
-    "pages/shoppingCart/shoppingCart",
-    "pages/placeOrder/placeOrder",
-    "pages/orderDetail/orderDetail"
+    "pages/productDetail/productDetail",
+    "pages/products/products"
   ],
   "window": {
-    "navigationBarTitleText": "友评Demo",
-    "navigationBarBackgroundColor": "#212121",
-    "navigationBarTextStyle": "#ffffff",
-    "backgroundColor": "#eeeeee",
-    "backgroundTextStyle": "light"
-  },
-  "debug": true
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "小店助手",
+    "navigationBarTextStyle": "black"
+  }
 }

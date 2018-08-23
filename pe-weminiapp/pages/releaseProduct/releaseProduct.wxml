@@ -1,115 +1,54 @@
-<view class="container">
-
-  <!--图片上传  -->
-  <view class="weui-cells">
-    <view class="weui-cell">
-      <view class="weui-cell__bd">
-        <view class="weui-uploader">
-          <view class="weui-uploader__hd">
-            <view class="weui-uploader__title">图片上传</view>
-            <view class="weui-uploader__info">{{files.length}}/9</view>
-          </view>
-          <view class="weui-uploader__bd">
-            <block wx:for="{{files}}" wx:key="*this" wx:for-index='idx'>
-              <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
-                <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-                <image src='/images/product/delete.png' data-idx='{{idx}}' bindtap='deleteImage' class='delete-image-icon' wx:if='{{showDeleteIcon}}'></image>
-              </view>
-            </block>
-            <view class="weui-uploader__input-box">
-              <view class="weui-uploader__input" bindtap="chooseImage"></view>
-            </view>
-            <view class="weui-uploader__input-box-delete" wx:if="{{files.length>0}}">
-              <view class="weui-uploader__input" bindtap="showDeleteIcon"></view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
+<!--添加图片  -->
+<i-panel>
+  <view class="icon-item">
+    <i-icon type="camera" size="120" color="#80848f" bindtap='cameraImage' wx:if='{{!images}}'></i-icon>
+    <!--选中图片的轮播图  -->
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" wx:if='{{images}}'>
+      <block wx:for="{{images}}" wx:for-index='idx' wx:key='{{idx}}'>
+        <swiper-item>
+          <image src="{{item}}" class="slide-image" mode='aspectFit' />
+        </swiper-item>
+      </block>
+    </swiper>
   </view>
+</i-panel>
 
-  <!--表单部分  -->
-  <form bindsubmit="onSubmit">
-
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__bd">
-          <input bindinput='title' name='title' class="weui-input" placeholder="商品标题" value='{{title}}' />
-        </view>
-      </view>
-    </view>
-
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_textarea">
-        <view class="weui-cell__bd">
-          <textarea data-name='desc' name='desc' value='{{desc}}' class="weui-textarea" placeholder="商品详情，如：尺码 颜色 等" style="height: 3.3em" />
-          <view class="weui-textarea-counter">0/200</view>
-        </view>
-      </view>
-    </view>
-
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__bd">
-          <input data-name='price' name='price' value='{{price}}' type='number' class="weui-input" placeholder="商品价格" />
-        </view>
-      </view>
-    </view>
-
-    <!--上传收款方式  -->
-    <view class="weui-cell">
-      <view class="weui-cell__bd">
-        <view class="weui-uploader">
-          <view class="weui-uploader__hd">
-            <view class="weui-uploader__title">设置或修改微信收款二维码</view>
-          </view>
-          <view class="weui-uploader__bd">
-            <view class="weui-uploader__file" bindtap="previewImage" id="{{paymentCode}}" wx:if='{{paymentCode}}'>
-              <image class="weui-uploader__img" src="{{paymentCode}}" mode="aspectFill" />
-            </view>
-            <view class="weui-uploader__input-box">
-              <view class="weui-uploader__input" bindtap="choosePaymentCode"></view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_switch">
-        <view class="weui-cell__bd">高级选项</view>
-        <view class="weui-cell__ft">
-          <switch color='#000000' bindchange="switchChange" />
-        </view>
-      </view>
-    </view>
-
-    <view class="weui-cells weui-cells_after-title" hidden='{{showTopTips}}'>
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__bd">
-          <input data-name='kuCun' name='kuCun' value='{{kuCun}}' type='number' class="weui-input" placeholder="商品库存" />
-        </view>
-      </view>
-    </view>
-
-    <!--同意相关条款  -->
-    <!-- <checkbox-group bindchange="bindAgreeChange">
-          <label class="weui-agree" for="weuiAgree">
-            <view class="weui-agree__text">
-              <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
-              <view class="weui-agree__checkbox-icon">
-                <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
-              </view>
-              阅读并同意
-              <navigator url="" class="weui-agree__link">《相关条款》</navigator>
-            </view>
-          </label>
-        </checkbox-group> -->
-
-    <view class="weui-btn-area">
-      <button class="weui-btn" form-type='submit' type="primary" style='margin:10px;background-color:#000000'>
-        {{pageType==='create'?'创建商品':'编辑商品'}}
-      </button>
-    </view>
-  </form>
+<!--创建产品基本信息  -->
+<view class='product-info'>
+  <i-panel title="照片信息">
+    <!--选择物品所需字段  -->
+    <i-button bind:click="toggleLeft" type="ghost" wx:if='{{!showPage}}'>
+      选择字段
+    </i-button>
+    <!--产品名称  -->
+    <i-input value="{{ productName }}" maxlength='50' type="text" right title="名称" mode="wrapped" placeholder="请输入产品名称" bind:change="setInputValue" data-attr='productName' disabled='{{showPage}}' />
+    <!--产品描述  -->
+    <i-input wx:if='{{group[0].show}}' maxlength='50' value="{{ description }}" type="text" right title="描述" mode="wrapped" placeholder="请输入产品描述" bind:change="setInputValue" data-attr='description' disabled='{{showPage}}' />
+    <!--产品价格  -->
+    <i-input wx:if='{{group[1].show}}' maxlength='50' value="{{ price }}" type="number" right title="价格" mode="wrapped" placeholder="请输入产品价格" bind:change="setInputValue" data-attr='price' disabled='{{showPage}}' />
+    <!--产品库存  -->
+    <i-input wx:if='{{group[2].show}}' maxlength='50' value="{{ stock }}" type="number" right title="库存" mode="wrapped" placeholder="请输入产品库存" bind:change="setInputValue" data-attr='stock' disabled='{{showPage}}' />
+    <!--联系方式  -->
+    <i-input wx:if='{{group[3].show}}' maxlength='50' value="{{ tel }}" type="text" right title="联系方式" mode="wrapped" placeholder="请输入联系号码" bind:change="setInputValue" data-attr='tel' disabled='{{showPage}}' />
+    <!--发布产品  -->
+    <i-button bind:click="releaseClick" type="primary">
+      发布产品
+    </i-button>
+  </i-panel>
 </view>
+
+<!--选择添加产品字段  -->
+<i-drawer mode="left" visible="{{showLeft}}" bind:close="toggleLeft">
+  <view class="drawer-container">
+    <i-panel title="选择字段">
+      <i-checkbox-group current="{{current}}" bindchange="handleChange">
+        <i-checkbox wx:for="{{group}}" position="{{position}}" wx:key="{{item.id}}" value="{{item.name}}">
+        </i-checkbox>
+      </i-checkbox-group>
+    </i-panel>
+  </view>
+</i-drawer>
+
+<!--警告信息  -->
+<i-message id="message" />
+<i-toast id="toast" />

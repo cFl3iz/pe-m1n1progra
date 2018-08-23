@@ -1,6 +1,6 @@
-const request={
-  postRequest:function(url,data){
-    return new Promise(function (resolve, reject){ 
+const Request = {
+  postRequest: function (url, data) {
+    return new Promise(function (resolve, reject) {
       wx.request({
         url: url,
         header: {
@@ -9,9 +9,11 @@ const request={
         data: data,
         method: 'POST',
         success: function (res) {
+          console.log('网络请求成功')
           resolve(res.data)
         },
         fail: function (res) {
+          console.log('网络请求失败')
           reject(res)
         },
         complete: function () {
@@ -23,4 +25,4 @@ const request={
     })
   }
 }
-export default request
+export default Request

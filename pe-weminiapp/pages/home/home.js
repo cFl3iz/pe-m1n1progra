@@ -1,188 +1,88 @@
-var app = getApp()
+var app = getApp();
 import ServiceUrl from '../../utils/serviceUrl.js'
 import Request from '../../utils/request.js'
-import { formatTime } from '../../utils/util'
-import Login from '../../utils/login.js'
-
-//个人用户
-const individualUser = [
-  { type: '商品', url: '../../images/home/me@3x.png', backgroundColor: '#f78259', router: '/pages/products_2C/products_2C' },
-  {
-    type: '圈子', url: '../../images/home/friends@3x.png', backgroundColor: '#73bbf7', router: '/pages/products_2C_circle/products_2C_circle'
-  },
-  { type: '发布', url: '../../images/home/cpfabu@3x.png', backgroundColor: '#f78259', router: '/pages/releaseProduct/releaseProduct' },
-  { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/orders/orders' },
-  { type: '统计', url: '../../images/home/tongji@3x.png', backgroundColor: '#ffffff', router: '/pages/statistics/statistics' },
-  { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
-]
-//是销售员
-const isSalesman = [
-  { type: '商品', url: '../../images/home/chanpin@3x.png', backgroundColor: '#ffffff', router: '/pages/products/products' },
-  { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/orders/orders' },
-  { type: '招募', url: '../../images/home/zhaomu@3x.png', backgroundColor: '#ffffff', router: '/pages/recruiting/recruiting' },
-  { type: '统计', url: '../../images/home/tongji@3x.png', backgroundColor: '#ffffff', router: '/pages/statistics/statistics' },
-  { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
-  { type: '扫我', url: '../../images/home/erweima@3x.png', backgroundColor: '#ffffff', router: '/pages/qrCode/qrCode' },
-]
-//不是销售员
-const notSalesman = [
-  { type: '产品', url: '../../images/home/chanpin@3x.png', backgroundColor: '#ffffff', router: '/pages/companyProduct/companyProduct' },
-  { type: '订单', url: '../../images/home/dingdanl@3x.png', backgroundColor: '#ffffff', router: '/pages/componyOrder/componyOrder' },
-  { type: '消息', url: '../../images/home/message@3x.png', backgroundColor: '#ffffff', router: '/pages/notice/notice' },
-]
+const { $Message } = require('../../dist/base/index');
+const { $Toast } = require('../../dist/base/index');
 Page({
-  /**
- * 页面的初始数据
- */
   data: {
-    grids: null,      //根据小程序类型 显示首页模块内容
-    isSalesRep: null,
-    booting: null,     //开机GIF
+    pageTab: 'homepage',// 选中的tab项
+    orderData: [//预约单数据
+      { orderId: 10000, orderName: '摩卡', customer: '刘力扬', date: '2018-09-01 09:10:31', orderStatus: '预约单', quantity: 1, image: '/images/testData/moka.jpg', desc: '不加糖', price: 28 },
+      { orderId: 10001, orderName: '拿铁', customer: '张扬', date: '2018-09-01 09:10:31', orderStatus: '预约单', quantity: 2, image: '/images/testData/natie.jpg', desc: '无备注', price: 32 },
+      { orderId: 10002, orderName: '卡布奇诺', customer: '玛丽', date: '2018-09-01 09:10:31', orderStatus: '自送单', quantity: 1, image: '/images/testData/kbqn.jpg', desc: '下午一点钟送到A栋503', price: 30 },
+    ],
+    productData: [
+      // { productId: '10000', productName: 'Cappuccino', price: '35', image: '/images/coffee/01.jpg' },
+      // { productId: '10001', productName: 'Caffe Latte', price: '30', image: '/images/coffee/02.jpg' },
+      // { productId: '10002', productName: 'Caffe Mocha', price: '35', image: '/images/coffee/03.jpg' },
+      // { productId: '10003', productName: 'Hazelnut Latte', price: '25', image: '/images/coffee/04.jpg' },
+      // { productId: '10004', productName: 'Caffe Anericano', price: '45', image: '/images/coffee/05.jpg' },
+      // { productId: '10005', productName: 'Espresso Macchiato', price: '35', image: '/images/coffee/06.jpg' },
+    ]
   },
 
-  //事件处理函数
-  bindViewTap: function () {
+  //查看产品详情
+  productDetail:function(e){
+    const productId = e.currentTarget.dataset.productid
     wx.navigateTo({
-      url: '../logs/logs'
+      url: '/pages/productDetail/productDetail?productId=' + productId,
     })
   },
 
-  //进入副首页
-  deputyHome: function () {
-    wx.redirectTo({
-      url: '/pages/deputyHome/deputyHome',
+  //切换tabbar选中项
+  tabbarChange({ detail }) {
+    this.setData({
+      pageTab: detail.key
+    });
+    if (detail.key =='homepage'){
+      wx.setNavigationBarTitle({
+        title: '商品列表',
+      })
+    } else if (detail.key == 'order'){
+      wx.setNavigationBarTitle({
+        title: '订单列表',
+      })
+    } else if (detail.key == 'management'){
+      wx.setNavigationBarTitle({
+        title: '商品管理',
+      })
+    }
+  },
+
+  //发布产品
+  releaseProduct: function () {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 200
     })
   },
 
-  //扫描二维码成为二维码拥有者的客户
-  assocCustToSalesRep: function (salesPartyId = '10614') {
+  //查询我的产品列表
+  queryCatalogProduct: function () {
     const that = this
-    const url = ServiceUrl.platformManager + 'assocCustToSalesRep'
+    const url = ServiceUrl.platformManager + 'queryCatalogProduct'
     const data = {
-      tarjeta: app.globalData.tarjeta,
-      salesPartyId: salesPartyId
+      openId: app.globalData.openId,
+      prodCatalogId: app.globalData.prodCatalogId,
+      pageIndex: 0
     }
-    console.log(data)
-    return new Promise(function (resolve, reject) {
-      Request.postRequest(url, data).then(function (data) {
-        console.log('二维码拥有者=>>>>>>>>' + JSON.stringify(data))
-        const { code } = data
-        if (code === '200') {
-          wx.showToast({
-            title: '谢谢使用',
-            icon: 'success',
-            duration: 2000
-          })
-        }
-      })
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    console.log('首页参数===>>>>>' + JSON.stringify(options))
-    const { selsPartyId } = options
-    const that = this
-    app.editTabBar();//添加tabBar数据  
-    wx.showLoading({
-      title: '加载中',
-    })
-    //判断小程序类型
-    if (app.globalData.serviceType === '2B') {
-      this.setData({
-        grids: isSalesman
-      })
-    } else if (app.globalData.serviceType === '2C') {
-      this.setData({
-        grids: individualUser
-      })
-    }
-    //用户登陆
-    Login.userLogin()
-      .then(function () {
-        console.log('是不是销售代表：' + app.globalData.isSalesRep)
+    Request.postRequest(url, data).then(function (data) {
+      //console.log('查询我的产品列表=>>>>>>>>' + JSON.stringify(data))
+      const { code, productList } = data
+      if (code === '200') {
         that.setData({
-          isSalesRep: app.globalData.isSalesRep,
+          productData: productList
         })
-        //添加开机图片
-        if (app.globalData.appContentDataResource.MINIPROGRAM_STARTPIC){
-          that.setData({
-            booting: app.globalData.appContentDataResource.MINIPROGRAM_STARTPIC[0]
-          })
-        }
-        //判断是否为扫码进入小程序的用户
-        if (selsPartyId) {
-          that.assocCustToSalesRep(selsPartyId)
-        }
-        console.log(app.globalData.appContentDataResource.MINIPROGRAM_BIMAGE)
-        //如果没有简介直接跳到商品列表
-        if (app.globalData.isSalesRep === 'false') {
-          if (app.globalData.appContentDataResource.MINIPROGRAM_BIMAGE){
-            wx.redirectTo({
-              url: '/pages/deputyHome/deputyHome'
-            })
-          }else{
-            wx.redirectTo({
-              url: '/pages/products/products'
-            })
-          }
-        }
-        //设置首页标题
-        if (app.globalData.appName) {
-          wx.setNavigationBarTitle({
-            title: app.globalData.appName
-          })
-        }
-      })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  onLoad: function (options) {
+    this.queryCatalogProduct()
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+  //转发产品
+  // onShareAppMessage: function (res) {
 
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  // onShareAppMessage: function () {
-
-  // }
-});
+  // },
+})

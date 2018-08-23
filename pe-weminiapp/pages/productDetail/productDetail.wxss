@@ -1,205 +1,34 @@
-/* pages/productDetail/productDetail.wxss */
-
-.container {
-  padding-bottom: 80px;
+.container{
+  padding-bottom: 100rpx
 }
 
-.flex-column-container {
-  padding: 30rpx;
-  margin-bottom: 20rpx;
-  align-items: flex-start;
-  background-color: #fff;
-}
-
-.flex-row-container {
-  justify-content: space-between;
-  margin-bottom: 20rpx;
-}
-
-.weui-article__section .flex-row-container :first-child {
-  display: flex;
-  flex-direction: column;
-}
-
-.weui-article__section .flex-row-container image {
-  width: 50rpx;
-  height: 50rpx;
-}
-
-.xl-title {
-  font-weight: bold;
-}
-
-.weui-article__h3 .s-title {
-  color: #757575;
-  padding: 10rpx;
-}
-
-.zan-btns .xl-title {
-  margin-top: 40rpx;
-}
-
-/*下单弹出层  */
-
-.popup-example--center {
-  border-radius: 4px;
-}
-
-.popup-example--right .zan-popup__container {
-  top: 0;
+.footer-bar {
+  position: fixed;
   bottom: 0;
+  width: 100%;
 }
 
-.popup-example--left .zan-popup__container {
-  top: 0;
-  bottom: 0;
-}
-
-.popup-example--top .zan-popup__container {
-  left: 0;
-  right: 0;
-  padding: 15px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-size: 16px;
-}
-
-.popup-example--top .zan-popup__mask {
-  opacity: 0;
-}
-
-.popup-example--bottom .zan-popup__container {
-  left: 0;
-  right: 0;
-}
-
-.zan-tag + .zan-tag {
-  margin-left: 10px;
-}
-
-/*特征选择按钮  */
-
-.feature-btn {
+.banner {
+  padding: 10rpx 0;
   background-color: #000;
+  opacity: 0.9;
 }
 
-.feature-btn-selected {
-  background-color: white;
-  color: #000;
-}
-
-swiper {
-  height: 1000rpx;
-}
-
-swiper image {
+.slide-image {
   width: 100%;
   height: 100%;
 }
 
-.weui-article__section {
-  padding: 30rpx;
-  background-color: #fff;
+.cell-panel-demo {
+  display: block;
+  margin-top: 10rpx;
+  width: 100vw;
 }
 
-.detail-desc-text {
-  font-size: 26rpx;
-  padding: 10rpx;
-  color: #757575;
-}
-
-.zan-btns .flex-row-container:first-child {
-  justify-content: flex-start;
-}
-
-.zan-btns .flex-row-container image {
-  width: 260rpx;
-  height: 346rpx;
-}
-
-.zan-btn {
-  background-color: #212121;
-  color: #fff;
-}
-
-.place-order-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  flex: 1;
-  padding-left: 82rpx;
-}
-
-.place-number-text {
-  color: #424242;
-  font-size: 32rpx;
-}
-
-.place-order-address {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.address-icon {
-  width: 32rpx;
-  height: 32rpx;
-  margin-right: 5px;
-}
-
-.address-text {
-  color: #545454;
-  font-size: 32rpx;
-}
-
-.select-address {
-  padding-bottom: 30rpx;
-  color: #656565;
-  font-size: 30rpx;
-  padding-top: 10rpx;
-}
-
-.weui-article__h2 .weui-article__h3 {
-  color: #000;
-}
-
-.weui-article__section {
-  margin-bottom: 30rpx;
-}
-
-.beizhu {
-  font-size: 20rpx;
-  color: #757575;
-  font-weight: bold;
-}
-
-.tools-container {
-  position: fixed;
-  top: 0;
+/*下单弹出层  */
+.popup-example--bottom .zan-popup__container {
+  left: 0;
   right: 0;
-  z-index: 999;
-}
-
-/*购物车  */
-
-.tools_btn {
-  background-color: #999;
-  width: 68rpx;
-  height: 68rpx;
-  border-radius: 34rpx;
-  margin: 24rpx 34rpx 0 0;
-  border-color: #999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: content-box;
-  padding: 0;
-}
-
-.shopping_car {
-  width: 42rpx;
-  height: 42rpx;
 }
 
 /*底部按钮  */
@@ -226,63 +55,11 @@ swiper image {
   background-color: #000;
 }
 
-.zan-panel {
-  margin-top: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: none;
-  padding-bottom: 30rpx;
-  justify-content: flex-end;
+.zan-btn{
+  background: #000;
+  color: #fff
 }
 
-.zan-panel::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  transform: scale(0.5);
-  transform-origin: 0 0;
-  pointer-events: none;
-  box-sizing: border-box;
-  border: 0 solid #e5e5e5;
-  border-top-width: 0;
-  border-bottom-width: 0;
-}
 
-.zan-badge__count {
-  position: absolute;
-  top: -16px;
-  height: 1.6em;
-  min-width: 1.6em;
-  line-height: 1.6;
-  padding: 0;
-  font-size: 20px;
-  border-radius: 0.8em;
-  background: #f44;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  transform: translateX(50%) scale(0.5);
-  transform-origin: center;
-  z-index: 10;
-  box-shadow: 0 0 0 2px #fff;
-  box-sizing: border-box;
-}
 
-.share_btn {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-}
 
-.share_btn text {
-  font-size: 22rpx;
-  color: #000;
-  width: 100%;
-  text-align: center;
-}

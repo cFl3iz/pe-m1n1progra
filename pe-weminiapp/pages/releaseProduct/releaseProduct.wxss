@@ -1,75 +1,24 @@
-/* pages/releaseProduct/releaseProduct.wxss */
-
-.weui-cells {
-  margin-bottom: 20rpx;
-}
-.weui-cell{
-  background-color: #fff
-}
-
-.weui-cell_textarea {
-  padding-left: 20rpx;
-}
-
-.delete-images {
-  width: 77px;
-  height: 77px;
-  box-sizing: border-box;
-  border: 1px solid #d9d9d9;
-}
-
-.weui-uploader__input-box-delete {
-  float: left;
-  position: relative;
-  margin-right: 9px;
-  margin-bottom: 9px;
-  width: 77px;
-  height: 77px;
-  border: 1px solid #d9d9d9;
-}
-
-.weui-uploader__input-box-delete:after, .weui-uploader__input-box-delete:before {
-  content: " ";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  background-color: #d9d9d9;
-}
-
-.weui-uploader__input-box-delete:after {
-  width: 39.5px;
-  height: 2px;
-}
-
-.weui-uploader__input-box-delete:active {
-  border-color: #999;
-}
-
-.weui-uploader__input-box-delete:active:after,
-.weui-uploader__input-box-delete:active:before {
-  background-color: #999;
-}
-
-.weui-uploader__input {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
+.icon-item {
+  display: block;
+  padding: 10rpx 0;
   width: 100%;
+  float: left;
+  text-align: center;
+}
+
+.icon-item swiper {
+  height: 66.6666666vh;
+}
+
+.icon-item image {
+  width: 85%;
   height: 100%;
-  opacity: 0;
 }
 
-.weui-uploader__file {
-  position: relative;
-}
+/*添加字段  */
 
-.delete-image-icon {
-  position: absolute;
-  top:10rpx;
-  right: 0;
-  width: 36rpx;
-  height: 36rpx
+.drawer-container {
+  width: 50vw;
+  height: 100vh;
+  background: #fff;
 }

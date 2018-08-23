@@ -1,145 +1,54 @@
-<!--pages/productDetail/productDetail.wxml-->
-<import src="/zanui/stepper/index.wxml" />
-<import src="/zanui/capsule/index.wxml" />
-<import src="/templates/sizeChart.wxml" />
-<view class="container">
+<view class='container'>
+  <view class='banner'>
+    <swiper style='height:800rpx' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular='true'>
+      <block wx:for="{{productDetail.imgArray}}" wx:for-index='idx' wx:key='{{idx}}'>
+        <swiper-item>
+          <image src="http://{{item}}" class="slide-image" mode='aspectFit' />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
 
-  <!--购物车,客服  -->
-  <view class='tools-container'>
-    <view class="demo__icon zan-badge" wx:if='{{hasShoppingCart}}'>
-      <view class="zan-badge__count">{{shoppingCartNumber}}</view>
-      <button class='tools_btn' bindtap='shoppingCart'>
-        <image class='shopping_car' src='/images/product/shopping_cart@3x.png'></image>
+  <i-panel>
+    <i-cell title="名称" value="{{productDetail.productName}}"></i-cell>
+    <i-cell title="编号" value="{{productDetail.productId}}"></i-cell>
+    <i-cell title="价格" value="{{productDetail.price}}" wx:if='{{productDetail.price}}'></i-cell>
+    <i-cell title="库存" value="{{productDetail.quantityOnHandTotal}}" wx:if='{{productDetail.quantityOnHandTotal}}'></i-cell>
+    <i-cell title="描述" value="{{productDetail.description}}" wx:if='{{productDetail.description!=null}}'></i-cell>
+  </i-panel>
+</view>
+
+<!--下单区域  -->
+<form bindsubmit='showBottomPopup' report-submit='true'>
+  <view class="bottom-btns-container">
+    <button form-type='submit' data-orderType='paidui'>下单</button>
+    <button form-type='submit' data-orderType='yuyue'>预约</button>
+  </view>
+</form>
+
+<!--下单弹出框  -->
+<view class="popup-example--bottom zan-popup zan-popup--bottom {{ showBottomPopup ? 'zan-popup--show' : ''}}">
+  <view class="zan-popup__mask" catchtap="toggleBottomPopup"></view>
+  <view class="zan-popup__container">
+    <view class="zan-btns">
+      <i-panel>
+        <i-cell title="名称" value="{{productDetail.productName}}"></i-cell>
+        <i-cell title="价格" value="{{productDetail.price}}" wx:if='{{productDetail.price}}'></i-cell>
+        <i-cell title="库存" value="{{productDetail.quantityOnHandTotal}}" wx:if='{{productDetail.quantityOnHandTotal}}'></i-cell>
+        <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange" wx:if='{{orderType=="yuyue"}}'>
+          <i-cell title="送货时间" value="{{time}}"></i-cell>
+        </picker>
+        <i-cell title="送货地址" value="{{address}}" catchtap="address" wx:if='{{orderType=="yuyue"}}'></i-cell>
+      </i-panel>
+      <i-panel title="购买数量">
+        <view style="padding: 16px">
+          <i-input-number value="{{ quantity }}" min="1" max="10" bindchange="handleChangeQuantity" />
+        </view>
+      </i-panel>
+
+      <button class="zan-btn" catchtap="hideBottomPopup">
+        确定
       </button>
     </view>
-    <button class='tools_btn' open-type='contact' session-from="{{productDetailData.productName}}">
-      <image class='shopping_car' src='/images/product/customer_service@3x.png'></image>
-    </button>
   </view>
-
-  <!--商品图片banner  -->
-  <swiper indicator-dots="{{true}}">
-    <block wx:for="{{productDetailData.imgArray}}" wx:for-index="idx" wx:key="{{idx}}">
-      <swiper-item>
-        <image src="http://{{item}}" mode='aspectFill' />
-      </swiper-item>
-    </block>
-  </swiper>
-
-  <!--商品详情简介  -->
-  <view class='flex-column-container'>
-    <text class='weui-article__h3'>{{productDetailData.productName}}</text>
-    <text class='xl-title'>¥ {{productDetailData.price}}</text>
-  </view>
-
-  <!--商品详情  -->
-  <view class="weui-article__section">
-    <view class='flex-row-container'>
-      <view>
-        <text class="weui-article__h3">商品详情</text>
-        <text class='weui-article__h3'>编号:{{productId}}</text>
-      </view>
-      <button class='share_btn' open-type='share'>
-        <image src='/images/product/share.png'></image>
-        <text>转发</text>
-      </button>
-    </view>
-    <view class="weui-article__h3">
-      <text class='s-title'>{{productDetailData.description}}</text>
-    </view>
-  </view>
-
-  <!--此码表  -->
-  <view class="weui-article__section" wx:if='{{productDetailData.spuSpecTitleList&&productDetailData.spuSpecTitleList.length>0}}'>
-    <view class="weui-article__h3">规格尺码</view>
-    <template is="sizeChart" data="{{productDetailData}}"></template>
-  </view>
-
-  <!--下单添加购物车  -->
-  <form bindsubmit='toggleBottomPopup' report-submit='true'>
-    <view class="bottom-btns-container">
-      <button form-type='submit'>立即购买</button>
-      <button bindtap='toggleShoppingCartPopup' wx:if='{{hasShoppingCart}}'>加入购物车</button>
-    </view>
-  </form>
-
-  <!--下单浮层  -->
-  <view class="popup-example--bottom zan-popup zan-popup--bottom {{ showBottomPopup ? 'zan-popup--show' : ''}}">
-    <view class="zan-popup__mask" catchtap="toggleBottomPopup"></view>
-    <view class="zan-popup__container">
-      <view class="zan-btns">
-        <view class='flex-row-container'>
-          <image wx:if="{{placeOrderImage!=null}}" class='place-order-image' src="http://{{placeOrderImage}}" mode='aspectFill' />
-          <view class='place-order-title'>
-            <view wx:if='{{selectSku!=null}}' class="m-title">商品编号:{{selectSku}}</view>
-            <view wx:if='{{selectSkuKucun!=null}}' class="m-title">库存:{{selectSkuKucun}}</view>
-            <view class="xl-title">¥ {{productDetailData.price}}</view>
-            <view class="s-title color-000">{{productDetailData.productName}}</view>
-          </view>
-        </view>
-
-        <!--选择特征  -->
-        <view wx:for="{{featureArray}}" wx:for-index="i" wx:key="{{idx}}">
-          <view class='l-title'>{{item.type}}</view>
-          <view class="zan-cell zan-cell--last-child">
-            <view wx:for="{{item.value}}" wx:key="{{idx}}" wx:for-item="itemChild" bindtap="selectFeature" data-type="{{item.type}}" data-selectValue='{{itemChild}}' class="zan-tag {{itemChild===selectColor||itemChild===selectSize?'feature-btn':'feature-btn-selected'}}">
-              {{itemChild}}
-            </view>
-          </view>
-        </view>
-
-        <!--选择购买数量  -->
-        <view class='flex-row-container'>
-          <view class='l-title'>数量</view>
-          <template is="zan-stepper" data="{{ ...stepper1, componentId: 'stepper1' }}" />
-        </view>
-
-        <!--优惠金额  -->
-        <view class="zan-panel" wx:if='{{preferential*stepper1.stepper>0}}'>
-          <template is="capsule" data="{{ leftText: discont+'折', rightText: '限时抢购', color: '#000000' }}" />
-          <view class='s-title color-000'>优惠 ¥ -{{preferential*stepper1.stepper}}</view>
-        </view>
-
-        <!--添加收货地址  -->
-        <view style='padding-bottom:30rpx' wx:if='{{!addShoppingCart}}'>
-          <view class='place-order-address' hover-class="weui-cell_active" bindtap="address">
-            <image src="../../images/product/Plus@3x.png" class='address-icon' />
-            <view class='l-title'>
-              收货地址
-            </view>
-          </view>
-          <view wx:if="{{address!=null}}" class='s-title color-000'>
-            {{address.provinceName}} {{address.cityName}} {{address.countyName}} {{address.detailInfo}}
-          </view>
-        </view>
-
-        <!--下单按钮  -->
-        <button class="zan-btn" bindtap="placeOrder">
-          {{addShoppingCart?"确定添加":"确定购买"}}
-        </button>
-
-        <!--2C下单  -->
-        <!-- <button class="zan-btn" wx:if='{{serviceType==="2C"&&validationForm===false}}' bindtap='validationForm'>
-          确定购买
-        </button>
-        <button class="zan-btn" open-type='contact' wx:if='{{serviceType==="2C"&&validationForm===true}}' session-from="{{sessionFrom}}">
-          确定购买
-        </button> -->
-      </view>
-    </view>
-  </view>
-
-  <!--2C支付二维码  -->
-  <view class="zan-popup {{ showPopup ? 'zan-popup--show' : ''}}" wx:if='{{serviceType==="2C"&&productDetailData.media_id&&productDetailData.media_id!=="undefined"}}'>
-    <view class="zan-popup__mask" bindtap="togglePopup"></view>
-    <view class="zan-popup__container popup-example--center">
-      <image src='https://personerp.oss-cn-hangzhou.aliyuncs.com/datas/pay_qr_code/{{productDetailData.media_id}}.png' style='width:600rpx;height:700rpx'></image>
-      <view class="zan-btns">
-        <button class="zan-btn" bindtap="togglePopup">
-          保存二维码向卖家支付
-        </button>
-      </view>
-    </view>
-  </view>
-
 </view>

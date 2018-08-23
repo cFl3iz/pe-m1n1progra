@@ -1,7 +1,16 @@
 {
   "navigationBarTitleText": "商品详情",
-  "navigationBarBackgroundColor": "#212121",
-  "navigationBarTextStyle": "#ffffff",
-  "backgroundColor": "#eeeeee",
-  "backgroundTextStyle": "light"
+  "usingComponents": {
+    "i-tab-bar": "../../dist/tab-bar/index",
+    "i-tab-bar-item": "../../dist/tab-bar-item/index",
+    "i-steps": "../../dist/steps/index",
+    "i-step": "../../dist/step/index",
+    "i-button": "../../dist/button/index",
+    "i-panel": "../../dist/panel/index",
+    "i-cell-group": "../../dist/cell-group/index",
+    "i-cell": "../../dist/cell/index",
+    "i-icon": "../../dist/icon/index",
+    "i-input-number": "../../dist/input-number/index",
+    "i-switch": "../../dist/switch/index"
+  }
 }

@@ -1,0 +1,22 @@
+image{
+  width: 100vw;
+  height: 80vw
+}
+
+.btn-container {
+  margin: 20rpx 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+button {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0;
+  color: #000;
+  border: 1rpx solid #000
+}
+
+button::after {
+  border-radius: 0;
+}
